@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 /**
- * Data-Access-Object for run_table
+ * Data-Access-Object for [RunDatabase]
  *
  * @author Konstantin Koval
  * @since 19.07.2020

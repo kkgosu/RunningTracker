@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
  * @property [distanceInMeters] Distance of one run in meters
  * @property [timeInMillis] Total time of one run in millis
  * @property [caloriesBurned] Quantity of burned calories
- * @constructor Creates an Run entity for DB
+ * @constructor Creates an Run entity for [RunDatabase]
  *
  * @author Konstantin Koval
  * @since 19.07.2020
