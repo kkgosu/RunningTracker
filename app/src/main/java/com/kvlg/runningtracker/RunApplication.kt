@@ -2,6 +2,7 @@ package com.kvlg.runningtracker
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 /**
  * Application class for DI
@@ -13,4 +14,8 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class RunApplication: Application() {
 
+    override fun onCreate() {
+        super.onCreate()
+        Timber.plant(Timber.DebugTree())
+    }
 }
