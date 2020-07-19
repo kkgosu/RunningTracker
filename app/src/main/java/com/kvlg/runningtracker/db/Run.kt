@@ -5,6 +5,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
+ * Data class of Run entity
+ *
+ * @property [img] Image with run path
+ * @property [timestamp] Start time of run
+ * @property [avgSpeedInKMH] Average Speed in Km/H
+ * @property [distanceInMeters] Distance of one run in meters
+ * @property [timeInMillis] Total time of one run in millis
+ * @property [caloriesBurned] Quantity of burned calories
+ * @constructor Creates an Run entity for DB
+ *
  * @author Konstantin Koval
  * @since 19.07.2020
  */
