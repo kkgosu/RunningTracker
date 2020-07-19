@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/deep_orange_600</color>
+    <color name="colorAccent">@color/orange_800</color>
+
+    <!--default colors-->
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <!--orange-->
+    <color name="orange_100">#ffe0b2</color>
+    <color name="orange_200">#ffcc80</color>
+    <color name="orange_300">#ffb74d</color>
+    <color name="orange_400">#ffa726</color>
+    <color name="orange_500">#ff9800</color>
+    <color name="orange_600">#fb8c00</color>
+    <color name="orange_700">#f57c00</color>
+    <color name="orange_800">#ef6c00</color>
+    <color name="orange_900">#e65100</color>
+
+    <!--deep orange-->
+    <color name="deep_orange_100">#ffccbc</color>
+    <color name="deep_orange_200">#ffab91</color>
+    <color name="deep_orange_300">#ff8a65</color>
+    <color name="deep_orange_400">#ff7043</color>
+    <color name="deep_orange_500">#ff5722</color>
+    <color name="deep_orange_600">#f4511e</color>
+    <color name="deep_orange_700">#e64a19</color>
+    <color name="deep_orange_800">#d84315</color>
+    <color name="deep_orange_900">#bf360c</color>
+
+    <!--gray-->
+    <color name="gray_100">#f5f5f5</color>
+    <color name="gray_200">#eeeeee</color>
+    <color name="gray_300">#e0e0e0</color>
+    <color name="gray_400">#bdbdbd</color>
+    <color name="gray_500">#9e9e9e</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
+
 </resources>
