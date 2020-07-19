@@ -6,6 +6,8 @@ import androidx.room.TypeConverter
 import java.io.ByteArrayOutputStream
 
 /**
+ * Converter for [Bitmap] <-> [ByteArray]
+ *
  * @author Konstantin Koval
  * @since 19.07.2020
  */
