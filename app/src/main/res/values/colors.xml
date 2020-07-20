@@ -3,6 +3,7 @@
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/deep_orange_600</color>
     <color name="colorAccent">@color/orange_800</color>
+    <color name="bnv">@color/colorAccent</color>
 
     <!--default colors-->
     <color name="white">#FFF</color>
