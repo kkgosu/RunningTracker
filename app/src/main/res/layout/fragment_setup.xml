@@ -17,21 +17,63 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/weight_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:text="@string/kg"
+        android:textSize="@dimen/text_size_medium_large"
+        app:layout_constraintBottom_toBottomOf="@+id/weight_input_layout"
+        app:layout_constraintLeft_toRightOf="@id/weight_input_layout"
+        app:layout_constraintTop_toTopOf="@+id/weight_input_layout" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/continue_button"
         style="@style/DefaultButton"
         android:layout_marginTop="@dimen/margin_large"
         android:text="@string/continue_"
         android:textSize="@dimen/text_size_small"
-        app:layout_constraintEnd_toEndOf="@id/name_weight_layout"
-        app:layout_constraintStart_toStartOf="@id/name_weight_layout"
-        app:layout_constraintTop_toBottomOf="@id/name_weight_layout" />
+        app:layout_constraintEnd_toEndOf="@id/weight_input_layout"
+        app:layout_constraintStart_toStartOf="@id/weight_input_layout"
+        app:layout_constraintTop_toBottomOf="@id/weight_input_layout" />
 
-    <include
-        android:id="@+id/name_weight_layout"
-        layout="@layout/name_weight_layout"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_input_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/welcome_text_view" />
+        android:layout_marginTop="@dimen/margin_giant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcome_text_view">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/your_name"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/weight_input_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        app:layout_constraintStart_toStartOf="@+id/name_input_layout"
+        app:layout_constraintTop_toBottomOf="@+id/name_input_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/weight_edit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/your_weight"
+            android:inputType="numberDecimal" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
