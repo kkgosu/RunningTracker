@@ -29,4 +29,9 @@ class StatisticFragment : Fragment() {
         _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
         return binding.root
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }
