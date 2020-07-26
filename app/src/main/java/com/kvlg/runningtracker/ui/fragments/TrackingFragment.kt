@@ -1,5 +1,6 @@
 package com.kvlg.runningtracker.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.GoogleMap
 import com.kvlg.runningtracker.databinding.FragmentTrackingBinding
+import com.kvlg.runningtracker.services.TrackingService
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
+import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -37,6 +40,9 @@ class TrackingFragment : Fragment() {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
+        }
+        binding.startRunButton.setOnClickListener {
+            sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
         }
     }
 
@@ -74,4 +80,10 @@ class TrackingFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         binding.mapView.onSaveInstanceState(outState)
     }
+
+    private fun sendCommandToService(action: String) =
+        Intent(requireContext(), TrackingService::class.java).also {
+            it.action = action
+            requireContext().startService(it)
+        }
 }
