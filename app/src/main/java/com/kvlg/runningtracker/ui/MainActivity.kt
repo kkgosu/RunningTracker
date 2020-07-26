@@ -1,11 +1,14 @@
 package com.kvlg.runningtracker.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.ActivityMainBinding
+import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        navigateToTrackingFragmentIfNeeded(intent)
 
         setSupportActionBar(binding.toolbar)
 
@@ -41,5 +46,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if (intent?.action == Constants.ACTION_SHOW_TRACKING_FRAGMENT) {
+            binding.navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
+        }
     }
 }
