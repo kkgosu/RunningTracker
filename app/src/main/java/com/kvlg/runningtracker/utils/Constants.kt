@@ -1,5 +1,7 @@
 package com.kvlg.runningtracker.utils
 
+import android.graphics.Color
+
 /**
  * Class which contains all global constants
  *
@@ -18,6 +20,10 @@ object Constants {
 
     const val UPDATE_LOCATION_INTERVAL = 5000L
     const val FASTEST_UPDATE_LOCATION_INTERVAL = 2000L
+
+    const val POLYLINE_COLOR = Color.RED
+    const val POLYLINE_WIDTH = 8f
+    const val MAP_ZOOM = 15f
 
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"

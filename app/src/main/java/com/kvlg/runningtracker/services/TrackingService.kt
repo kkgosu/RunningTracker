@@ -86,6 +86,7 @@ class TrackingService : LifecycleService() {
                 }
                 ACTION_PAUSE_SERVICE -> {
                     Timber.d("Paused service")
+                    pauseService()
                 }
                 ACTION_STOP_SERVICE -> {
                     Timber.d("Stopped service")
@@ -157,6 +158,10 @@ class TrackingService : LifecycleService() {
         startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
+    private fun pauseService() {
+        isTracking.postValue(false)
+    }
+
     private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
         this,
         0,
@@ -172,7 +177,7 @@ class TrackingService : LifecycleService() {
     }
 
     companion object {
-        private val isTracking = MutableLiveData<Boolean>()
-        private val pathPoints = MutableLiveData<Polylines>()
+        val isTracking = MutableLiveData<Boolean>()
+        val pathPoints = MutableLiveData<Polylines>()
     }
 }

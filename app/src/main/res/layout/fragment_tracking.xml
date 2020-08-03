@@ -20,7 +20,7 @@
             style="@style/DefaultButton"
             android:layout_marginEnd="@dimen/margin_giant"
             android:layout_marginStart="@dimen/margin_giant"
-            android:text="@string/start"
+            android:text="@string/start_run"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/finish_run_button"
             app:layout_constraintHorizontal_bias="0.5"
