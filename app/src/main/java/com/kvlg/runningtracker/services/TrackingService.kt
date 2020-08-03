@@ -33,21 +33,36 @@ import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_CHANNEL_ID
 import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_ID
 import com.kvlg.runningtracker.utils.Constants.UPDATE_LOCATION_INTERVAL
-import com.kvlg.runningtracker.utils.TrackingUtils
+import com.kvlg.runningtracker.utils.TrackingUtils.hasLocationPermissions
 import timber.log.Timber
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
 /**
+ * Service for tracking locations
+ *
  * @author Konstantin Koval
  * @since 26.07.2020
  */
 class TrackingService : LifecycleService() {
 
-    var isFirstRun = true
+    private var isFirstRun = true
 
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult?) {
+            if (isTracking.value!!) {
+                result?.locations?.let {
+                    it.forEach { location ->
+                        addPathPoint(location)
+                        Timber.d("NEW LOCATION: ${location.latitude}, ${location.longitude}")
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -80,34 +95,24 @@ class TrackingService : LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(result: LocationResult?) {
-            if (isTracking.value!!) {
-                result?.locations?.let {
-                    it.forEach { location ->
-                        addPathPoint(location)
-                        Timber.d("NEW LOCATION: ${location.latitude}, ${location.longitude}")
-                    }
-                }
-            }
-        }
+    private fun postInitialValues() {
+        isTracking.postValue(false)
+        pathPoints.postValue(mutableListOf())
     }
 
     @SuppressLint("MissingPermission")
     private fun updateLocationTracking(isTracking: Boolean) {
-        if (isTracking) {
-            if (TrackingUtils.hasLocationPermissions(this)) {
-                val request = LocationRequest().apply {
-                    interval = UPDATE_LOCATION_INTERVAL
-                    fastestInterval = FASTEST_UPDATE_LOCATION_INTERVAL
-                    priority = PRIORITY_HIGH_ACCURACY
-                }
-                fusedLocationProviderClient.requestLocationUpdates(
-                    request,
-                    locationCallback,
-                    Looper.getMainLooper()
-                )
+        if (isTracking && hasLocationPermissions(this)) {
+            val request = LocationRequest().apply {
+                interval = UPDATE_LOCATION_INTERVAL
+                fastestInterval = FASTEST_UPDATE_LOCATION_INTERVAL
+                priority = PRIORITY_HIGH_ACCURACY
             }
+            fusedLocationProviderClient.requestLocationUpdates(
+                request,
+                locationCallback,
+                Looper.getMainLooper()
+            )
         } else {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         }
@@ -128,11 +133,6 @@ class TrackingService : LifecycleService() {
             add(mutableListOf())
             pathPoints.postValue(this)
         } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
-    }
-
-    private fun postInitialValues() {
-        isTracking.postValue(false)
-        pathPoints.postValue(mutableListOf())
     }
 
     private fun startForegroundService() {
@@ -172,7 +172,7 @@ class TrackingService : LifecycleService() {
     }
 
     companion object {
-        val isTracking = MutableLiveData<Boolean>()
-        val pathPoints = MutableLiveData<Polylines>()
+        private val isTracking = MutableLiveData<Boolean>()
+        private val pathPoints = MutableLiveData<Polylines>()
     }
 }

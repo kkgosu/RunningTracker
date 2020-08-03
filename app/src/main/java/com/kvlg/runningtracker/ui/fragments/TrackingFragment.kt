@@ -15,6 +15,8 @@ import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
+ * Fragment with map and tracking service
+ *
  * @author Konstantin Koval
  * @since 19.07.2020
  */
