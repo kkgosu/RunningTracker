@@ -11,8 +11,25 @@
         <item name="android:layout_width">@dimen/match_constraint</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:background">@drawable/rounded_button_bg</item>
+        <item name="backgroundTint">@null</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
         <item name="elevation">@dimen/elevation_large_small</item>
+    </style>
+
+    <style name="InputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColorHint">@color/secondary</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="errorEnabled">true</item>
+        <item name="counterEnabled">false</item>
+        <item name="android:theme">@style/InputCursor</item>
+    </style>
+
+    <style name="InputCursor" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
 </resources>
