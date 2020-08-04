@@ -17,6 +17,7 @@ import com.kvlg.runningtracker.services.Polyline
 import com.kvlg.runningtracker.services.TrackingService
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
 import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -35,6 +36,7 @@ class TrackingFragment : Fragment() {
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
     private var map: GoogleMap? = null
+    private var currentTimeInMillis = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -101,6 +103,12 @@ class TrackingFragment : Fragment() {
             pathPoints = it
             addLatestPolyline()
             moveCameraToUserLocation()
+        }
+
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
+            currentTimeInMillis = it
+            val formattedTime = TrackingUtils.getFormattedStopWatchTime(currentTimeInMillis, true)
+            binding.timerTextView.text = formattedTime
         }
     }
 

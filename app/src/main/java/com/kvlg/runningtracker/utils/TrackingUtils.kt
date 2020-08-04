@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.os.Build
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.concurrent.TimeUnit
 
 /**
  * Utils for tracking
@@ -27,4 +28,27 @@ object TrackingUtils {
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
     }
+
+    fun getFormattedStopWatchTime(ms: Long, includeMillis: Boolean = false): String {
+        var millis = ms
+        val hours = TimeUnit.MILLISECONDS.toHours(millis)
+        millis -= TimeUnit.HOURS.toMillis(hours)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
+        millis -= TimeUnit.MINUTES.toMillis(minutes)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(millis)
+        if (!includeMillis) {
+            return getFormattedTime(hours, minutes, seconds)
+        }
+        millis -= TimeUnit.SECONDS.toMillis(seconds)
+        millis /= 10
+        return "${getFormattedTime(hours, minutes, seconds)}:${millis.formatTime()}"
+    }
+
+    private fun getFormattedTime(hours: Long, minutes: Long, seconds: Long): String {
+        return "${hours.formatTime()}:" +
+                "${minutes.formatTime()}:" +
+                seconds.formatTime()
+    }
+
+    private fun Long.formatTime(): String = if (this < 10) "0$this" else this.toString()
 }

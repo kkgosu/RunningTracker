@@ -32,8 +32,13 @@ import com.kvlg.runningtracker.utils.Constants.FASTEST_UPDATE_LOCATION_INTERVAL
 import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_CHANNEL_ID
 import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_ID
+import com.kvlg.runningtracker.utils.Constants.TIMER_UPDATE_INTERVAL
 import com.kvlg.runningtracker.utils.Constants.UPDATE_LOCATION_INTERVAL
 import com.kvlg.runningtracker.utils.TrackingUtils.hasLocationPermissions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 typealias Polyline = MutableList<LatLng>
@@ -47,9 +52,16 @@ typealias Polylines = MutableList<Polyline>
  */
 class TrackingService : LifecycleService() {
 
-    private var isFirstRun = true
-
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    private var isFirstRun = true
+    private var isTimerEnabled = false
+    private var lapTime = 0L
+    private var timeRun = 0L
+    private var timeStarted = 0L
+    private var lastSecondTimestamp = 0L
+
+    private val timeRunInSeconds = MutableLiveData<Long>()
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult?) {
@@ -82,6 +94,7 @@ class TrackingService : LifecycleService() {
                         isFirstRun = false
                     } else {
                         Timber.d("Resuming service..")
+                        startTimer()
                     }
                 }
                 ACTION_PAUSE_SERVICE -> {
@@ -99,6 +112,8 @@ class TrackingService : LifecycleService() {
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMillis.postValue(0L)
     }
 
     @SuppressLint("MissingPermission")
@@ -137,7 +152,7 @@ class TrackingService : LifecycleService() {
     }
 
     private fun startForegroundService() {
-        addEmptyPolyline()
+        startTimer()
         isTracking.postValue(true)
         val notificationManager = getSystemService<NotificationManager>()
 
@@ -160,6 +175,26 @@ class TrackingService : LifecycleService() {
 
     private fun pauseService() {
         isTracking.postValue(false)
+        isTimerEnabled = false
+    }
+
+    private fun startTimer() {
+        addEmptyPolyline()
+        isTracking.postValue(true)
+        timeStarted = System.currentTimeMillis()
+        isTimerEnabled = true
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isTracking.value!!) {
+                lapTime = System.currentTimeMillis() - timeStarted
+                timeRunInMillis.postValue(timeRun + lapTime)
+                if (timeRunInSeconds.value!! >= lastSecondTimestamp + SECOND) {
+                    timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
+                    lastSecondTimestamp += SECOND
+                }
+                delay(TIMER_UPDATE_INTERVAL)
+            }
+            timeRun += lapTime
+        }
     }
 
     private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
@@ -179,5 +214,8 @@ class TrackingService : LifecycleService() {
     companion object {
         val isTracking = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
+        val timeRunInMillis = MutableLiveData<Long>()
+
+        private const val SECOND = 1000L
     }
 }
