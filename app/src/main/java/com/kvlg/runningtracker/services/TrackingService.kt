@@ -35,11 +35,13 @@ import com.kvlg.runningtracker.utils.Constants.NOTIFICATION_ID
 import com.kvlg.runningtracker.utils.Constants.TIMER_UPDATE_INTERVAL
 import com.kvlg.runningtracker.utils.Constants.UPDATE_LOCATION_INTERVAL
 import com.kvlg.runningtracker.utils.TrackingUtils.hasLocationPermissions
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
@@ -50,9 +52,13 @@ typealias Polylines = MutableList<Polyline>
  * @author Konstantin Koval
  * @since 26.07.2020
  */
+@AndroidEntryPoint
 class TrackingService : LifecycleService() {
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    @Inject
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    @Inject
+    lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
     private var isFirstRun = true
     private var isTimerEnabled = false
@@ -162,15 +168,7 @@ class TrackingService : LifecycleService() {
             }
         }
 
-        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setAutoCancel(false)
-            .setOngoing(true)
-            .setSmallIcon(R.drawable.ic_run_24)
-            .setContentTitle(getString(R.string.app_name))
-            .setContentText(getString(R.string._00_00_00))
-            .setContentIntent(getMainActivityPendingIntent())
-
-        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+        startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
     }
 
     private fun pauseService() {
@@ -197,13 +195,6 @@ class TrackingService : LifecycleService() {
         }
     }
 
-    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
-        this,
-        0,
-        Intent(this, MainActivity::class.java).also {
-            it.action = Constants.ACTION_SHOW_TRACKING_FRAGMENT
-        }, FLAG_UPDATE_CURRENT
-    )
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
