@@ -64,6 +64,7 @@ class TrackingService : LifecycleService() {
 
     lateinit var currentNotificationBuilder: NotificationCompat.Builder
 
+    private var isServiceStopped = false
     private var isFirstRun = true
     private var isTimerEnabled = false
     private var lapTime = 0L
@@ -115,10 +116,20 @@ class TrackingService : LifecycleService() {
                 }
                 ACTION_STOP_SERVICE -> {
                     Timber.d("Stopped service")
+                    stopService()
                 }
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun stopService() {
+        isServiceStopped = true
+        isFirstRun = true
+        pauseService()
+        postInitialValues()
+        stopForeground(true)
+        stopSelf()
     }
 
     private fun postInitialValues() {
@@ -159,8 +170,10 @@ class TrackingService : LifecycleService() {
             isAccessible = true
             set(currentNotificationBuilder, arrayListOf<NotificationCompat.Action>())
         }
-        currentNotificationBuilder = baseNotificationBuilder.addAction(R.drawable.ic_pause_24, notificationActionText, pendingIntent)
-        notificationManager?.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
+        if (!isServiceStopped) {
+            currentNotificationBuilder = baseNotificationBuilder.addAction(R.drawable.ic_pause_24, notificationActionText, pendingIntent)
+            notificationManager?.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
+        }
     }
 
     private fun getNotificationPendingIntent(actionCode: String, requestCode: Int): PendingIntent =
@@ -201,8 +214,10 @@ class TrackingService : LifecycleService() {
         startForeground(NOTIFICATION_ID, baseNotificationBuilder.build())
 
         timeRunInSeconds.observe(this) {
-            val notification = currentNotificationBuilder.setContentText(TrackingUtils.getFormattedStopWatchTime(it * 1000L, false))
-            notificationManager?.notify(NOTIFICATION_ID, notification.build())
+            if (!isServiceStopped) {
+                val notification = currentNotificationBuilder.setContentText(TrackingUtils.getFormattedStopWatchTime(it * 1000L, false))
+                notificationManager?.notify(NOTIFICATION_ID, notification.build())
+            }
         }
     }
 

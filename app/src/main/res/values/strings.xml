@@ -25,6 +25,11 @@
     <string name="stop_run">Stop Run</string>
     <string name="pause_run">Pause Run</string>
     <string name="resume_run">Resume Run</string>
+    <string name="cancel_run">Cancel Run</string>
+    <string name="cancel_run_alert_title">Cancel the Run?</string>
+    <string name="cancel_run_alert_desc">Are you sure to cancel the current run and delete all its data?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string-array name="filter_options">
         <item>Date</item>

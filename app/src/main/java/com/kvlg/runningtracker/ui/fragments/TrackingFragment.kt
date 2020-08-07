@@ -2,15 +2,15 @@ package com.kvlg.runningtracker.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentTrackingBinding
 import com.kvlg.runningtracker.services.Polyline
@@ -38,11 +38,14 @@ class TrackingFragment : Fragment() {
     private var map: GoogleMap? = null
     private var currentTimeInMillis = 0L
 
+    private var menu: Menu? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,6 +60,25 @@ class TrackingFragment : Fragment() {
             addAllPolylines()
         }
         subscribeToObservers()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.tracking_menu, menu)
+        this.menu = menu
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        if (currentTimeInMillis > 0) {
+            this.menu?.getItem(0)?.isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.mi_tracking_cancel -> {
+            showCancelTrackingDialog()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {
@@ -112,18 +134,24 @@ class TrackingFragment : Fragment() {
         }
     }
 
-
     private fun toggleRun() {
         if (isTracking) {
+            menu?.getItem(0)?.isVisible = true
             sendCommandToService(Constants.ACTION_PAUSE_SERVICE)
         } else {
             sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
         }
     }
 
+    private fun stopRun() {
+        sendCommandToService(Constants.ACTION_STOP_SERVICE)
+        findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
+    }
+
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if (isTracking) {
+            menu?.getItem(0)?.isVisible = true
             binding.startRunButton.text = getString(R.string.stop_run)
             binding.finishRunButton.visibility = View.GONE
         } else {
@@ -165,4 +193,19 @@ class TrackingFragment : Fragment() {
     private fun getPolylineOptions(): PolylineOptions = PolylineOptions()
         .color(Constants.POLYLINE_COLOR)
         .width(Constants.POLYLINE_WIDTH)
+
+    private fun showCancelTrackingDialog() {
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle(getString(R.string.cancel_run_alert_title))
+            .setMessage(getString(R.string.cancel_run_alert_desc))
+            .setIcon(R.drawable.ic_delete_24)
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                stopRun()
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.cancel()
+            }
+            .create()
+            .show()
+    }
 }
