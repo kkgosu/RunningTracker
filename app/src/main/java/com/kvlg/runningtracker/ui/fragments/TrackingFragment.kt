@@ -32,13 +32,13 @@ class TrackingFragment : Fragment() {
 
     private var _binding: FragmentTrackingBinding? = null
     private val binding get() = _binding!!
+    private var menu: Menu? = null
 
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
     private var map: GoogleMap? = null
     private var currentTimeInMillis = 0L
 
-    private var menu: Menu? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
