@@ -46,7 +46,6 @@ class TrackingFragment : Fragment() {
 
     private var weight = 80f
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

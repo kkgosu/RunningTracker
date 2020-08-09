@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
@@ -15,6 +16,7 @@ import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.databinding.FragmentRunBinding
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
 import com.kvlg.runningtracker.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
+import com.kvlg.runningtracker.utils.SortTypes
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -49,7 +51,17 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requestPermissions()
         binding.runsRecyclerView.adapter = runsAdapter
-        viewModel.runsSortedByDate.observe(viewLifecycleOwner) {
+
+        binding.filterSpinner.setSelection(viewModel.sortType.ordinal)
+        binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.sortRuns(SortTypes.values()[position])
+            }
+        }
+
+        viewModel.runs.observe(viewLifecycleOwner) {
             runsAdapter.submitList(it)
         }
         binding.addFab.setOnClickListener {
