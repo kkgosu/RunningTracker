@@ -30,6 +30,7 @@
     <string name="cancel_run_alert_desc">Are you sure to cancel the current run and delete all its data?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="saved_run_snackbar">Run saved successfully</string>
 
     <string-array name="filter_options">
         <item>Date</item>

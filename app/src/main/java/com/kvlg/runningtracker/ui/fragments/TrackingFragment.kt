@@ -9,16 +9,21 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentTrackingBinding
+import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.services.Polyline
 import com.kvlg.runningtracker.services.TrackingService
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlin.math.roundToInt
 
 /**
  * Fragment with map and tracking service
@@ -39,6 +44,8 @@ class TrackingFragment : Fragment() {
     private var map: GoogleMap? = null
     private var currentTimeInMillis = 0L
 
+    private var weight = 80f
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +60,10 @@ class TrackingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.startRunButton.setOnClickListener {
             toggleRun()
+        }
+        binding.finishRunButton.setOnClickListener {
+            zoomToSeeWholeTrack()
+            endRunAndSaveToDb()
         }
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
@@ -155,8 +166,28 @@ class TrackingFragment : Fragment() {
             binding.startRunButton.text = getString(R.string.stop_run)
             binding.finishRunButton.visibility = View.GONE
         } else {
-            binding.startRunButton.text = getString(R.string.start_run)
+            binding.startRunButton.text = getString(R.string.resume_run)
             binding.finishRunButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun endRunAndSaveToDb() {
+        map?.snapshot { bitmap ->
+            var distanceInMeters = 0
+            pathPoints.forEach {
+                distanceInMeters += TrackingUtils.calculatePolylineLength(it).toInt()
+            }
+            val avgSpeed = if (distanceInMeters != 0) (distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60).roundToInt() / 10 else 0f
+            val dateTimeStamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+            val run = Run(bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned)
+            viewModel.insertRun(run)
+            Snackbar.make(
+                requireActivity().findViewById(R.id.root_view),
+                getString(R.string.saved_run_snackbar),
+                Snackbar.LENGTH_LONG
+            ).show()
+            stopRun()
         }
     }
 
@@ -164,6 +195,23 @@ class TrackingFragment : Fragment() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), Constants.MAP_ZOOM))
         }
+    }
+
+    private fun zoomToSeeWholeTrack() {
+        val bounds = LatLngBounds.Builder()
+        pathPoints.forEach { poliline ->
+            poliline.forEach {
+                bounds.include(it)
+            }
+        }
+        map?.moveCamera(
+            CameraUpdateFactory.newLatLngBounds(
+                bounds.build(),
+                binding.mapView.width,
+                binding.mapView.height,
+                (binding.mapView.height * 0.05f).toInt()
+            )
+        )
     }
 
     private fun addLatestPolyline() {

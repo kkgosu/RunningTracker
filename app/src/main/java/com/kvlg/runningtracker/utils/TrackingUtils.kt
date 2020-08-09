@@ -2,7 +2,9 @@ package com.kvlg.runningtracker.utils
 
 import android.Manifest
 import android.content.Context
+import android.location.Location
 import android.os.Build
+import com.kvlg.runningtracker.services.Polyline
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.concurrent.TimeUnit
 
@@ -27,6 +29,25 @@ object TrackingUtils {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
+    }
+
+    fun calculatePolylineLength(polyline: Polyline): Float {
+        val result = FloatArray(1)
+        return polyline.mapIndexed { index, latLng ->
+            if (index < polyline.size - 1) {
+                Location.distanceBetween(
+                    latLng.latitude,
+                    latLng.longitude,
+                    polyline[index + 1].latitude,
+                    polyline[index + 1].longitude,
+                    result
+                )
+                println("result = ${result[0]}")
+                result[0]
+            } else {
+                0f
+            }
+        }.sum()
     }
 
     fun getFormattedStopWatchTime(ms: Long, includeMillis: Boolean = false): String {
