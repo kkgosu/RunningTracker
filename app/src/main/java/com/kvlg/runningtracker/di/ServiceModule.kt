@@ -33,7 +33,7 @@ object ServiceModule {
 
     @ServiceScoped
     @Provides
-    fun provideMainActivityPendingIntent(@ApplicationContext context: Context) =
+    fun provideMainActivityPendingIntent(@ApplicationContext context: Context): PendingIntent =
         PendingIntent.getActivity(
             context,
             Constants.MAIN_ACTIVITY_PENDING_INTENT,
@@ -44,7 +44,7 @@ object ServiceModule {
 
     @ServiceScoped
     @Provides
-    fun provideBaseNotificationBuilder(@ApplicationContext context: Context, mainActivityPendingIntent: PendingIntent) =
+    fun provideBaseNotificationBuilder(@ApplicationContext context: Context, mainActivityPendingIntent: PendingIntent): NotificationCompat.Builder =
         NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_ID)
             .setAutoCancel(false)
             .setOngoing(true)
