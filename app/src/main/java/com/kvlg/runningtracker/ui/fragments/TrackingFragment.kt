@@ -23,7 +23,7 @@ import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import kotlin.math.roundToInt
+import kotlin.math.round
 
 /**
  * Fragment with map and tracking service
@@ -177,7 +177,7 @@ class TrackingFragment : Fragment() {
             pathPoints.forEach {
                 distanceInMeters += TrackingUtils.calculatePolylineLength(it).toInt()
             }
-            val avgSpeed = if (distanceInMeters != 0) (distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60).roundToInt() / 10 else 0f
+            val avgSpeed = round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val dateTimeStamp = Calendar.getInstance().timeInMillis
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
             val run = Run(bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned)
@@ -199,8 +199,8 @@ class TrackingFragment : Fragment() {
 
     private fun zoomToSeeWholeTrack() {
         val bounds = LatLngBounds.Builder()
-        pathPoints.forEach { poliline ->
-            poliline.forEach {
+        pathPoints.forEach { polyline ->
+            polyline.forEach {
                 bounds.include(it)
             }
         }

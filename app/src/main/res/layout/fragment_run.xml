@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:entries="@array/filter_options"
-        android:paddingBottom="@dimen/padding_medium"
         android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +28,7 @@
         android:id="@+id/runs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -38,8 +39,8 @@
         android:id="@+id/add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_giant"
         android:layout_marginEnd="@dimen/margin_giant"
+        android:layout_marginBottom="@dimen/margin_giant"
         android:src="@drawable/ic_add_24"
         app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
