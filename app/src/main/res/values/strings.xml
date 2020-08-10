@@ -20,6 +20,7 @@
     <string name="distance_placeholder">%1$d km</string>
     <string name="calories_placeholder">%1$d kcal</string>
     <string name="speed_placeholder">%1$d km/h</string>
+    <string name="setup_toolbar_placeholder">Let\'s go, %1$s</string>
 
     <string name="start_run">Start Run</string>
     <string name="finish">Finish Run</string>
@@ -37,6 +38,7 @@
     <string name="item_distance">DISTANCE</string>
     <string name="item_avgspeed">AVG SPEED</string>
     <string name="item_calories">CALORIES</string>
+    <string name="empty_fields_setup_text">Please enter all the fields</string>
 
     <string-array name="filter_options">
         <item>Date</item>

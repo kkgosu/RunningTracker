@@ -34,4 +34,9 @@ object Constants {
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"
     const val NOTIFICATION_ID = 1
+
+    const val SHARED_PREF_NAME = "sharedPref"
+    const val KEY_PREF_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
+    const val KEY_PREF_NAME = "KEY_PREF_NAME"
+    const val KEY_PREF_WEIGHT = "KEY_PREF_WEIGHT_TOGGLE"
 }

@@ -1,8 +1,11 @@
 package com.kvlg.runningtracker.di
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.kvlg.runningtracker.db.RunDatabase
+import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.Constants.RUNNING_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -36,4 +39,22 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRunDAO(db: RunDatabase) = db.getRunDao()
+
+    @Provides
+    @Singleton
+    fun provideSharedPref(@ApplicationContext context: Context) =
+        context.getSharedPreferences(Constants.SHARED_PREF_NAME, MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun provideName(sharedPreferences: SharedPreferences) = sharedPreferences.getString(Constants.KEY_PREF_NAME, "") ?: ""
+
+    @Provides
+    @Singleton
+    fun provideWeight(sharedPreferences: SharedPreferences) = sharedPreferences.getFloat(Constants.KEY_PREF_WEIGHT, 70f)
+
+
+    @Provides
+    @Singleton
+    fun providesFirstTimeToggle(sharedPreferences: SharedPreferences) = sharedPreferences.getBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, true)
 }

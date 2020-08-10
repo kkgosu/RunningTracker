@@ -1,10 +1,7 @@
 package com.kvlg.runningtracker.ui.viewmodels
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.utils.SortTypes
@@ -18,6 +15,7 @@ class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
+    //region runs
     private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
     private val runsSortedByDistance = mainRepository.getAllRunsSortedByDistance()
     private val runsSortedByCaloriesBurned = mainRepository.getAllRunsSortedByCaloriesBurned()
@@ -25,8 +23,12 @@ class MainViewModel @ViewModelInject constructor(
     private val runsSortedByAvgSpeed = mainRepository.getAllRunsSortedByAvgSpeed()
 
     val runs = MediatorLiveData<List<Run>>()
-
     var sortType = SortTypes.DATE
+
+    //endregion
+
+    private val _toolbarTitle = MutableLiveData<String>()
+    val toolbarTitle: LiveData<String> = _toolbarTitle
 
     init {
         runs.addSourceWithSortType(runsSortedByDate, SortTypes.DATE)
@@ -49,6 +51,10 @@ class MainViewModel @ViewModelInject constructor(
 
     fun insertRun(run: Run) = viewModelScope.launch {
         mainRepository.insertRun(run)
+    }
+
+    fun setupToolbarTitle(title: String) {
+
     }
 
     private fun <T : List<Run>> MediatorLiveData<T>.addSourceWithSortType(source: LiveData<T>, type: SortTypes) = addSource(source) { result ->

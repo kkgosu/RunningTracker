@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.ActivityMainBinding
+import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         )
 
         currentNavController = controller
+
+        //mainViewModel.toolbarTitle.observe(this) {
+        //  binding.toolbar.text = it
+        //}
     }
 
     override fun onSupportNavigateUp(): Boolean {
