@@ -57,7 +57,7 @@ class SetupFragment : Fragment() {
             if (isSuccess) {
                 findNavController().navigate(R.id.action_setupFragment_to_runFragment)
             } else {
-                Snackbar.make(requireView(), getString(R.string.empty_fields_setup_text), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(requireView(), getString(R.string.error_save_settings_snackbar_text), Snackbar.LENGTH_LONG).show()
             }
         }
     }
