@@ -1,15 +1,22 @@
 package com.kvlg.runningtracker.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentStatisticsBinding
 import com.kvlg.runningtracker.ui.viewmodels.StatisticsViewModel
+import com.kvlg.runningtracker.utils.CustomMarkerView
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.round
@@ -40,6 +47,7 @@ class StatisticFragment : Fragment() {
             totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, 0)
             totalDistanceValueTextView.text = getString(R.string.speed_placeholder, 0)
         }
+        setupBarChart()
         subscribeToObservers()
     }
 
@@ -77,5 +85,43 @@ class StatisticFragment : Fragment() {
                 binding.totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, it)
             }
         }
+
+        viewModel.runsSortedByDate.observe(viewLifecycleOwner) {
+            it?.let {
+                val allAvgSpeeds = it.indices.map { i -> BarEntry(i.toFloat(), it[i].avgSpeedInKMH) }
+                val barDataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
+                    valueTextColor = Color.WHITE
+                    color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+                }
+                binding.barChart.data = BarData(barDataSet)
+                binding.barChart.marker = CustomMarkerView(requireContext(), it.reversed(), R.layout.marker_view)
+                binding.barChart.invalidate()
+            }
+        }
     }
+
+    private fun setupBarChart() {
+        binding.barChart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawLabels(false)
+            axisLineColor = Color.WHITE
+            textColor = Color.WHITE
+            setDrawGridLines(false)
+        }
+        binding.barChart.axisLeft.apply {
+            axisLineColor = Color.WHITE
+            textColor = Color.WHITE
+            setDrawGridLines(false)
+        }
+        binding.barChart.axisRight.apply {
+            axisLineColor = Color.WHITE
+            textColor = Color.WHITE
+            setDrawGridLines(false)
+        }
+        binding.barChart.apply {
+            description.text = "Avg Speed Over Time"
+            legend.isEnabled = false
+        }
+    }
+
 }
