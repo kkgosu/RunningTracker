@@ -44,10 +44,10 @@ class CustomMarkerView(
 
         binding.apply {
             dateTextView.text = sdf.format(calendar.time)
-            avgSpeedTextView.text = root.context.getString(R.string.speed_placeholder, run.avgSpeedInKMH.toInt())
-            distanceTextView.text = root.context.getString(R.string.distance_placeholder, run.distanceInMeters / 1000)
+            avgSpeedTextView.text = root.context.getString(R.string.speed_placeholder, run.avgSpeedInKMH.toString())
+            distanceTextView.text = root.context.getString(R.string.distance_placeholder, (run.distanceInMeters / 1000).toString())
             timeTextView.text = TrackingUtils.getFormattedStopWatchTime(run.timeInMillis)
-            caloriesBurnedTextView.text = root.context.getString(R.string.calories_placeholder, run.caloriesBurned)
+            caloriesBurnedTextView.text = root.context.getString(R.string.calories_placeholder, (run.caloriesBurned).toString())
         }
     }
 }

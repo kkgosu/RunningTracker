@@ -43,9 +43,9 @@ class StatisticFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
-            totalDistanceValueTextView.text = getString(R.string.distance_placeholder, 0)
-            totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, 0)
-            totalDistanceValueTextView.text = getString(R.string.speed_placeholder, 0)
+            totalDistanceValueTextView.text = getString(R.string.distance_placeholder, 0.toString())
+            totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, 0.toString())
+            totalDistanceValueTextView.text = getString(R.string.speed_placeholder, 0.toString())
         }
         setupBarChart()
         subscribeToObservers()
@@ -67,22 +67,23 @@ class StatisticFragment : Fragment() {
         viewModel.totalDistance.observe(viewLifecycleOwner) {
             it?.let {
                 val km = it / 1000f
-                val totalDistance = round(km * 10f) / 10f
+                val totalDistance = (round(km * 10f) / 10f).toString()
                 val totalDistanceString = getString(R.string.distance_placeholder, totalDistance)
                 binding.totalDistanceValueTextView.text = totalDistanceString
             }
         }
 
+        //TODO: deal with infinity avg speed
         viewModel.totalAvgSpeed.observe(viewLifecycleOwner) {
             it?.let {
-                val avgSpeed = round(it * 10f) / 10f
+                val avgSpeed = (round(it * 10f) / 10f).toString()
                 binding.avgSpeedValueTextView.text = getString(R.string.speed_placeholder, avgSpeed)
             }
         }
 
         viewModel.totalCaloriesBurned.observe(viewLifecycleOwner) {
             it?.let {
-                binding.totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, it)
+                binding.totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, it.toString())
             }
         }
 
@@ -104,18 +105,18 @@ class StatisticFragment : Fragment() {
         binding.barChart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
             setDrawLabels(false)
-            axisLineColor = Color.WHITE
-            textColor = Color.WHITE
+            axisLineColor = Color.BLACK
+            textColor = Color.BLACK
             setDrawGridLines(false)
         }
         binding.barChart.axisLeft.apply {
-            axisLineColor = Color.WHITE
-            textColor = Color.WHITE
+            axisLineColor = Color.BLACK
+            textColor = Color.BLACK
             setDrawGridLines(false)
         }
         binding.barChart.axisRight.apply {
-            axisLineColor = Color.WHITE
-            textColor = Color.WHITE
+            axisLineColor = Color.BLACK
+            textColor = Color.BLACK
             setDrawGridLines(false)
         }
         binding.barChart.apply {
