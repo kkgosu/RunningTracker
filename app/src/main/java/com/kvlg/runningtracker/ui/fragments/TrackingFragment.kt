@@ -11,7 +11,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentTrackingBinding
@@ -59,6 +58,11 @@ class TrackingFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? CancelTrackingDialog
+            cancelTrackingDialog?.setListener { stopRun() }
+        }
+
         binding.startRunButton.setOnClickListener {
             toggleRun()
         }
@@ -156,17 +160,18 @@ class TrackingFragment : Fragment() {
     }
 
     private fun stopRun() {
+        binding.timerTextView.text = getString(R.string._00_00_00_00)
         sendCommandToService(Constants.ACTION_STOP_SERVICE)
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if (isTracking) {
+        if (isTracking && currentTimeInMillis > 0L) {
             menu?.getItem(0)?.isVisible = true
             binding.startRunButton.text = getString(R.string.stop_run)
             binding.finishRunButton.visibility = View.GONE
-        } else {
+        } else if (isTracking) {
             binding.startRunButton.text = getString(R.string.resume_run)
             binding.finishRunButton.visibility = View.VISIBLE
         }
@@ -244,17 +249,13 @@ class TrackingFragment : Fragment() {
         .width(Constants.POLYLINE_WIDTH)
 
     private fun showCancelTrackingDialog() {
-        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
-            .setTitle(getString(R.string.cancel_run_alert_title))
-            .setMessage(getString(R.string.cancel_run_alert_desc))
-            .setIcon(R.drawable.ic_delete_24)
-            .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                stopRun()
-            }
-            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
-                dialog.cancel()
-            }
-            .create()
-            .show()
+        CancelTrackingDialog().apply {
+            setListener { stopRun() }
+        }.show(parentFragmentManager,  DIALOG_TAG)
     }
+
+    companion object {
+        private const val DIALOG_TAG = "CancelDialogTag"
+    }
+
 }
