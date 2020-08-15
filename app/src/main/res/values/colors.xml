@@ -7,6 +7,8 @@
     <color name="colorPrimaryDark">@color/deep_orange_600</color>
     <color name="colorAccent">@color/orange_800</color>
     <color name="secondary">@color/gray_500</color>
+    <color name="text_label">@color/gray_600</color>
+    <color name="text_value">@color/gray_800</color>
 
     <!--default colors-->
     <color name="white">#FFF</color>

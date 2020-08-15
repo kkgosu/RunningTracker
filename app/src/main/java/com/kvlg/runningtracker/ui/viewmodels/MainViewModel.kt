@@ -1,9 +1,12 @@
 package com.kvlg.runningtracker.ui.viewmodels
 
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.repository.MainRepository
+import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.SortTypes
 import kotlinx.coroutines.launch
 
@@ -12,7 +15,8 @@ import kotlinx.coroutines.launch
  * @since 19.07.2020
  */
 class MainViewModel @ViewModelInject constructor(
-    private val mainRepository: MainRepository
+    private val mainRepository: MainRepository,
+    private val sharedPrefs: SharedPreferences
 ) : ViewModel() {
 
     //region runs
@@ -36,6 +40,8 @@ class MainViewModel @ViewModelInject constructor(
         runs.addSourceWithSortType(runsSortedByDistance, SortTypes.DISTANCE)
         runs.addSourceWithSortType(runsSortedByCaloriesBurned, SortTypes.CALORIES_BURNED)
         runs.addSourceWithSortType(runsSortedByTimeInMillis, SortTypes.RUNNING_TIME)
+
+        sortType = SortTypes.values()[sharedPrefs.getInt(Constants.KEY_PREF_SORT_TYPE, 0)]
     }
 
     fun sortRuns(sortType: SortTypes) = when (sortType) {
@@ -46,6 +52,9 @@ class MainViewModel @ViewModelInject constructor(
         SortTypes.RUNNING_TIME -> runsSortedByTimeInMillis.value?.let { runs.value = it }
     }.also {
         this.sortType = sortType
+        sharedPrefs.edit {
+            putInt(Constants.KEY_PREF_SORT_TYPE, sortType.ordinal)
+        }
     }
 
 

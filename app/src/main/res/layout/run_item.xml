@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true"
     app:cardCornerRadius="@dimen/card_view_corner_radius_large"
-    app:cardElevation="@dimen/elevation_small">
+    app:cardElevation="@dimen/elevation_small"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,6 +39,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:text="@string/item_date"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/text_label"
             app:layout_constraintEnd_toStartOf="@+id/duration_label_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/run_image_container" />
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_value"
             app:layout_constraintEnd_toStartOf="@+id/duration_label_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date_label_text_view"
@@ -61,6 +63,7 @@
             android:layout_height="wrap_content"
             android:text="@string/item_duration"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/text_label"
             app:layout_constraintEnd_toStartOf="@+id/distance_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/date_value_text_view"
             app:layout_constraintTop_toTopOf="@id/date_label_text_view" />
@@ -70,6 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_value"
             app:layout_constraintBottom_toBottomOf="@id/date_value_text_view"
             app:layout_constraintEnd_toEndOf="@id/duration_label_text_view"
             app:layout_constraintStart_toStartOf="@id/duration_label_text_view"
@@ -82,6 +86,7 @@
             android:layout_height="wrap_content"
             android:text="@string/item_distance"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/text_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/duration_label_text_view"
             app:layout_constraintTop_toTopOf="@id/date_label_text_view" />
@@ -91,6 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_value"
             app:layout_constraintBottom_toBottomOf="@id/date_value_text_view"
             app:layout_constraintEnd_toEndOf="@id/distance_label_text_view"
             app:layout_constraintStart_toStartOf="@id/distance_label_text_view"
@@ -104,6 +110,7 @@
             android:layout_marginTop="@dimen/margin_large"
             android:text="@string/item_avgspeed"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/text_label"
             app:layout_constraintEnd_toStartOf="@id/calories_label_text_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date_value_text_view" />
@@ -114,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_value"
             app:layout_constraintEnd_toEndOf="@id/avg_label_speed_text_view"
             app:layout_constraintStart_toStartOf="@id/avg_label_speed_text_view"
             app:layout_constraintTop_toBottomOf="@id/avg_label_speed_text_view"
@@ -125,6 +133,7 @@
             android:layout_height="wrap_content"
             android:text="@string/item_calories"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/text_label"
             app:layout_constraintBottom_toBottomOf="@id/avg_label_speed_text_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/avg_label_speed_text_view"
@@ -135,6 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_value"
             app:layout_constraintBottom_toBottomOf="@id/avg_value_speed_text_view"
             app:layout_constraintEnd_toEndOf="@id/calories_label_text_view"
             app:layout_constraintStart_toStartOf="@id/calories_label_text_view"

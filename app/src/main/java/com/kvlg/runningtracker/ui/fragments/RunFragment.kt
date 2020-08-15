@@ -63,6 +63,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         viewModel.runs.observe(viewLifecycleOwner) {
             runsAdapter.submitList(it)
+            binding.runsRecyclerView.smoothScrollToPosition(0)
         }
         binding.addFab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
