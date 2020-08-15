@@ -1,62 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:foreground="?attr/selectableItemBackground"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="@dimen/card_view_corner_radius_large"
+    app:cardElevation="@dimen/elevation_small">
 
-    <ImageView
-        android:id="@+id/run_image"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="@dimen/padding_medium">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/date_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/item_date"
-        app:layout_constraintEnd_toStartOf="@+id/time_text_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/run_image" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/run_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/run_image_height"
+            app:cardCornerRadius="@dimen/card_view_corner_radius_large"
+            app:cardElevation="@dimen/zero_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/time_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/item_time"
-        app:layout_constraintEnd_toStartOf="@+id/distance_text_view"
-        app:layout_constraintStart_toEndOf="@+id/date_text_view"
-        app:layout_constraintTop_toTopOf="@id/date_text_view" />
+            <ImageView
+                android:id="@+id/run_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/distance_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/item_distance"
-        app:layout_constraintEnd_toStartOf="@+id/avg_speed_text_view"
-        app:layout_constraintStart_toEndOf="@+id/time_text_view"
-        app:layout_constraintTop_toTopOf="@id/date_text_view" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/item_date"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@+id/duration_label_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/run_image_container" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/avg_speed_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/item_avgspeed"
-        app:layout_constraintEnd_toStartOf="@+id/calories_text_view"
-        app:layout_constraintStart_toEndOf="@+id/distance_text_view"
-        app:layout_constraintTop_toTopOf="@id/date_text_view" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/duration_label_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_label_text_view"
+            tools:text="01.01.1970" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/calories_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/item_calories"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/avg_speed_text_view"
-        app:layout_constraintTop_toTopOf="@id/date_text_view" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/duration_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_duration"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@+id/distance_label_text_view"
+            app:layout_constraintStart_toEndOf="@+id/date_value_text_view"
+            app:layout_constraintTop_toTopOf="@id/date_label_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/duration_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintBottom_toBottomOf="@id/date_value_text_view"
+            app:layout_constraintEnd_toEndOf="@id/duration_label_text_view"
+            app:layout_constraintStart_toStartOf="@id/duration_label_text_view"
+            app:layout_constraintTop_toTopOf="@id/date_value_text_view"
+            tools:text="01:02:03" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/distance_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_distance"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/duration_label_text_view"
+            app:layout_constraintTop_toTopOf="@id/date_label_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/distance_value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintBottom_toBottomOf="@id/date_value_text_view"
+            app:layout_constraintEnd_toEndOf="@id/distance_label_text_view"
+            app:layout_constraintStart_toStartOf="@id/distance_label_text_view"
+            app:layout_constraintTop_toTopOf="@id/date_value_text_view"
+            tools:text="123 KM" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/avg_label_speed_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="@string/item_avgspeed"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@id/calories_label_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_value_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/avg_value_speed_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintEnd_toEndOf="@id/avg_label_speed_text_view"
+            app:layout_constraintStart_toStartOf="@id/avg_label_speed_text_view"
+            app:layout_constraintTop_toBottomOf="@id/avg_label_speed_text_view"
+            tools:text="123 KM/H" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/calories_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_calories"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintBottom_toBottomOf="@id/avg_label_speed_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avg_label_speed_text_view"
+            app:layout_constraintTop_toTopOf="@id/avg_label_speed_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/calories__value_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            app:layout_constraintBottom_toBottomOf="@id/avg_value_speed_text_view"
+            app:layout_constraintEnd_toEndOf="@id/calories_label_text_view"
+            app:layout_constraintStart_toStartOf="@id/calories_label_text_view"
+            app:layout_constraintTop_toTopOf="@id/avg_value_speed_text_view"
+            tools:text="123 kcal" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

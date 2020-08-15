@@ -25,11 +25,11 @@ class RunViewHolder(private val runItemBinding: RunItemBinding) : RecyclerView.V
                 timeInMillis = run.timestamp
             }
             val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            dateTextView.text = sdf.format(calendar.time)
-            avgSpeedTextView.text = root.context.getString(R.string.speed_placeholder, run.avgSpeedInKMH.toInt().toString())
-            distanceTextView.text = root.context.getString(R.string.distance_placeholder, (run.distanceInMeters / 1000).toString())
-            timeTextView.text = TrackingUtils.getFormattedStopWatchTime(run.timeInMillis)
-            caloriesTextView.text = root.context.getString(R.string.calories_placeholder, run.caloriesBurned.toString())
+            dateValueTextView.text = sdf.format(calendar.time)
+            avgValueSpeedTextView.text = root.context.getString(R.string.speed_placeholder, run.avgSpeedInKMH.toInt().toString())
+            distanceValueTextView.text = root.context.getString(R.string.distance_placeholder, (run.distanceInMeters / 1000).toString())
+            durationValueTextView.text = TrackingUtils.getFormattedStopWatchTime(run.timeInMillis)
+            caloriesValueTextView.text = root.context.getString(R.string.calories_placeholder, run.caloriesBurned.toString())
         }
     }
 }

@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/item_time"
+            android:text="@string/item_duration"
             android:textSize="20sp" />
 
         <TextView

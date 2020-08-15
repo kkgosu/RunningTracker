@@ -35,7 +35,7 @@
     <string name="no">No</string>
     <string name="saved_run_snackbar">Run saved successfully</string>
     <string name="item_date">DATE</string>
-    <string name="item_time">TIME</string>
+    <string name="item_duration">DURATION</string>
     <string name="item_distance">DISTANCE</string>
     <string name="item_avgspeed">AVG SPEED</string>
     <string name="item_calories">CALORIES BURNED</string>

@@ -16,8 +16,14 @@
 
     <!--elevation-->
     <dimen name="elevation_large_small">12dp</dimen>
+    <dimen name="elevation_small">8dp</dimen>
+
+    <!--corner radius-->
+    <dimen name="card_view_corner_radius_large">16dp</dimen>
 
     <!--common-->
     <dimen name="match_constraint">0dp</dimen>
     <dimen name="bnv_height">56dp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
+    <dimen name="run_image_height">160dp</dimen>
 </resources>
