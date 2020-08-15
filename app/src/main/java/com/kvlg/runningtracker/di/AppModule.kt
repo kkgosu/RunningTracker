@@ -13,7 +13,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Singleton
 
 /**
@@ -36,7 +35,7 @@ object AppModule {
         appContext,
         RunDatabase::class.java,
         RUNNING_DATABASE_NAME
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton

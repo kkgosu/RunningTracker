@@ -199,7 +199,11 @@ class TrackingFragment : Fragment() {
 
     private fun moveCameraToUserLocation() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), Constants.MAP_ZOOM))
+            if (pathPoints.last().size == 1 && pathPoints.size == 1) {
+                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), Constants.MAP_ZOOM))
+            } else {
+                map?.animateCamera(CameraUpdateFactory.newLatLng(pathPoints.last().last()))
+            }
         }
     }
 
@@ -251,7 +255,7 @@ class TrackingFragment : Fragment() {
     private fun showCancelTrackingDialog() {
         CancelTrackingDialog().apply {
             setListener { stopRun() }
-        }.show(parentFragmentManager,  DIALOG_TAG)
+        }.show(parentFragmentManager, DIALOG_TAG)
     }
 
     companion object {

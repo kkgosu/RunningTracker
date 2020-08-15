@@ -68,8 +68,8 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     fun deleteRun(id: Int) = viewModelScope.launch {
+        runsLiveData.setLoadingById(id, true)
         runs.value?.get(id)?.let {
-            runsLiveData.setLoadingForItem(id, true)
             mainRepository.deleteRun(it)
         }
     }

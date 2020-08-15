@@ -2,6 +2,7 @@ package com.kvlg.runningtracker.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import com.kvlg.runningtracker.databinding.RunItemBinding
 import com.kvlg.runningtracker.db.Run
@@ -15,21 +16,14 @@ import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
  */
 class RunAdapter(
     diffCallback: RunDiffCallback,
+    private val lifecycleOwner: LifecycleOwner,
     private val runsLiveDataRegistry: RunsLiveDataRegistry
 ) : ListAdapter<Run, RunViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunViewHolder =
-        RunViewHolder(RunItemBinding.inflate(LayoutInflater.from(parent.context)), runsLiveDataRegistry)
+        RunViewHolder(RunItemBinding.inflate(LayoutInflater.from(parent.context)), lifecycleOwner, runsLiveDataRegistry)
 
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
         holder.bind(currentList[position])
-    }
-
-    override fun onViewAttachedToWindow(holder: RunViewHolder) {
-        holder.onAttach()
-    }
-
-    override fun onViewDetachedFromWindow(holder: RunViewHolder) {
-        holder.onDetach()
     }
 }

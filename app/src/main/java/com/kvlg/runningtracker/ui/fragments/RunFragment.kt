@@ -14,8 +14,10 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.adapters.RunAdapter
+import com.kvlg.runningtracker.adapters.RunDiffCallback
 import com.kvlg.runningtracker.databinding.FragmentRunBinding
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
+import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.kvlg.runningtracker.utils.SortTypes
 import com.kvlg.runningtracker.utils.TrackingUtils
@@ -37,8 +39,10 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
 
+    private var runsAdapter: RunAdapter? = null
+
     @Inject
-    lateinit var runsAdapter: RunAdapter
+    lateinit var runsLiveDataRegistry: RunsLiveDataRegistry
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +50,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRunBinding.inflate(inflater, container, false)
+        runsAdapter = RunAdapter(RunDiffCallback(), viewLifecycleOwner, runsLiveDataRegistry)
         return binding.root
     }
 
@@ -63,7 +68,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         viewModel.runs.observe(viewLifecycleOwner) {
-            runsAdapter.submitList(it)
+            runsAdapter?.submitList(it)
             binding.runsRecyclerView.smoothScrollToPosition(0)
         }
         binding.addFab.setOnClickListener {
