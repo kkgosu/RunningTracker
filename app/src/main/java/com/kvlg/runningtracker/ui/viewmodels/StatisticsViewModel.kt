@@ -9,7 +9,7 @@ import com.kvlg.runningtracker.repository.MainRepository
  * @since 19.07.2020
  */
 class StatisticsViewModel @ViewModelInject constructor(
-    val mainRepository: MainRepository
+    mainRepository: MainRepository
 ) : ViewModel() {
 
     val totalTimeRun = mainRepository.getTotalTimeInMillis()

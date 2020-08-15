@@ -5,6 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.kvlg.runningtracker.db.RunDatabase
+import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.Constants.RUNNING_DATABASE_NAME
 import dagger.Module
@@ -12,6 +13,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Singleton
 
 /**
@@ -57,4 +59,8 @@ object AppModule {
     @Provides
     @Singleton
     fun providesFirstTimeToggle(sharedPreferences: SharedPreferences) = sharedPreferences.getBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, true)
+
+    @Provides
+    @Singleton
+    fun provideRunsLiveDataRegistry() = RunsLiveDataRegistry()
 }

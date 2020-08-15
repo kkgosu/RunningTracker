@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground"
+    android:longClickable="true"
     app:cardCornerRadius="@dimen/card_view_corner_radius_large"
     app:cardElevation="@dimen/elevation_small"
     app:cardPreventCornerOverlap="false"
@@ -150,5 +151,26 @@
             app:layout_constraintStart_toStartOf="@id/calories_label_text_view"
             app:layout_constraintTop_toTopOf="@id/avg_value_speed_text_view"
             tools:text="123 kcal" />
+
+        <FrameLayout
+            android:id="@+id/progress_container"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:alpha="0.7"
+            android:background="@color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:progressTint="@color/colorAccent" />
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

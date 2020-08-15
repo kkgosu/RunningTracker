@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
  */
 class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository,
-    private val sharedPrefs: SharedPreferences
+    private val sharedPrefs: SharedPreferences,
+    private val runsLiveData: RunsLiveDataRegistry
 ) : ViewModel() {
 
     //region runs
@@ -64,6 +65,13 @@ class MainViewModel @ViewModelInject constructor(
 
     fun setupToolbarTitle(title: String) {
 
+    }
+
+    fun deleteRun(id: Int) = viewModelScope.launch {
+        runs.value?.get(id)?.let {
+            runsLiveData.setLoadingForItem(id, true)
+            mainRepository.deleteRun(it)
+        }
     }
 
     private fun <T : List<Run>> MediatorLiveData<T>.addSourceWithSortType(source: LiveData<T>, type: SortTypes) = addSource(source) { result ->

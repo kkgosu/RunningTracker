@@ -2,6 +2,7 @@ package com.kvlg.runningtracker.di
 
 import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.adapters.RunDiffCallback
+import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,5 +23,5 @@ object RunModule {
 
     @Provides
     @FragmentScoped
-    fun provideRunAdapter(runDiffCallback: RunDiffCallback) = RunAdapter(runDiffCallback)
+    fun provideRunAdapter(runDiffCallback: RunDiffCallback, runsLiveData: RunsLiveDataRegistry) = RunAdapter(runDiffCallback, runsLiveData)
 }
