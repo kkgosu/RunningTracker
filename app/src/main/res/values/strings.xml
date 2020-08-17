@@ -43,6 +43,8 @@
     <string name="saved_settings_snackbar_text">Saved changes</string>
     <string name="delete">Delete</string>
 
+    <string name="fab_to_runs_transition_name">fabToRuns</string>
+
     <string-array name="filter_options">
         <item>Date</item>
         <item>Running Time</item>

@@ -11,8 +11,10 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.Hold
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.adapters.RunDiffCallback
@@ -44,6 +46,13 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     @Inject
     lateinit var runsLiveDataRegistry: RunsLiveDataRegistry
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition = Hold().apply {
+            duration = 450
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,7 +91,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             binding.runsRecyclerView.smoothScrollToPosition(0)
         }
         binding.addFab.setOnClickListener {
-            findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
+            val extras = FragmentNavigatorExtras(it to getString(R.string.fab_to_runs_transition_name))
+            findNavController().navigate(R.id.action_runFragment_to_trackingFragment, null, null, extras)
         }
     }
 

@@ -45,6 +45,7 @@
         android:src="@drawable/ic_add_24"
         android:text="@string/start_run"
         android:textColor="@color/white"
+        android:transitionName="@string/fab_to_runs_transition_name"
         app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_run_24"
         app:iconTint="@color/white"
