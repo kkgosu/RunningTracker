@@ -9,6 +9,7 @@
         android:id="@+id/inner_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
+        android:animateLayoutChanges="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -18,8 +19,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/start_run_button"
             style="@style/DefaultButton"
-            android:layout_marginEnd="@dimen/margin_giant"
             android:layout_marginStart="@dimen/margin_giant"
+            android:layout_marginEnd="@dimen/margin_giant"
             android:text="@string/start_run"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/finish_run_button"
@@ -30,8 +31,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/finish_run_button"
             style="@style/DefaultButton"
-            android:layout_marginEnd="@dimen/margin_giant"
             android:layout_marginStart="@dimen/margin_giant"
+            android:layout_marginEnd="@dimen/margin_giant"
             android:text="@string/finish"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"

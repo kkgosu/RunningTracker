@@ -2,8 +2,10 @@ package com.kvlg.runningtracker.ui
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
@@ -15,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
+    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
     private var currentNavController: LiveData<NavController>? = null
@@ -44,9 +46,9 @@ class MainActivity : AppCompatActivity() {
 
         currentNavController = controller
 
-        //mainViewModel.toolbarTitle.observe(this) {
-        //  binding.toolbar.text = it
-        //}
+        mainViewModel.toolbarTitle.observe(this) {
+          binding.toolbarTitleTextView.text = it
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

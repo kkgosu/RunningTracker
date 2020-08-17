@@ -167,13 +167,16 @@ class TrackingFragment : Fragment() {
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if (isTracking && currentTimeInMillis > 0L) {
-            menu?.getItem(0)?.isVisible = true
-            binding.startRunButton.text = getString(R.string.stop_run)
-            binding.finishRunButton.visibility = View.GONE
-        } else if (isTracking) {
+        if (!isTracking && currentTimeInMillis > 0L) {
             binding.startRunButton.text = getString(R.string.resume_run)
             binding.finishRunButton.visibility = View.VISIBLE
+        } else if (!isTracking) {
+            binding.startRunButton.text = getString(R.string.start_run)
+            binding.finishRunButton.visibility = View.VISIBLE
+        } else if (isTracking) {
+            menu?.getItem(0)?.isVisible = true
+            binding.startRunButton.text = getString(R.string.pause_run)
+            binding.finishRunButton.visibility = View.GONE
         }
     }
 
