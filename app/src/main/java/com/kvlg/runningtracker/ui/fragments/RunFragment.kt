@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.adapters.RunDiffCallback
@@ -57,6 +58,15 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requestPermissions()
         binding.runsRecyclerView.adapter = runsAdapter
+        binding.runsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+                    binding.addFab.shrink()
+                } else {
+                    binding.addFab.extend()
+                }
+            }
+        })
 
         binding.filterSpinner.setSelection(viewModel.sortType.ordinal)
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
