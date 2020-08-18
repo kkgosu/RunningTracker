@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
@@ -32,6 +33,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return binding.root
     }
 
@@ -45,7 +47,9 @@ class SettingsFragment : Fragment() {
                 Snackbar.make(view, getString(R.string.error_save_settings_snackbar_text), Snackbar.LENGTH_LONG).show()
             }
         }
-
+        binding.weightInputLayout.setEndIconOnClickListener {
+            InfoWeightDialog().show(parentFragmentManager, InfoWeightDialog.TAG)
+        }
     }
 
     private fun loadFieldsFromSharedPref() {

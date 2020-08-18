@@ -44,6 +44,7 @@
     <string name="delete">Delete</string>
 
     <string name="fab_to_runs_transition_name">fabToRuns</string>
+    <string name="info_dialog_title">Why is it necessary?</string>
 
     <string-array name="filter_options">
         <item>Date</item>

@@ -198,8 +198,8 @@ class TrackingFragment : Fragment() {
             }
             val avgSpeed = round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val dateTimeStamp = Calendar.getInstance().timeInMillis
-            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
-            val run = Run(bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned)
+            val caloriesBurned = ((MET * weight * 3.5f) / 200) * (currentTimeInMillis / 1000f / 60)
+            val run = Run(bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned.toInt())
             viewModel.insertRun(run)
             Snackbar.make(
                 requireActivity().findViewById(R.id.root_view),
@@ -273,6 +273,7 @@ class TrackingFragment : Fragment() {
 
     companion object {
         private const val DIALOG_TAG = "CancelDialogTag"
+        private const val MET = 9
     }
 
 }

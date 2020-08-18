@@ -25,7 +25,7 @@
         <item name="hintTextColor">@color/colorAccent</item>
         <item name="boxStrokeColor">@color/colorAccent</item>
         <item name="boxStrokeWidth">1dp</item>
-        <item name="errorEnabled">true</item>
+        <item name="errorEnabled">false</item>
         <item name="counterEnabled">false</item>
         <item name="android:theme">@style/InputCursor</item>
     </style>
@@ -37,6 +37,10 @@
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/TextAppearance.MaterialComponents.Subtitle1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
