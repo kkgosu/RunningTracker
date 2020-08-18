@@ -12,7 +12,6 @@ import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
 import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -57,7 +56,7 @@ class SettingsFragment : Fragment() {
         val name = sharedPreferences.getString(Constants.KEY_PREF_NAME, "") ?: ""
         val weight = sharedPreferences.getFloat(Constants.KEY_PREF_WEIGHT, 80f)
         binding.nameEditText.setText(name)
-        binding.weightEditText.setText(BigDecimal.valueOf(weight * 1.0).stripTrailingZeros().toString())
+        binding.weightEditText.setText(if (weight - weight.toInt() > 0) weight.toString() else weight.toInt().toString())
     }
 
     private fun applyChangesToSharedPref(): Boolean {
