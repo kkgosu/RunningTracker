@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="cpb_min" format="integer" />
+        <attr name="cpb_max" format="integer" />
+        <attr name="cpb_progress" format="integer" />
+        <attr name="cpb_progressbarColor" format="color" />
+        <attr name="cpb_progressBarThickness" format="dimension" />
+    </declare-styleable>
+
+</resources>
