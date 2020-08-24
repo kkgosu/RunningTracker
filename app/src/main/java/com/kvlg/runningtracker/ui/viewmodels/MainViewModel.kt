@@ -71,6 +71,7 @@ class MainViewModel @ViewModelInject constructor(
         runsLiveData.setLoadingById(id, true)
         runs.value?.get(id)?.let {
             mainRepository.deleteRun(it)
+            runsLiveData.setLoadingById(id, false)
         }
     }
 

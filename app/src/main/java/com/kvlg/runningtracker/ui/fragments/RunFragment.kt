@@ -47,13 +47,6 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @Inject
     lateinit var runsLiveDataRegistry: RunsLiveDataRegistry
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        exitTransition = Hold().apply {
-            duration = 450
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -91,8 +84,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             binding.runsRecyclerView.smoothScrollToPosition(0)
         }
         binding.addFab.setOnClickListener {
-            val extras = FragmentNavigatorExtras(it to getString(R.string.fab_to_runs_transition_name))
-            findNavController().navigate(R.id.action_runFragment_to_trackingFragment, null, null, extras)
+            findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
     }
 

@@ -49,14 +49,6 @@ class TrackingFragment : Fragment() {
     @set:Inject
     var weight = 80f
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            setPathMotion(MaterialArcMotion())
-            duration = 450
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -182,7 +174,7 @@ class TrackingFragment : Fragment() {
             binding.finishRunButton.visibility = View.VISIBLE
         } else if (!isTracking) {
             binding.startRunButton.text = getString(R.string.start_run)
-            binding.finishRunButton.visibility = View.VISIBLE
+            binding.finishRunButton.visibility = View.GONE
         } else if (isTracking) {
             menu?.getItem(0)?.isVisible = true
             binding.startRunButton.text = getString(R.string.pause_run)
