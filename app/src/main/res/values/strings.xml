@@ -21,6 +21,7 @@
     <string name="calories_placeholder">%1$s kcal</string>
     <string name="speed_placeholder">%1$s km/h</string>
     <string name="setup_toolbar_placeholder">Let\'s go, %1$s</string>
+    <string name="time_goal_placeholder">%d h</string>
 
     <string name="start_run">Start Run</string>
     <string name="finish">Finish Run</string>
@@ -45,6 +46,7 @@
 
     <string name="fab_to_runs_transition_name">fabToRuns</string>
     <string name="info_dialog_title">Why is it necessary?</string>
+    <string name="this_week_results">This week results</string>
 
     <string-array name="filter_options">
         <item>Date</item>

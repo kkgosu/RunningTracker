@@ -12,6 +12,7 @@
 
     <!--text sizes-->
     <dimen name="text_size_small">16sp</dimen>
+    <dimen name="text_size_small_large">20dp</dimen>
     <dimen name="text_size_medium_large">24sp</dimen>
 
     <!--elevation-->
@@ -20,6 +21,10 @@
 
     <!--corner radius-->
     <dimen name="card_view_corner_radius_large">16dp</dimen>
+    <dimen name="card_view_corner_radius_giant">24dp</dimen>
+
+    <dimen name="avatar_width">64dp</dimen>
+    <dimen name="border_width">2dp</dimen>
 
     <!--common-->
     <dimen name="match_constraint">0dp</dimen>
