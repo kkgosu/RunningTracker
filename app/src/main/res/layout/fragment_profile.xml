@@ -20,7 +20,8 @@
             app:expandedTitleGravity="top|left"
             app:expandedTitleTextAppearance="@style/ExpandedTitleText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:scrimVisibleHeightTrigger="200dp">
+            app:scrimVisibleHeightTrigger="200dp"
+            app:title="Profile">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -71,49 +72,218 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/profile_week_result_label_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/this_week_results"
-            android:textColor="@color/text_color_default"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/profile_week_result_value_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="35.00 km"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textColor="@color/text_color_accent"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_week_result_label_text_view" />
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/bar_chart"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/match_constraint"
-            android:layout_marginTop="@dimen/margin_large"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_week_result_value_text_view" />
-
-        <ProgressBar
-            android:id="@+id/time_progress"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:progressDrawable="@drawable/cutom_progress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bar_chart" />
+            android:padding="@dimen/padding_large">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/profile_week_result_label_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/this_week_results"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_color_default"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/profile_week_result_value_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="35.00 km"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                android:textColor="@color/text_color_accent"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_week_result_label_text_view" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/match_constraint"
+                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile_week_result_value_text_view" />
+
+            <com.kvlg.runningtracker.ui.CircleProgressBar
+                android:id="@+id/time_goal_progress"
+                android:layout_width="@dimen/profile_progress_circle_size"
+                android:layout_height="@dimen/profile_progress_circle_size"
+                android:layout_marginTop="@dimen/margin_giant"
+                app:cpb_progress="50"
+                app:cpb_progressBarThickness="4dp"
+                app:cpb_progressbarColor="@color/colorAccent"
+                app:layout_constraintEnd_toStartOf="@id/speed_goal_progress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bar_chart" />
+
+            <com.kvlg.runningtracker.ui.CircleProgressBar
+                android:id="@+id/speed_goal_progress"
+                android:layout_width="@dimen/profile_progress_circle_size"
+                android:layout_height="@dimen/profile_progress_circle_size"
+                app:cpb_progress="50"
+                app:cpb_progressBarThickness="4dp"
+                app:cpb_progressbarColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/time_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/time_goal_progress" />
+
+            <com.kvlg.runningtracker.ui.CircleProgressBar
+                android:id="@+id/distance_goal_progress"
+                android:layout_width="@dimen/profile_progress_circle_size"
+                android:layout_height="@dimen/profile_progress_circle_size"
+                android:layout_marginTop="@dimen/margin_giant"
+                app:cpb_progress="50"
+                app:cpb_progressBarThickness="4dp"
+                app:cpb_progressbarColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="@id/time_goal_progress"
+                app:layout_constraintTop_toBottomOf="@id/time_goal_progress" />
+
+            <com.kvlg.runningtracker.ui.CircleProgressBar
+                android:id="@+id/calories_goal_progress"
+                android:layout_width="@dimen/profile_progress_circle_size"
+                android:layout_height="@dimen/profile_progress_circle_size"
+                app:cpb_progress="50"
+                app:cpb_progressBarThickness="4dp"
+                app:cpb_progressbarColor="@color/colorAccent"
+                app:layout_constraintStart_toStartOf="@id/speed_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/distance_goal_progress" />
+
+            <TextView
+                android:id="@+id/time_current_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="24h 30min"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_color_default"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/time_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/time_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/time_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/time_goal_progress"
+                app:layout_constraintVertical_bias="0.30" />
+
+            <TextView
+                android:id="@+id/time_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="30h goal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_label"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/time_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/time_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/time_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/time_goal_progress"
+                app:layout_constraintVertical_bias="0.70" />
+
+            <TextView
+                android:id="@+id/speed_current_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="4km/h"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_color_default"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/speed_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/speed_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/speed_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/speed_goal_progress"
+                app:layout_constraintVertical_bias="0.30" />
+
+            <TextView
+                android:id="@+id/speed_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="6km/h goal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_label"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/speed_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/speed_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/speed_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/speed_goal_progress"
+                app:layout_constraintVertical_bias="0.70" />
+
+            <TextView
+                android:id="@+id/distance_current_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="549 km"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_color_default"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/distance_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/distance_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/distance_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/distance_goal_progress"
+                app:layout_constraintVertical_bias="0.30" />
+
+            <TextView
+                android:id="@+id/distance_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="1000 km goal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_label"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/distance_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/distance_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/distance_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/distance_goal_progress"
+                app:layout_constraintVertical_bias="0.70" />
+
+            <TextView
+                android:id="@+id/calories_current_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="3000kcal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_color_default"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/calories_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/calories_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/calories_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/calories_goal_progress"
+                app:layout_constraintVertical_bias="0.30" />
+
+            <TextView
+                android:id="@+id/calories_goal_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:text="6000kcal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/text_label"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/calories_goal_progress"
+                app:layout_constraintEnd_toEndOf="@id/calories_goal_progress"
+                app:layout_constraintStart_toStartOf="@id/calories_goal_progress"
+                app:layout_constraintTop_toTopOf="@id/calories_goal_progress"
+                app:layout_constraintVertical_bias="0.70" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/edit_goals_button"
+                style="@style/DefaultButton"
+                android:layout_marginTop="@dimen/margin_giant"
+                android:text="Edit Goals"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/distance_goal_progress" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

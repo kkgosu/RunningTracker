@@ -31,4 +31,5 @@
     <dimen name="bnv_height">56dp</dimen>
     <dimen name="zero_dp">0dp</dimen>
     <dimen name="run_image_height">160dp</dimen>
+    <dimen name="profile_progress_circle_size">120dp</dimen>
 </resources>
