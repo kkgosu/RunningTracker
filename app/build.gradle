@@ -111,4 +111,6 @@ dependencies {
 
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 }
