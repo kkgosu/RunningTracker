@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:padding="@dimen/padding_large">
+
+    <ImageView
+        android:id="@+id/duration_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_timer_24"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/duration_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="5h 30min"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/duration_icon"
+        app:layout_constraintStart_toStartOf="@id/duration_icon"
+        app:layout_constraintTop_toBottomOf="@id/duration_icon" />
+
+    <TextView
+        android:id="@+id/duration_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_duration"
+        app:layout_constraintEnd_toEndOf="@id/duration_value_text_view"
+        app:layout_constraintStart_toStartOf="@id/duration_value_text_view"
+        app:layout_constraintTop_toBottomOf="@id/duration_value_text_view" />
+
+    <ImageView
+        android:id="@+id/speed_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_run_24"
+        app:layout_constraintEnd_toStartOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toTopOf="@id/duration_icon" />
+
+    <TextView
+        android:id="@+id/speed_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="3km/h"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/speed_icon"
+        app:layout_constraintStart_toStartOf="@id/speed_icon"
+        app:layout_constraintTop_toBottomOf="@id/speed_icon" />
+
+    <TextView
+        android:id="@+id/speed_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speed"
+        app:layout_constraintEnd_toEndOf="@id/speed_value_text_view"
+        app:layout_constraintStart_toStartOf="@id/speed_value_text_view"
+        app:layout_constraintTop_toBottomOf="@id/speed_value_text_view" />
+
+    <ImageView
+        android:id="@+id/distance_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_distance_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="@id/duration_icon" />
+
+    <TextView
+        android:id="@+id/distance_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="20km"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/distance_icon"
+        app:layout_constraintStart_toStartOf="@id/distance_icon"
+        app:layout_constraintTop_toBottomOf="@id/distance_icon" />
+
+    <TextView
+        android:id="@+id/distance_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_distance"
+        app:layout_constraintEnd_toEndOf="@id/distance_value_text_view"
+        app:layout_constraintStart_toStartOf="@id/distance_value_text_view"
+        app:layout_constraintTop_toBottomOf="@id/distance_value_text_view" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".33" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".67" />
+
+    <TextView
+        android:id="@+id/avg_speed_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/average_speed"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/duration_label_text_view" />
+
+    <TextView
+        android:id="@+id/avg_speed_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3km/h"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/avg_speed_label_text_view"
+        app:layout_constraintStart_toStartOf="@id/avg_speed_label_text_view"
+        app:layout_constraintTop_toBottomOf="@id/avg_speed_label_text_view" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/match_constraint"
+        android:layout_marginTop="@dimen/margin_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avg_speed_value_text_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

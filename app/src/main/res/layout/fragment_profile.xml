@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/ic_launcher_background"
             app:collapsedTitleTextAppearance="@style/CollapsedTitleText"
-            app:expandedTitleGravity="top|left"
+            app:expandedTitleGravity="center"
             app:expandedTitleTextAppearance="@style/ExpandedTitleText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:scrimVisibleHeightTrigger="200dp"
