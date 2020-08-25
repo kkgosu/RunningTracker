@@ -34,12 +34,15 @@
     <string name="cancel_run_alert_desc">Are you sure to cancel the current run and delete all its data?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
     <string name="saved_run_snackbar">Run saved successfully</string>
     <string name="item_date">DATE</string>
     <string name="item_duration">DURATION</string>
     <string name="item_distance">DISTANCE</string>
     <string name="item_avgspeed">AVG SPEED</string>
     <string name="item_calories">CALORIES BURNED</string>
+    <string name="item_speed">SPEED</string>
+
     <string name="error_save_settings_snackbar_text">Please enter all the fields</string>
     <string name="saved_settings_snackbar_text">Saved changes</string>
     <string name="delete">Delete</string>
@@ -52,7 +55,6 @@
     <string name="other">Other</string>
     <string name="contact_us">Contact us</string>
     <string name="log_out">Log out</string>
-    <string name="speed">SPEED</string>
 
     <string-array name="filter_options">
         <item>Date</item>

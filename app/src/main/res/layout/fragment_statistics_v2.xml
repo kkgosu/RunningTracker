@@ -63,7 +63,7 @@
         android:id="@+id/speed_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/speed"
+        android:text="@string/item_speed"
         app:layout_constraintEnd_toEndOf="@id/speed_value_text_view"
         app:layout_constraintStart_toStartOf="@id/speed_value_text_view"
         app:layout_constraintTop_toBottomOf="@id/speed_value_text_view" />
@@ -118,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/average_speed"
+        android:text="@string/item_avgspeed"
         app:layout_constraintEnd_toStartOf="@id/guideline1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/duration_label_text_view" />
@@ -133,6 +133,27 @@
         app:layout_constraintEnd_toEndOf="@id/avg_speed_label_text_view"
         app:layout_constraintStart_toStartOf="@id/avg_speed_label_text_view"
         app:layout_constraintTop_toBottomOf="@id/avg_speed_label_text_view" />
+
+    <TextView
+        android:id="@+id/calories_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/item_calories"
+        app:layout_constraintEnd_toStartOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/duration_label_text_view" />
+
+    <TextView
+        android:id="@+id/calories_value_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3000kcal"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/calories_label_text_view"
+        app:layout_constraintStart_toStartOf="@id/calories_label_text_view"
+        app:layout_constraintTop_toBottomOf="@id/calories_label_text_view" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart"
