@@ -4,10 +4,13 @@
     <color name="mtrl_textinput_default_box_stroke_color">@color/secondary</color>
 
     <color name="background1">@color/gray_900</color>
+    <color name="background2">@color/gray_800</color>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/deep_orange_600</color>
     <color name="colorAccent">@color/orange_800</color>
     <color name="secondary">@color/gray_500</color>
+
+    <color name="divider_thin">@color/gray_700</color>
 
     <color name="text_label">@color/gray_600</color>
     <color name="text_value">@color/gray_800</color>

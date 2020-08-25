@@ -47,6 +47,11 @@
     <string name="fab_to_runs_transition_name">fabToRuns</string>
     <string name="info_dialog_title">Why is it necessary?</string>
     <string name="this_week_results">This week results</string>
+    <string name="account">Account</string>
+    <string name="weight">Weight</string>
+    <string name="other">Other</string>
+    <string name="contact_us">Contact us</string>
+    <string name="log_out">Log out</string>
 
     <string-array name="filter_options">
         <item>Date</item>
