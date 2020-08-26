@@ -31,7 +31,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_transparent"
+                    android:background="@drawable/gradient_transparent_bottom_to_top"
                     android:importantForAccessibility="no" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
