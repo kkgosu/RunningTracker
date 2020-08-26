@@ -136,7 +136,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Long press to stop"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="@string/long_press_to_stop"
         android:textColor="@color/text_value"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
