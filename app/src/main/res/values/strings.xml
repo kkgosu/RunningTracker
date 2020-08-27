@@ -57,6 +57,8 @@
     <string name="log_out">Log out</string>
     <string name="run">Run</string>
     <string name="long_press_to_stop">Long press to stop</string>
+    <string name="avg_pace">AVG PACE</string>
+    <string name="more_data">More Data</string>
 
     <string-array name="filter_options">
         <item>Date</item>

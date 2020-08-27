@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorAccent"
     android:padding="@dimen/padding_large">
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:text="5h 30min"
+        android:text="05:05:16"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/duration_icon"
@@ -69,35 +69,35 @@
         app:layout_constraintTop_toBottomOf="@id/speed_value_text_view" />
 
     <ImageView
-        android:id="@+id/distance_icon"
+        android:id="@+id/pace_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        android:src="@drawable/ic_distance_24"
+        android:src="@drawable/ic_pace_time_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline2"
         app:layout_constraintTop_toTopOf="@id/duration_icon" />
 
     <TextView
-        android:id="@+id/distance_value_text_view"
+        android:id="@+id/pace_value_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:text="20km"
+        android:text="05:16"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/distance_icon"
-        app:layout_constraintStart_toStartOf="@id/distance_icon"
-        app:layout_constraintTop_toBottomOf="@id/distance_icon" />
+        app:layout_constraintEnd_toEndOf="@id/pace_icon"
+        app:layout_constraintStart_toStartOf="@id/pace_icon"
+        app:layout_constraintTop_toBottomOf="@id/pace_icon" />
 
     <TextView
-        android:id="@+id/distance_label_text_view"
+        android:id="@+id/pace_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_distance"
-        app:layout_constraintEnd_toEndOf="@id/distance_value_text_view"
-        app:layout_constraintStart_toStartOf="@id/distance_value_text_view"
-        app:layout_constraintTop_toBottomOf="@id/distance_value_text_view" />
+        android:text="@string/avg_pace"
+        app:layout_constraintEnd_toEndOf="@id/pace_value_text_view"
+        app:layout_constraintStart_toStartOf="@id/pace_value_text_view"
+        app:layout_constraintTop_toBottomOf="@id/pace_value_text_view" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

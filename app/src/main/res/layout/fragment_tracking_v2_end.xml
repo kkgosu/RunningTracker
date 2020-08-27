@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background1_opposite"
-    app:layoutDescription="@xml/fragment_tracking_v2_scene">
+    app:layoutDescription="@xml/tracking_scene">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -16,7 +16,6 @@
         app:navigationIcon="@drawable/ic_arrow_back_24" />
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/run"
@@ -37,7 +36,6 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <View
-        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
         android:background="@drawable/gradient_transparent_top_to_bottom_light"
@@ -45,7 +43,6 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <View
-        android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/match_constraint"
         android:background="@drawable/gradient_transparent_bottom_to_top_light"
@@ -138,30 +135,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/more_data_label_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_giant_large"
-        android:text="@string/more_data"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/text_value"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/more_data_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:importantForAccessibility="no"
-        android:src="@drawable/ic_arrow_down_48"
-        app:layout_constraintEnd_toEndOf="@id/more_data_label_text_view"
-        app:layout_constraintStart_toStartOf="@id/more_data_label_text_view"
-        app:layout_constraintTop_toBottomOf="@id/more_data_label_text_view"
-        app:tint="@color/colorAccent" />
-
-    <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
@@ -170,14 +143,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/start_stop_button" />
-
-
-    <include
-        android:id="@+id/included_statistics"
-        layout="@layout/fragment_statistics_v2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
