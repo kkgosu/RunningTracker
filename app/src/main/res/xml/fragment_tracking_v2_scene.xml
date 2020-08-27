@@ -5,7 +5,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@+id/start"
-        motion:duration="450">
+        motion:duration="300">
         <KeyFrameSet></KeyFrameSet>
         <OnClick motion:targetId="@+id/more_data_button" />
     </Transition>
