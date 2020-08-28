@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         currentNavController = controller
 
         mainViewModel.toolbarTitle.observe(this) {
-          binding.toolbarTitleTextView.text = it
+            binding.toolbarTitleTextView.text = it
         }
     }
 
@@ -60,9 +60,15 @@ class MainActivity : AppCompatActivity() {
         navigateToTrackingFragmentIfNeeded(intent)
     }
 
+    override fun onBackPressed() {
+        mainViewModel.onBackPressed()
+        super.onBackPressed()
+    }
+
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
         if (intent?.action == Constants.ACTION_SHOW_TRACKING_FRAGMENT) {
             binding.navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
         }
     }
+
 }

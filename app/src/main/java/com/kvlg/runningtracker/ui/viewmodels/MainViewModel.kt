@@ -7,6 +7,7 @@ import androidx.lifecycle.*
 import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.SingleLiveEvent
 import com.kvlg.runningtracker.utils.SortTypes
 import kotlinx.coroutines.launch
 
@@ -30,11 +31,6 @@ class MainViewModel @ViewModelInject constructor(
     val runs = MediatorLiveData<List<Run>>()
     var sortType = SortTypes.DATE
 
-    //endregion
-
-    private val _toolbarTitle = MutableLiveData<String>()
-    val toolbarTitle: LiveData<String> = _toolbarTitle
-
     init {
         runs.addSourceWithSortType(runsSortedByDate, SortTypes.DATE)
         runs.addSourceWithSortType(runsSortedByAvgSpeed, SortTypes.AVG_SPEED)
@@ -44,6 +40,14 @@ class MainViewModel @ViewModelInject constructor(
 
         sortType = SortTypes.values()[sharedPrefs.getInt(Constants.KEY_PREF_SORT_TYPE, 0)]
     }
+
+    //endregion
+
+    private val _toolbarTitle = MutableLiveData<String>()
+    val toolbarTitle: LiveData<String> = _toolbarTitle
+
+    private val _onBackPressed = SingleLiveEvent<Unit>()
+    val onBackPressed: LiveData<Unit> = _onBackPressed
 
     fun sortRuns(sortType: SortTypes) = when (sortType) {
         SortTypes.DATE -> runsSortedByDate.value?.let { runs.value = it }
@@ -58,13 +62,16 @@ class MainViewModel @ViewModelInject constructor(
         }
     }
 
-
-    fun insertRun(run: Run) = viewModelScope.launch {
-        mainRepository.insertRun(run)
+    fun onBackPressed() {
+        _onBackPressed.call()
     }
 
     fun setupToolbarTitle(title: String) {
 
+    }
+
+    fun insertRun(run: Run) = viewModelScope.launch {
+        mainRepository.insertRun(run)
     }
 
     fun deleteRun(id: Int) = viewModelScope.launch {
