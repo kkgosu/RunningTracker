@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile"
+    app:startDestination="@id/profileFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.kvlg.runningtracker.ui.fragments.ProfileFragment"
+        android:label="ProfileFragment">
+        <action
+            android:id="@+id/action_profileFragment_to_settingsFragmentV2"
+            app:destination="@id/settingsFragmentV2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragmentV2"
+        android:name="com.kvlg.runningtracker.ui.fragments.SettingsFragmentV2"
+        android:label="SettingsFragmentV2" />
+</navigation>

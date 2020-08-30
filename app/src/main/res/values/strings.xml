@@ -59,6 +59,7 @@
     <string name="long_press_to_stop">Long press to stop</string>
     <string name="avg_pace">AVG PACE</string>
     <string name="more_data">More Data</string>
+    <string name="profile">Profile</string>
 
     <string-array name="filter_options">
         <item>Date</item>

@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
@@ -29,12 +28,10 @@ class MainActivity : AppCompatActivity() {
 
         navigateToTrackingFragmentIfNeeded(intent)
 
-        setSupportActionBar(binding.toolbar)
-
         val navGraphIds = intArrayOf(
             R.navigation.runs,
             R.navigation.statistics,
-            R.navigation.settings
+            R.navigation.profile
         )
 
         val controller = binding.bnv.setupWithNavController(
@@ -45,10 +42,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         currentNavController = controller
-
-        mainViewModel.toolbarTitle.observe(this) {
-            binding.toolbarTitleTextView.text = it
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
