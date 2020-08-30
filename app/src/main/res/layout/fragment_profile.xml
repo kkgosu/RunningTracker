@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/profile_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,27 +9,32 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_launcher_background"
             app:collapsedTitleTextAppearance="@style/CollapsedTitleText"
             app:contentScrim="@color/background1"
-            app:expandedTitleGravity="center"
             app:expandedTitleTextAppearance="@style/ExpandedTitleText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="220dp">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient_transparent_bottom_to_top"
-                    android:importantForAccessibility="no" />
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/match_constraint"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/gradient_transparent_bottom_to_top"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/avatar_civ"
@@ -38,6 +42,7 @@
                     android:layout_height="@dimen/avatar_width"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_large"
+                    android:src="@drawable/ic_pace_time_24"
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="@dimen/border_width"
                     app:layout_constraintBottom_toTopOf="@id/profile_title_text_view"
@@ -49,23 +54,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_medium"
+                    android:text="Hello, Konstantin"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:textColor="@color/text_color_default"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Hello, Konstantin" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.google.android.material.appbar.MaterialToolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:contentInsetEnd="@dimen/margin_medium"
                 app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin"
-                app:title="Profile">
+                app:layout_collapseMode="pin">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -81,7 +85,7 @@
                         android:src="@drawable/ic_settings_24"
                         android:tint="@color/white" />
                 </FrameLayout>
-            </com.google.android.material.appbar.MaterialToolbar>
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

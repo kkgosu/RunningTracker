@@ -35,7 +35,6 @@ class ProfileFragment : Fragment() {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.run {
                 setDisplayHomeAsUpEnabled(false)
-                title = "Profile"
             }
         }
         binding.settingsButton.setOnClickListener {
