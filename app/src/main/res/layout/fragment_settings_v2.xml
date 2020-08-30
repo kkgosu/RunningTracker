@@ -20,7 +20,7 @@
         android:text="@string/settings"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,7 @@
         android:layout_marginEnd="@dimen/margin_large"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="@dimen/card_view_corner_radius_large"
-        app:cardElevation="@dimen/elevation_small"
+        app:cardElevation="@dimen/elevation_tiny"
         app:layout_constraintTop_toBottomOf="@id/account_settings_label">
 
         <LinearLayout
@@ -96,7 +96,7 @@
         android:layout_marginEnd="@dimen/margin_large"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="@dimen/card_view_corner_radius_large"
-        app:cardElevation="@dimen/elevation_small"
+        app:cardElevation="@dimen/elevation_tiny"
         app:layout_constraintTop_toBottomOf="@id/weight_settings_label">
 
         <TextView
@@ -130,7 +130,7 @@
         android:layout_marginEnd="@dimen/margin_large"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="@dimen/card_view_corner_radius_large"
-        app:cardElevation="@dimen/elevation_small"
+        app:cardElevation="@dimen/elevation_tiny"
         app:layout_constraintTop_toBottomOf="@id/other_settings_label">
 
         <LinearLayout

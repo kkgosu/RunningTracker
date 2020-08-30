@@ -20,6 +20,7 @@
     <!--elevation-->
     <dimen name="elevation_large_small">12dp</dimen>
     <dimen name="elevation_small">8dp</dimen>
+    <dimen name="elevation_tiny">2dp</dimen>
 
     <!--corner radius-->
     <dimen name="card_view_corner_radius_large">16dp</dimen>
