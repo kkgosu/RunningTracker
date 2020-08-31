@@ -60,6 +60,11 @@ class TrackingFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.mapView.onCreate(savedInstanceState)
+        binding.mapView.getMapAsync {
+            map = it
+            addAllPolylines()
+        }
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? CancelTrackingDialog
             cancelTrackingDialog?.setListener { stopRun() }
@@ -71,11 +76,6 @@ class TrackingFragment : Fragment() {
         binding.finishRunButton.setOnClickListener {
             zoomToSeeWholeTrack()
             endRunAndSaveToDb()
-        }
-        binding.mapView.onCreate(savedInstanceState)
-        binding.mapView.getMapAsync {
-            map = it
-            addAllPolylines()
         }
         subscribeToObservers()
     }

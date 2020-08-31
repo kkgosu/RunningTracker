@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
@@ -35,7 +35,8 @@ import kotlin.math.round
 @AndroidEntryPoint
 class TrackingFragmentV2 : Fragment() {
     private var _binding: FragmentTrackingV2Binding? = null
-    private val binding = _binding!!
+    private val binding
+        get() = _binding!!
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -58,17 +59,25 @@ class TrackingFragmentV2 : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.mapView.onCreate(savedInstanceState)
+        binding.mapView.getMapAsync {
+            map = it
+            addAllPolylines()
+        }
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? CancelTrackingDialog
             cancelTrackingDialog?.setListener { stopRun() }
         }
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.run {
+                setDisplayHomeAsUpEnabled(true)
+                title = ""
+            }
+        }
         binding.toolbar.navigationIcon?.mutate()?.let {
             it.setTint(ContextCompat.getColor(requireContext(), R.color.gray_800))
             binding.toolbar.navigationIcon = it
-        }
-        binding.mapView.getMapAsync {
-            map = it
-            addAllPolylines()
         }
         binding.startStopButton.setOnClickListener {
             when (buttonState) {
@@ -83,13 +92,15 @@ class TrackingFragmentV2 : Fragment() {
             }
         }
         binding.startStopButton.setOnLongClickListener {
-            it.visibility = View.GONE
-            binding.startStopLabelTextView.visibility = View.GONE
-            binding.moreDataButton.visibility = View.VISIBLE
-            binding.moreDataLabelTextView.visibility = View.VISIBLE
-            zoomToSeeWholeTrack()
-            endRunAndSaveToDb()
-            true
+            if (isTracking) {
+                binding.startStopButton.visibility = View.GONE
+                binding.startStopLabelTextView.visibility = View.GONE
+                binding.moreDataButton.visibility = View.VISIBLE
+                binding.moreDataLabelTextView.visibility = View.VISIBLE
+                zoomToSeeWholeTrack()
+                endRunAndSaveToDb()
+            }
+            false
         }
         subscribeToObservers()
     }
@@ -127,7 +138,7 @@ class TrackingFragmentV2 : Fragment() {
     private fun stopRun() {
         binding.timerTextView.text = getString(R.string._00_00_00_00)
         sendCommandToService(Constants.ACTION_STOP_SERVICE)
-        findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
+        //findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     private fun sendCommandToService(action: String) =
