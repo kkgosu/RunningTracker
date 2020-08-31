@@ -44,7 +44,6 @@ class TrackingFragmentV2 : Fragment() {
     private var currentTimeInMillis = 0L
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
-    private var buttonState: ButtonState = ButtonState.PLAY
 
     @set:Inject
     var weight = 80f
@@ -80,16 +79,7 @@ class TrackingFragmentV2 : Fragment() {
             binding.toolbar.navigationIcon = it
         }
         binding.startStopButton.setOnClickListener {
-            when (buttonState) {
-                ButtonState.PLAY -> {
-                    toggleRun()
-                }
-                ButtonState.PAUSE -> {
-                    sendCommandToService(Constants.ACTION_PAUSE_SERVICE)
-                }
-                else -> {
-                }
-            }
+            toggleRun()
         }
         binding.startStopButton.setOnLongClickListener {
             if (isTracking) {
@@ -100,7 +90,7 @@ class TrackingFragmentV2 : Fragment() {
                 zoomToSeeWholeTrack()
                 endRunAndSaveToDb()
             }
-            false
+            true
         }
         subscribeToObservers()
     }
@@ -136,9 +126,7 @@ class TrackingFragmentV2 : Fragment() {
     }
 
     private fun stopRun() {
-        binding.timerTextView.text = getString(R.string._00_00_00_00)
         sendCommandToService(Constants.ACTION_STOP_SERVICE)
-        //findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     private fun sendCommandToService(action: String) =
