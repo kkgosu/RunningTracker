@@ -121,16 +121,17 @@
         app:layout_constraintStart_toStartOf="@id/pace_icon"
         app:layout_constraintTop_toBottomOf="@id/pace_icon" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/start_stop_button"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginBottom="@dimen/margin_giant_large"
-        android:src="@drawable/avd_play_to_pause"
-        android:background="@color/colorAccent"
+        android:background="@drawable/start_stop_button_selectable_bg"
+        app:srcCompat="@drawable/avd_play_to_pause"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/CircleImageView" />
 
     <TextView
         android:id="@+id/more_data_label_text_view"
