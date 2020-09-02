@@ -22,6 +22,7 @@ import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.services.Polyline
 import com.kvlg.runningtracker.services.TrackingService
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
+import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,6 +60,7 @@ class TrackingFragmentV2 : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as BnvVisibilityListener).hide(true)
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
@@ -255,6 +257,11 @@ class TrackingFragmentV2 : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         binding.mapView.onSaveInstanceState(outState)
+    }
+
+    override fun onDestroyView() {
+        (requireActivity() as BnvVisibilityListener).hide(false)
+        super.onDestroyView()
     }
 
     companion object {

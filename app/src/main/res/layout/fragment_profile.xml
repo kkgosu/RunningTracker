@@ -297,6 +297,7 @@
                 style="@style/DefaultButton"
                 android:layout_marginTop="@dimen/margin_giant"
                 android:text="Edit Goals"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/distance_goal_progress" />

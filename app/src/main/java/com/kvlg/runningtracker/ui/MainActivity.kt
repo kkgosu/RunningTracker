@@ -2,6 +2,7 @@ package com.kvlg.runningtracker.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
@@ -10,12 +11,13 @@ import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.ActivityMainBinding
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
+import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BnvVisibilityListener {
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
@@ -56,6 +58,10 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         mainViewModel.onBackPressed()
         super.onBackPressed()
+    }
+
+    override fun hide(hide: Boolean) {
+        binding.bnv.visibility = if (hide) View.GONE else View.VISIBLE
     }
 
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {

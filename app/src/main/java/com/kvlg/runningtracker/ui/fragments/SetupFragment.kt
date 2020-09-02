@@ -78,7 +78,6 @@ class SetupFragment : Fragment() {
             putFloat(Constants.KEY_PREF_WEIGHT, weight.toFloat())
             putBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, false)
         }.apply()
-        viewModel.setupToolbarTitle(getString(R.string.setup_toolbar_placeholder, name))
         return true
     }
 }

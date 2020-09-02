@@ -43,9 +43,6 @@ class MainViewModel @ViewModelInject constructor(
 
     //endregion
 
-    private val _toolbarTitle = MutableLiveData<String>()
-    val toolbarTitle: LiveData<String> = _toolbarTitle
-
     private val _onBackPressed = SingleLiveEvent<Unit>()
     val onBackPressed: LiveData<Unit> = _onBackPressed
 
@@ -64,10 +61,6 @@ class MainViewModel @ViewModelInject constructor(
 
     fun onBackPressed() {
         _onBackPressed.call()
-    }
-
-    fun setupToolbarTitle(title: String) {
-
     }
 
     fun insertRun(run: Run) = viewModelScope.launch {
