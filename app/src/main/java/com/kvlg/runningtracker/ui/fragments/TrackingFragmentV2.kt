@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -46,8 +47,15 @@ class TrackingFragmentV2 : Fragment() {
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
 
+    private val constraintSet = ConstraintSet()
+
     @set:Inject
     var weight = 80f
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity() as BnvVisibilityListener).hide(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +67,6 @@ class TrackingFragmentV2 : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (requireActivity() as BnvVisibilityListener).hide(true)
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
@@ -94,6 +101,14 @@ class TrackingFragmentV2 : Fragment() {
             }
             true
         }
+
+        constraintSet.clone(binding.trackingRootLayout)
+        binding.moreDataButton.setOnClickListener {
+            constraintSet.clear(R.id.included_statistics, ConstraintSet.TOP)
+            constraintSet.connect(R.id.included_statistics, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+            constraintSet.applyTo(binding.trackingRootLayout)
+        }
+        binding.includedStatistics.includedStatisticsRoot.setOnClickListener { }
         subscribeToObservers()
     }
 
@@ -117,15 +132,11 @@ class TrackingFragmentV2 : Fragment() {
         binding.mapView.onStop()
     }
 
-    override fun onDestroyView() {
-        (requireActivity() as BnvVisibilityListener).hide(false)
-        super.onDestroyView()
-    }
-
     override fun onDestroy() {
-        super.onDestroy()
+        (requireActivity() as BnvVisibilityListener).hide(false)
         binding.mapView.onDestroy()
         _binding = null
+        super.onDestroy()
     }
 
     override fun onLowMemory() {
@@ -182,9 +193,11 @@ class TrackingFragmentV2 : Fragment() {
         if (!isTracking) {
             binding.startStopButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.avd_pause_to_play))
             (binding.startStopButton.drawable as AnimatedVectorDrawable).start()
+            binding.startStopLabelTextView.visibility = View.GONE
         } else {
             binding.startStopButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.avd_play_to_pause))
             (binding.startStopButton.drawable as AnimatedVectorDrawable).start()
+            binding.startStopLabelTextView.visibility = View.VISIBLE
         }
     }
 

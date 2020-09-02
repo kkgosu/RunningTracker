@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tracking_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -127,11 +128,11 @@
         android:layout_height="72dp"
         android:layout_marginBottom="@dimen/margin_giant_large"
         android:background="@drawable/start_stop_button_selectable_bg"
-        app:srcCompat="@drawable/avd_play_to_pause"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/CircleImageView" />
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        app:srcCompat="@drawable/avd_play_to_pause" />
 
     <TextView
         android:id="@+id/more_data_label_text_view"
@@ -165,6 +166,7 @@
         android:layout_marginTop="@dimen/margin_medium"
         android:text="@string/long_press_to_stop"
         android:textColor="@color/text_value"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/start_stop_button" />
