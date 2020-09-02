@@ -48,10 +48,10 @@
         android:layout_marginBottom="@dimen/margin_giant"
         android:src="@drawable/ic_add_24"
         android:text="@string/start_run"
-        android:textColor="@color/white"
+        android:textColor="@color/text_value"
         app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_run_24"
-        app:iconTint="@color/white"
+        app:iconTint="@color/icon_tint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

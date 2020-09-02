@@ -18,6 +18,8 @@
     <color name="text_color_default">@color/white</color>
     <color name="text_color_accent">@color/colorAccent</color>
 
+    <color name="icon_tint">@color/gray_800</color>
+
     <!--default colors-->
     <color name="white">#FFF</color>
     <color name="black">#000</color>
