@@ -8,13 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.transition.Hold
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.adapters.RunDiffCallback
@@ -70,6 +69,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         })
 
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, resources.getStringArray(R.array.filter_options))
+        binding.filterSpinner.adapter = spinnerAdapter
         binding.filterSpinner.setSelection(viewModel.sortType.ordinal)
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}

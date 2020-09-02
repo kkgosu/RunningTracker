@@ -7,8 +7,8 @@
     <color name="background1_opposite">@color/white</color>
     <color name="background2">@color/gray_800</color>
     <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">@color/deep_orange_600</color>
-    <color name="colorAccent">@color/orange_800</color>
+    <color name="colorPrimaryDark">@color/background1</color>
+    <color name="colorAccent">#fdd639</color>
     <color name="secondary">@color/gray_500</color>
 
     <color name="divider_thin">@color/gray_700</color>
