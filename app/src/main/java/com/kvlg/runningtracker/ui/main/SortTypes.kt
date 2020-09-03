@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.utils
+package com.kvlg.runningtracker.ui.main
 
 /**
  * Sort types

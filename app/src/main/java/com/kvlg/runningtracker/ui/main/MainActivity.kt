@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui
+package com.kvlg.runningtracker.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,10 +7,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.ActivityMainBinding
-import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.setupWithNavController

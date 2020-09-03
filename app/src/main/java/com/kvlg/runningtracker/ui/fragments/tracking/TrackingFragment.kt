@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui.fragments
+package com.kvlg.runningtracker.ui.fragments.tracking
 
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -15,9 +15,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
-import com.kvlg.runningtracker.databinding.FragmentTrackingV2Binding
+import com.kvlg.runningtracker.databinding.FragmentTrackingBinding
 import com.kvlg.runningtracker.services.TrackingService
-import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
+import com.kvlg.runningtracker.ui.fragments.common.CancelTrackingDialog
+import com.kvlg.runningtracker.ui.main.MainViewModel
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,8 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
  * @since 26.08.2020
  */
 @AndroidEntryPoint
-class TrackingFragmentV2 : Fragment() {
-    private var _binding: FragmentTrackingV2Binding? = null
+class TrackingFragment : Fragment() {
+    private var _binding: FragmentTrackingBinding? = null
     private val binding
         get() = _binding!!
 
@@ -45,7 +46,7 @@ class TrackingFragmentV2 : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentTrackingV2Binding.inflate(inflater, container, false)
+        _binding = FragmentTrackingBinding.inflate(inflater, container, false)
         return binding.root
     }
 

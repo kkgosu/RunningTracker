@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.kvlg.runningtracker.R
-import com.kvlg.runningtracker.ui.MainActivity
+import com.kvlg.runningtracker.ui.main.MainActivity
 import com.kvlg.runningtracker.utils.Constants
 import dagger.Module
 import dagger.Provides

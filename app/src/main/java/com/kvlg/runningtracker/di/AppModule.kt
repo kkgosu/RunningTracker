@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.room.Room
 import com.kvlg.runningtracker.db.RunDatabase
-import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
+import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.Constants.RUNNING_DATABASE_NAME
 import dagger.Module

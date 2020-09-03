@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/statisticFragment2"
-        android:name="com.kvlg.runningtracker.ui.fragments.StatisticFragment"
+        android:name="com.kvlg.runningtracker.ui.fragments.statistics.StatisticFragment"
         android:label="StatisticFragment" />
 </navigation>

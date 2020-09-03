@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui.viewmodels
+package com.kvlg.runningtracker.ui.main
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.repository.MainRepository
+import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.SingleLiveEvent
-import com.kvlg.runningtracker.utils.SortTypes
 import kotlinx.coroutines.launch
 
 /**

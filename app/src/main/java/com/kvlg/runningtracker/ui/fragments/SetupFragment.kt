@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSetupBinding
-import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
+import com.kvlg.runningtracker.ui.main.MainViewModel
 import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

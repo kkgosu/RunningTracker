@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui.fragments
+package com.kvlg.runningtracker.ui.fragments.statistics
 
 import android.graphics.Color
 import android.os.Bundle
@@ -14,8 +14,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentStatisticsBinding
-import com.kvlg.runningtracker.ui.viewmodels.StatisticsViewModel
-import com.kvlg.runningtracker.utils.CustomMarkerView
+import com.kvlg.runningtracker.ui.fragments.common.CustomMarkerView
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.round

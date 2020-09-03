@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui.viewmodels
+package com.kvlg.runningtracker.ui.fragments.common
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

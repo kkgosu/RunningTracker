@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui
+package com.kvlg.runningtracker.ui.fragments.common
 
 import android.animation.ObjectAnimator
 import android.content.Context

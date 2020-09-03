@@ -17,10 +17,10 @@ import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.adapters.RunDiffCallback
 import com.kvlg.runningtracker.databinding.FragmentRunBinding
-import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
-import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
+import com.kvlg.runningtracker.ui.main.MainViewModel
+import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import com.kvlg.runningtracker.utils.SortTypes
+import com.kvlg.runningtracker.ui.main.SortTypes
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog

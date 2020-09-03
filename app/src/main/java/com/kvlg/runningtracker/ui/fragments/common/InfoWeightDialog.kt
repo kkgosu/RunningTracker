@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui.fragments
+package com.kvlg.runningtracker.ui.fragments.common
 
 import android.app.Dialog
 import android.os.Bundle

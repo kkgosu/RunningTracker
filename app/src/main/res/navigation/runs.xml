@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/trackingFragment"
-        android:name="com.kvlg.runningtracker.ui.fragments.TrackingFragmentV2"
+        android:name="com.kvlg.runningtracker.ui.fragments.tracking.TrackingFragment"
         android:label="TrackingFragment">
         <action
             android:id="@+id/action_trackingFragment_to_runFragment"

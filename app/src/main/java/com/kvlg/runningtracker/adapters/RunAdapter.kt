@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import com.kvlg.runningtracker.databinding.RunItemBinding
 import com.kvlg.runningtracker.db.Run
-import com.kvlg.runningtracker.ui.viewmodels.RunsLiveDataRegistry
+import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 
 /**
  * Adapter for [Run] items to display

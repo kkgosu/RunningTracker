@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
+import com.kvlg.runningtracker.ui.fragments.common.InfoWeightDialog
 import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

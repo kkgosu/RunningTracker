@@ -128,7 +128,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_week_result_value_text_view" />
 
-            <com.kvlg.runningtracker.ui.CircleProgressBar
+            <com.kvlg.runningtracker.ui.fragments.common.CircleProgressBar
                 android:id="@+id/time_goal_progress"
                 android:layout_width="@dimen/profile_progress_circle_size"
                 android:layout_height="@dimen/profile_progress_circle_size"
@@ -140,7 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bar_chart" />
 
-            <com.kvlg.runningtracker.ui.CircleProgressBar
+            <com.kvlg.runningtracker.ui.fragments.common.CircleProgressBar
                 android:id="@+id/speed_goal_progress"
                 android:layout_width="@dimen/profile_progress_circle_size"
                 android:layout_height="@dimen/profile_progress_circle_size"
@@ -151,7 +151,7 @@
                 app:layout_constraintStart_toEndOf="@id/time_goal_progress"
                 app:layout_constraintTop_toTopOf="@id/time_goal_progress" />
 
-            <com.kvlg.runningtracker.ui.CircleProgressBar
+            <com.kvlg.runningtracker.ui.fragments.common.CircleProgressBar
                 android:id="@+id/distance_goal_progress"
                 android:layout_width="@dimen/profile_progress_circle_size"
                 android:layout_height="@dimen/profile_progress_circle_size"
@@ -162,7 +162,7 @@
                 app:layout_constraintStart_toStartOf="@id/time_goal_progress"
                 app:layout_constraintTop_toBottomOf="@id/time_goal_progress" />
 
-            <com.kvlg.runningtracker.ui.CircleProgressBar
+            <com.kvlg.runningtracker.ui.fragments.common.CircleProgressBar
                 android:id="@+id/calories_goal_progress"
                 android:layout_width="@dimen/profile_progress_circle_size"
                 android:layout_height="@dimen/profile_progress_circle_size"
