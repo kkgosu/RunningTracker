@@ -3,7 +3,10 @@ package com.kvlg.runningtracker.ui.viewmodels
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.utils.Constants
@@ -47,11 +50,11 @@ class MainViewModel @ViewModelInject constructor(
     val onBackPressed: LiveData<Unit> = _onBackPressed
 
     fun sortRuns(sortType: SortTypes) = when (sortType) {
-        SortTypes.DATE -> runsSortedByDate.value?.let { runs.value = it }
-        SortTypes.AVG_SPEED -> runsSortedByAvgSpeed.value?.let { runs.value = it }
-        SortTypes.DISTANCE -> runsSortedByDistance.value?.let { runs.value = it }
-        SortTypes.CALORIES_BURNED -> runsSortedByCaloriesBurned.value?.let { runs.value = it }
-        SortTypes.RUNNING_TIME -> runsSortedByTimeInMillis.value?.let { runs.value = it }
+        SortTypes.DATE -> runsSortedByDate.applyRuns()
+        SortTypes.AVG_SPEED -> runsSortedByAvgSpeed.applyRuns()
+        SortTypes.DISTANCE -> runsSortedByDistance.applyRuns()
+        SortTypes.CALORIES_BURNED -> runsSortedByCaloriesBurned.applyRuns()
+        SortTypes.RUNNING_TIME -> runsSortedByTimeInMillis.applyRuns()
     }.also {
         this.sortType = sortType
         sharedPrefs.edit {
@@ -74,6 +77,8 @@ class MainViewModel @ViewModelInject constructor(
             runsLiveData.setLoadingById(id, false)
         }
     }
+
+    private fun <T : List<Run>> LiveData<T>.applyRuns() = value?.let { runs.value = it }
 
     private fun <T : List<Run>> MediatorLiveData<T>.addSourceWithSortType(source: LiveData<T>, type: SortTypes) = addSource(source) { result ->
         if (sortType == type) {

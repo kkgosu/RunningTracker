@@ -153,7 +153,8 @@ class TrackingFragmentV2 : Fragment() {
 
     private fun subscribeToObservers() {
         mainViewModel.onBackPressed.observe(viewLifecycleOwner) {
-            if (isTracking) showCancelTrackingDialog()
+            if (isTracking)
+                showCancelTrackingDialog()
         }
 
         TrackingService.isTracking.observe(viewLifecycleOwner) {
@@ -184,8 +185,7 @@ class TrackingFragmentV2 : Fragment() {
         }
         trackingViewModel.run.observe(viewLifecycleOwner) {
             map?.snapshot { bitmap ->
-                val run = it.copy(img = bitmap)
-                mainViewModel.insertRun(run)
+                mainViewModel.insertRun(it.apply { img = bitmap })
                 Snackbar.make(
                     requireActivity().findViewById(R.id.root_view),
                     getString(R.string.saved_run_snackbar),

@@ -35,10 +35,10 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
-    private val viewModel: MainViewModel by viewModels()
-
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MainViewModel by viewModels()
 
     private var runsAdapter: RunAdapter? = null
 
