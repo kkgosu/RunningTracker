@@ -13,22 +13,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentTrackingV2Binding
-import com.kvlg.runningtracker.db.Run
-import com.kvlg.runningtracker.services.Polyline
 import com.kvlg.runningtracker.services.TrackingService
 import com.kvlg.runningtracker.ui.viewmodels.MainViewModel
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
-import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import javax.inject.Inject
-import kotlin.math.round
 
 /**
  * @author Konstantin Koval
@@ -40,17 +32,13 @@ class TrackingFragmentV2 : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
+    private val trackingViewModel: TrackingViewModel by viewModels()
 
     private var map: GoogleMap? = null
-    private var currentTimeInMillis = 0L
     private var isTracking = false
-    private var pathPoints = mutableListOf<Polyline>()
 
     private val constraintSet = ConstraintSet()
-
-    @set:Inject
-    var weight = 80f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,45 +58,15 @@ class TrackingFragmentV2 : Fragment() {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
-            addAllPolylines()
+            trackingViewModel.addAllPolylines()
         }
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? CancelTrackingDialog
             cancelTrackingDialog?.setListener { stopRun() }
         }
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.run {
-                setDisplayHomeAsUpEnabled(true)
-                title = ""
-            }
-        }
-        binding.toolbar.navigationIcon?.mutate()?.let {
-            it.setTint(ContextCompat.getColor(requireContext(), R.color.gray_800))
-            binding.toolbar.navigationIcon = it
-        }
-        binding.startStopButton.setOnClickListener {
-            toggleRun()
-        }
-        binding.startStopButton.setOnLongClickListener {
-            if (isTracking) {
-                binding.startStopButton.visibility = View.GONE
-                binding.startStopLabelTextView.visibility = View.GONE
-                binding.moreDataButton.visibility = View.VISIBLE
-                binding.moreDataLabelTextView.visibility = View.VISIBLE
-                zoomToSeeWholeTrack()
-                endRunAndSaveToDb()
-            }
-            true
-        }
-
-        constraintSet.clone(binding.trackingRootLayout)
-        binding.moreDataButton.setOnClickListener {
-            constraintSet.clear(R.id.included_statistics, ConstraintSet.TOP)
-            constraintSet.connect(R.id.included_statistics, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-            constraintSet.applyTo(binding.trackingRootLayout)
-        }
-        binding.includedStatistics.includedStatisticsRoot.setOnClickListener { }
+        setupToolbar()
+        setupStartStopButton()
+        setupMoreDataButton()
         subscribeToObservers()
     }
 
@@ -148,8 +106,53 @@ class TrackingFragmentV2 : Fragment() {
         binding.mapView.onSaveInstanceState(outState)
     }
 
+    private fun setupToolbar() {
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.run {
+                setDisplayHomeAsUpEnabled(true)
+                title = ""
+            }
+        }
+        binding.toolbar.navigationIcon?.mutate()?.let {
+            it.setTint(ContextCompat.getColor(requireContext(), R.color.gray_800))
+            binding.toolbar.navigationIcon = it
+        }
+    }
+
+    private fun setupStartStopButton() {
+        with(binding) {
+            startStopButton.setOnClickListener {
+                toggleRun()
+            }
+            startStopButton.setOnLongClickListener {
+                if (isTracking) {
+                    startStopButton.visibility = View.GONE
+                    startStopLabelTextView.visibility = View.GONE
+                    moreDataButton.visibility = View.VISIBLE
+                    moreDataLabelTextView.visibility = View.VISIBLE
+                    trackingViewModel.zoomWholeMap()
+                    trackingViewModel.endRun()
+                }
+                true
+            }
+        }
+    }
+
+    private fun setupMoreDataButton() {
+        with(constraintSet) {
+            clone(binding.trackingRootLayout)
+            binding.moreDataButton.setOnClickListener {
+                clear(R.id.included_statistics, ConstraintSet.TOP)
+                connect(R.id.included_statistics, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+                applyTo(binding.trackingRootLayout)
+            }
+        }
+        binding.includedStatistics.includedStatisticsRoot.setOnClickListener { }
+    }
+
     private fun subscribeToObservers() {
-        viewModel.onBackPressed.observe(viewLifecycleOwner) {
+        mainViewModel.onBackPressed.observe(viewLifecycleOwner) {
             if (isTracking) showCancelTrackingDialog()
         }
 
@@ -158,15 +161,48 @@ class TrackingFragmentV2 : Fragment() {
         }
 
         TrackingService.pathPoints.observe(viewLifecycleOwner) {
-            pathPoints = it
-            addLatestPolyline()
-            moveCameraToUserLocation()
+            trackingViewModel.populatePathPoints(it)
         }
 
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
-            currentTimeInMillis = it
-            val formattedTime = TrackingUtils.getFormattedStopWatchTime(currentTimeInMillis, true)
-            binding.timerTextView.text = formattedTime
+            trackingViewModel.setCurrentTimeInMillis(it)
+            trackingViewModel.updateTimerText()
+        }
+
+        trackingViewModel.pathPoints.observe(viewLifecycleOwner) {
+            trackingViewModel.addLatestPolyline()
+            trackingViewModel.moveCameraToUserLocation()
+        }
+        trackingViewModel.timerFormattedText.observe(viewLifecycleOwner) {
+            binding.timerTextView.text = it
+        }
+        trackingViewModel.cameraUpdateToUserLocation.observe(viewLifecycleOwner) {
+            map?.animateCamera(it)
+        }
+        trackingViewModel.polylineOptions.observe(viewLifecycleOwner) {
+            map?.addPolyline(it)
+        }
+        trackingViewModel.run.observe(viewLifecycleOwner) {
+            map?.snapshot { bitmap ->
+                val run = it.copy(img = bitmap)
+                mainViewModel.insertRun(run)
+                Snackbar.make(
+                    requireActivity().findViewById(R.id.root_view),
+                    getString(R.string.saved_run_snackbar),
+                    Snackbar.LENGTH_LONG
+                ).show()
+                stopRun()
+            }
+        }
+        trackingViewModel.latLngBounds.observe(viewLifecycleOwner) {
+            map?.moveCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    it,
+                    binding.mapView.width,
+                    binding.mapView.height,
+                    (binding.mapView.height * 0.05f).toInt()
+                )
+            )
         }
     }
 
@@ -190,85 +226,18 @@ class TrackingFragmentV2 : Fragment() {
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if (!isTracking) {
-            binding.startStopButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.avd_pause_to_play))
-            (binding.startStopButton.drawable as AnimatedVectorDrawable).start()
-            binding.startStopLabelTextView.visibility = View.GONE
-        } else {
-            binding.startStopButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.avd_play_to_pause))
-            (binding.startStopButton.drawable as AnimatedVectorDrawable).start()
-            binding.startStopLabelTextView.visibility = View.VISIBLE
-        }
-    }
-
-    private fun endRunAndSaveToDb() {
-        map?.snapshot { bitmap ->
-            var distanceInMeters = 0
-            pathPoints.forEach {
-                distanceInMeters += TrackingUtils.calculatePolylineLength(it).toInt()
-            }
-            val avgSpeed = round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
-            val dateTimeStamp = Calendar.getInstance().timeInMillis
-            val caloriesBurned = ((MET * weight * 3.5f) / 200) * (currentTimeInMillis / 1000f / 60)
-            val run = Run(bitmap, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned.toInt())
-            viewModel.insertRun(run)
-            Snackbar.make(
-                requireActivity().findViewById(R.id.root_view),
-                getString(R.string.saved_run_snackbar),
-                Snackbar.LENGTH_LONG
-            ).show()
-            stopRun()
-        }
-    }
-
-    private fun moveCameraToUserLocation() {
-        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
-            if (pathPoints.last().size == 1 && pathPoints.size == 1) {
-                map?.animateCamera(CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), Constants.MAP_ZOOM))
+        with(binding) {
+            if (!isTracking) {
+                startStopButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.avd_pause_to_play))
+                (startStopButton.drawable as AnimatedVectorDrawable).start()
+                startStopLabelTextView.visibility = View.GONE
             } else {
-                map?.animateCamera(CameraUpdateFactory.newLatLng(pathPoints.last().last()))
+                startStopButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.avd_play_to_pause))
+                (startStopButton.drawable as AnimatedVectorDrawable).start()
+                startStopLabelTextView.visibility = View.VISIBLE
             }
         }
     }
-
-    private fun zoomToSeeWholeTrack() {
-        val bounds = LatLngBounds.Builder()
-        pathPoints.forEach { polyline ->
-            polyline.forEach {
-                bounds.include(it)
-            }
-        }
-        map?.moveCamera(
-            CameraUpdateFactory.newLatLngBounds(
-                bounds.build(),
-                binding.mapView.width,
-                binding.mapView.height,
-                (binding.mapView.height * 0.05f).toInt()
-            )
-        )
-    }
-
-    private fun addLatestPolyline() {
-        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
-            val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
-            val lastLatLng = pathPoints.last().last()
-            val polylineOptions = getPolylineOptions()
-                .add(preLastLatLng)
-                .add(lastLatLng)
-            map?.addPolyline(polylineOptions)
-        }
-    }
-
-    private fun addAllPolylines() {
-        pathPoints.forEach {
-            val polylineOptions = getPolylineOptions().addAll(it)
-            map?.addPolyline(polylineOptions)
-        }
-    }
-
-    private fun getPolylineOptions(): PolylineOptions = PolylineOptions()
-        .color(Constants.POLYLINE_COLOR)
-        .width(Constants.POLYLINE_WIDTH)
 
     private fun showCancelTrackingDialog() {
         CancelTrackingDialog().apply {
@@ -278,7 +247,5 @@ class TrackingFragmentV2 : Fragment() {
 
     companion object {
         private const val DIALOG_TAG = "CancelDialogTag"
-        private const val MET = 9
     }
-
 }
