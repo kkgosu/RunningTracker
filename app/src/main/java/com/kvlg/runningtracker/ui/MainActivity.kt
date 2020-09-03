@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity(), BnvVisibilityListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navigateToTrackingFragmentIfNeeded(intent)
-
         val navGraphIds = intArrayOf(
             R.navigation.runs,
             R.navigation.statistics,
@@ -44,6 +42,7 @@ class MainActivity : AppCompatActivity(), BnvVisibilityListener {
         )
 
         currentNavController = controller
+        navigateToTrackingFragmentIfNeeded(intent)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity(), BnvVisibilityListener {
 
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
         if (intent?.action == Constants.ACTION_SHOW_TRACKING_FRAGMENT) {
-            binding.navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
+            currentNavController?.value?.navigate(R.id.action_global_trackingFragment)
         }
     }
 

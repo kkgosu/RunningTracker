@@ -40,11 +40,6 @@ class TrackingFragmentV2 : Fragment() {
 
     private val constraintSet = ConstraintSet()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (requireActivity() as BnvVisibilityListener).hide(true)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,6 +67,7 @@ class TrackingFragmentV2 : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        (requireActivity() as BnvVisibilityListener).hide(true)
         binding.mapView.onStart()
     }
 
@@ -87,11 +83,11 @@ class TrackingFragmentV2 : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        (requireActivity() as BnvVisibilityListener).hide(false)
         binding.mapView.onStop()
     }
 
     override fun onDestroy() {
-        (requireActivity() as BnvVisibilityListener).hide(false)
         binding.mapView.onDestroy()
         _binding = null
         super.onDestroy()
