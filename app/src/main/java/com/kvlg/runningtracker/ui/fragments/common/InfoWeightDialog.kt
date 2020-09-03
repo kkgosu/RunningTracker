@@ -24,9 +24,9 @@ class InfoWeightDialog : DialogFragment() {
         .setTitle(getString(R.string.info_dialog_title))
         .setMessage(
             buildSpannedString {
-                appendln("Weight needed to calculate calories burned using simple formula:")
+                appendLine("Weight needed to calculate calories burned using simple formula:")
                 bold {
-                    appendln("CB =((MET* WEIGHT * 3.5) / 200) * RUNNING_TIME")
+                    appendLine("CB =((MET* WEIGHT * 3.5) / 200) * RUNNING_TIME")
                 }
                 append(
                     """
