@@ -33,7 +33,6 @@ class ProfileViewModel @ViewModelInject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 val drawable = requestManager.load(uri)
                     .transition(DrawableTransitionOptions.withCrossFade(375))
-                    .centerCrop()
                     .submit()
                     .get()
                 _drawable.postValue(drawable)
