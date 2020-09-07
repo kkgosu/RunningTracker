@@ -27,6 +27,17 @@
                 android:layout_height="220dp">
 
                 <ImageView
+                    android:id="@+id/toolbar_image"
+                    android:layout_width="@dimen/match_constraint"
+                    android:layout_height="@dimen/match_constraint"
+                    android:importantForAccessibility="no"
+                    android:src="@color/background1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
                     android:layout_width="@dimen/match_constraint"
                     android:layout_height="@dimen/match_constraint"
                     android:importantForAccessibility="no"
@@ -42,7 +53,7 @@
                     android:layout_height="@dimen/avatar_width"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_large"
-                    android:src="@drawable/ic_pace_time_24"
+                    android:src="@drawable/ic_person_24"
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="@dimen/border_width"
                     app:layout_constraintBottom_toTopOf="@id/profile_title_text_view"

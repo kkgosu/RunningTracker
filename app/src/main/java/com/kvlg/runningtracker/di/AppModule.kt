@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.kvlg.runningtracker.db.RunDatabase
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
@@ -61,4 +63,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRunsLiveDataRegistry() = RunsLiveDataRegistry()
+
+    @Provides
+    fun provideGlide(@ApplicationContext context: Context): RequestManager = Glide.with(context)
 }

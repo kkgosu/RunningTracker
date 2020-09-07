@@ -40,4 +40,6 @@ object Constants {
     const val KEY_PREF_NAME = "KEY_PREF_NAME"
     const val KEY_PREF_WEIGHT = "KEY_PREF_WEIGHT_TOGGLE"
     const val KEY_PREF_SORT_TYPE = "KEY_PREF_SORT_TYPE"
+
+    const val KEY_PREF_AVATAR_URI = "KEY_PREF_AVATAR_URI"
 }
