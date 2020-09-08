@@ -106,10 +106,10 @@ class StatisticFragment : Fragment() {
 
     private fun setupBarChart(list: List<Run>) {
         binding.barChart.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
+            position = XAxis.XAxisPosition.BOTTOM_INSIDE
             axisLineColor = CHART_AXIS_LINE_COLOR
             textColor = CHART_TEXT_COLOR
-            textSize = CHART_TEXT_SIZE
+            textSize = CHART_TEXT_SIZE - 2f
             valueFormatter = DateValueFormatter(list)
             setDrawLabels(true)
             setDrawGridLines(false)
