@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.ui.fragments.common
+package com.kvlg.runningtracker.ui.fragments.statistics
 
 import android.content.Context
 import android.view.LayoutInflater

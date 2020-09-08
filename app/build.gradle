@@ -53,6 +53,7 @@ dependencies {
 
     // Architectural Components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
     // Room
     implementation "androidx.room:room-runtime:2.2.5"
@@ -109,9 +110,9 @@ dependencies {
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
-
+    //CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
+    //Image picker
     implementation 'com.github.esafirm.android-image-picker:imagepicker:2.3.2'
 }

@@ -14,7 +14,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentStatisticsBinding
-import com.kvlg.runningtracker.ui.fragments.common.CustomMarkerView
+import com.kvlg.runningtracker.db.Run
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.round
@@ -45,7 +45,6 @@ class StatisticFragment : Fragment() {
             totalCaloriesValueTextView.text = getString(R.string.calories_placeholder, 0.toString())
             totalDistanceValueTextView.text = getString(R.string.speed_placeholder, 0.toString())
         }
-        setupBarChart()
         subscribeToObservers()
     }
 
@@ -87,40 +86,58 @@ class StatisticFragment : Fragment() {
 
         viewModel.runsSortedByDate.observe(viewLifecycleOwner) {
             it?.let {
-                val allAvgSpeeds = it.indices.map { i -> BarEntry(i.toFloat(), it[i].avgSpeedInKMH) }
+                val reversedRuns = it.asReversed()
+                val allAvgSpeeds = reversedRuns.indices.map { i -> BarEntry(i.toFloat(), reversedRuns[i].avgSpeedInKMH) }
                 val barDataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
                     valueTextColor = Color.YELLOW
+                    valueTextSize = CHART_TEXT_SIZE
                     color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
                 }
-                binding.barChart.data = BarData(barDataSet)
-                binding.barChart.marker = CustomMarkerView(requireContext(), it.reversed(), R.layout.marker_view)
-                binding.barChart.invalidate()
+                setupBarChart(reversedRuns)
+                binding.barChart.apply {
+                    data = BarData(barDataSet)
+                    marker = CustomMarkerView(requireContext(), reversedRuns, R.layout.marker_view)
+                    animateY(500)
+                    invalidate()
+                }
             }
         }
     }
 
-    private fun setupBarChart() {
+    private fun setupBarChart(list: List<Run>) {
         binding.barChart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM
-            setDrawLabels(false)
-            axisLineColor = Color.YELLOW
-            textColor = Color.WHITE
+            axisLineColor = CHART_AXIS_LINE_COLOR
+            textColor = CHART_TEXT_COLOR
+            textSize = CHART_TEXT_SIZE
+            valueFormatter = DateValueFormatter(list)
+            setDrawLabels(true)
             setDrawGridLines(false)
         }
         binding.barChart.axisLeft.apply {
-            axisLineColor = Color.YELLOW
-            textColor = Color.WHITE
+            axisLineColor = CHART_AXIS_LINE_COLOR
+            textColor = CHART_TEXT_COLOR
+            textSize = CHART_TEXT_SIZE
             setDrawGridLines(false)
         }
         binding.barChart.axisRight.apply {
-            axisLineColor = Color.YELLOW
-            textColor = Color.WHITE
+            axisLineColor = CHART_AXIS_LINE_COLOR
+            textColor = CHART_TEXT_COLOR
+            textSize = CHART_TEXT_SIZE
             setDrawGridLines(false)
         }
         binding.barChart.apply {
-            description.text = "Avg Speed Over Time"
+            description.isEnabled = false
             legend.isEnabled = false
+            setDrawValueAboveBar(true)
+            setMaxVisibleValueCount(30)
         }
+    }
+
+    companion object {
+        private const val CHART_TEXT_SIZE = 16F
+        private const val CHART_TEXT_COLOR = Color.WHITE
+        private const val CHART_AXIS_LINE_COLOR = Color.YELLOW
     }
 
 }
