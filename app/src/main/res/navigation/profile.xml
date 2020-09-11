@@ -18,6 +18,6 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragmentV2"
-        android:name="com.kvlg.runningtracker.ui.fragments.SettingsFragmentV2"
+        android:name="com.kvlg.runningtracker.ui.fragments.SettingsFragment"
         android:label="SettingsFragmentV2" />
 </navigation>
