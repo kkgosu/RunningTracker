@@ -1,8 +1,10 @@
 package com.kvlg.runningtracker.repository
 
 import androidx.lifecycle.LiveData
-import com.kvlg.runningtracker.db.Run
-import com.kvlg.runningtracker.db.RunDAO
+import com.kvlg.runningtracker.db.goals.GoalsDao
+import com.kvlg.runningtracker.db.goals.WeekGoal
+import com.kvlg.runningtracker.db.run.Run
+import com.kvlg.runningtracker.db.run.RunDAO
 import javax.inject.Inject
 
 /**
@@ -12,7 +14,8 @@ import javax.inject.Inject
  * @since 19.07.2020
  */
 class MainRepository @Inject constructor(
-    private val runDAO: RunDAO
+    private val runDAO: RunDAO,
+    private val goalsDao: GoalsDao
 ) {
 
     suspend fun insertRun(run: Run) = runDAO.insertRun(run)
@@ -36,4 +39,8 @@ class MainRepository @Inject constructor(
     fun getTotalCaloriesBurned() = runDAO.getTotalCaloriesBurned()
 
     fun getTotalTimeInMillis() = runDAO.getTotalTimeInMills()
+
+    fun getWeekGoals() = goalsDao.getWeekGoal()
+
+    suspend fun insertGoal(goal: WeekGoal) = goalsDao.insertGoal(goal)
 }

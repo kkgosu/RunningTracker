@@ -11,21 +11,55 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.kvlg.runningtracker.models.WeekGoal
+import com.kvlg.runningtracker.models.WeekResult
+import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
+ * ViewModel for [ProfileFragment]
+ *
  * @author Konstantin Koval
  * @since 07.09.2020
  */
 class ProfileViewModel @ViewModelInject constructor(
     private val prefs: SharedPreferences,
-    private val requestManager: RequestManager
+    private val requestManager: RequestManager,
+    private val mainRepository: MainRepository
 ) : ViewModel() {
 
     private val _drawable = MutableLiveData<Drawable>()
+    private val _currentResults = MutableLiveData<WeekResult>()
+    private val _weekGoals = MutableLiveData<WeekGoal>()
+
+    /**
+     * Avatar image drawable
+     */
     val drawable: LiveData<Drawable> = _drawable
+
+    /**
+     * Current week results
+     */
+    val currentResults: LiveData<WeekResult> = _currentResults
+
+    /**
+     * Current week goals
+     */
+    val weekGoals: LiveData<WeekGoal> = _weekGoals
+
+    fun getWeekGoal() {
+        val result = mainRepository.getWeekGoals()
+        result.value?.let {
+            _weekGoals.value = WeekGoal(
+                time = it.time,
+                speed = it.speed,
+                distance = it.distance,
+                calories = it.calories
+            )
+        }
+    }
 
     fun loadAvatar() {
         prefs.getString(Constants.KEY_PREF_AVATAR_URI, null)?.let {

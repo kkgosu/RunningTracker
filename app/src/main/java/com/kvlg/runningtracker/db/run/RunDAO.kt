@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.db
+package com.kvlg.runningtracker.db.run
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

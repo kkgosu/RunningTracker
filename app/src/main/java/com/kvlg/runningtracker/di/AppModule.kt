@@ -6,9 +6,11 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
-import com.kvlg.runningtracker.db.RunDatabase
+import com.kvlg.runningtracker.db.goals.GoalsDatabase
+import com.kvlg.runningtracker.db.run.RunDatabase
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.Constants.GOALS_DATABASE_NAME
 import com.kvlg.runningtracker.utils.Constants.RUNNING_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -41,7 +43,21 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideGoalsDatabase(
+        @ApplicationContext appContext: Context
+    ) = Room.databaseBuilder(
+        appContext,
+        GoalsDatabase::class.java,
+        GOALS_DATABASE_NAME
+    ).fallbackToDestructiveMigration().build()
+
+    @Provides
+    @Singleton
     fun provideRunDAO(db: RunDatabase) = db.getRunDao()
+
+    @Provides
+    @Singleton
+    fun provideGoalDAO(db: GoalsDatabase) = db.getGoalsDao()
 
     @Provides
     @Singleton

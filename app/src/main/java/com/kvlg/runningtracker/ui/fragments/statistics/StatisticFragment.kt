@@ -14,7 +14,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentStatisticsBinding
-import com.kvlg.runningtracker.db.Run
+import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.round

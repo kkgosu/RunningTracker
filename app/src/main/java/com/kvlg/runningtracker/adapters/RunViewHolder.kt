@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.RunItemBinding
-import com.kvlg.runningtracker.db.Run
+import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.TrackingUtils
 import java.text.SimpleDateFormat

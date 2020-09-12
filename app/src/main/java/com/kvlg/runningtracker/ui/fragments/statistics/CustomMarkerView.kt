@@ -9,7 +9,7 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.MarkerViewBinding
-import com.kvlg.runningtracker.db.Run
+import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.utils.TrackingUtils
 import java.text.SimpleDateFormat
 import java.util.*

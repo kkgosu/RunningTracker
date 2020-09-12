@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ListAdapter
 import com.kvlg.runningtracker.databinding.RunItemBinding
-import com.kvlg.runningtracker.db.Run
+import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 
 /**

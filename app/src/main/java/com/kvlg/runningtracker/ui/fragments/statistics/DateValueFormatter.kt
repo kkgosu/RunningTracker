@@ -1,7 +1,7 @@
 package com.kvlg.runningtracker.ui.fragments.statistics
 
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.kvlg.runningtracker.db.Run
+import com.kvlg.runningtracker.db.run.Run
 import java.text.SimpleDateFormat
 import java.util.*
 

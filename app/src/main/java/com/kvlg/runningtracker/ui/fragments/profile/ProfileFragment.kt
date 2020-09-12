@@ -42,6 +42,14 @@ class ProfileFragment : Fragment() {
             binding.toolbarImage.setImageDrawable(it)
             binding.avatarCiv.setImageDrawable(it)
         }
+        profileViewModel.weekGoals.observe(viewLifecycleOwner) {
+            with(binding) {
+                timeGoalTextView.text = it.time
+                distanceGoalTextView.text = getString(R.string.distance_placeholder, it.distance.toString())
+                speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed.toString())
+                caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories.toString())
+            }
+        }
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.run {

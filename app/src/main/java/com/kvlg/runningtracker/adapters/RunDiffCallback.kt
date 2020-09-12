@@ -1,7 +1,7 @@
 package com.kvlg.runningtracker.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.kvlg.runningtracker.db.Run
+import com.kvlg.runningtracker.db.run.Run
 
 /**
  * [DiffUtil.ItemCallback] for [RunAdapter]

@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.db
+package com.kvlg.runningtracker.db.run
 
 import android.graphics.Bitmap
 import androidx.room.Entity
