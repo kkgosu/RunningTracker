@@ -1,4 +1,4 @@
-package com.kvlg.runningtracker.db
+package com.kvlg.runningtracker.db.run
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream
  * @author Konstantin Koval
  * @since 19.07.2020
  */
-class Converter {
+class BitmapConverter {
 
     @TypeConverter
     fun fromBitmap(bitmap: Bitmap): ByteArray {

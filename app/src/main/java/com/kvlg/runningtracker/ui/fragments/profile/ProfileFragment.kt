@@ -37,26 +37,10 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupToolbar()
+        subscribeObservers()
         profileViewModel.loadAvatar()
         profileViewModel.getWeekGoal()
-        profileViewModel.drawable.observe(viewLifecycleOwner) {
-            binding.toolbarImage.setImageDrawable(it)
-            binding.avatarCiv.setImageDrawable(it)
-        }
-        profileViewModel.weekGoals.observe(viewLifecycleOwner) {
-            with(binding) {
-                timeGoalTextView.text = getString(R.string.time_goal_placeholder, it.time)
-                distanceGoalTextView.text = getString(R.string.distance_placeholder, it.distance)
-                speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed)
-                caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories)
-            }
-        }
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.run {
-                setDisplayHomeAsUpEnabled(false)
-            }
-        }
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragmentV2)
         }
@@ -86,5 +70,29 @@ class ProfileFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    private fun setupToolbar() {
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.run {
+                setDisplayHomeAsUpEnabled(false)
+            }
+        }
+    }
+
+    private fun subscribeObservers() {
+        profileViewModel.drawable.observe(viewLifecycleOwner) {
+            binding.toolbarImage.setImageDrawable(it)
+            binding.avatarCiv.setImageDrawable(it)
+        }
+        profileViewModel.weekGoals.observe(viewLifecycleOwner) {
+            with(binding) {
+                timeGoalTextView.text = getString(R.string.time_goal_placeholder, it.time)
+                distanceGoalTextView.text = getString(R.string.distance_placeholder, it.distance)
+                speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed)
+                caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories)
+            }
+        }
     }
 }

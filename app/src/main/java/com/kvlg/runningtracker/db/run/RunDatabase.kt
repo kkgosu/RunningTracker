@@ -3,7 +3,6 @@ package com.kvlg.runningtracker.db.run
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.kvlg.runningtracker.db.Converter
 
 /**
  * Database class
@@ -17,7 +16,7 @@ import com.kvlg.runningtracker.db.Converter
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converter::class)
+@TypeConverters(BitmapConverter::class)
 abstract class RunDatabase : RoomDatabase() {
 
     /**

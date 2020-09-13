@@ -24,6 +24,8 @@ import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
+ * Fragment with tracking path via google mapView
+ *
  * @author Konstantin Koval
  * @since 26.08.2020
  */

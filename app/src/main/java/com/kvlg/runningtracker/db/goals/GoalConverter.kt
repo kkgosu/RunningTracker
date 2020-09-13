@@ -4,6 +4,8 @@ import java.math.BigDecimal
 import com.kvlg.runningtracker.models.WeekGoal as DomainWeekGoal
 
 /**
+ * Converter from data model to domain model
+ *
  * @author Konstantin Koval
  * @since 13.09.2020
  */

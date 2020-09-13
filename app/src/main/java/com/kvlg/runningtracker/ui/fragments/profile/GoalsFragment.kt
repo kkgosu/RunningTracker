@@ -38,19 +38,17 @@ class GoalsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupToolbar()
+        subscribeObservers()
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(TAG) as? ConfirmationDialog
             cancelTrackingDialog?.setListener { closeScreen() }
         }
-        setupToolbar()
-        with(binding) {
-            saveButton.setOnClickListener {
-                profileViewModel.saveGoals(createWeekGoal())
-                closeScreen()
-            }
+        binding.saveButton.setOnClickListener {
+            profileViewModel.saveGoals(createWeekGoal())
+            closeScreen()
         }
         profileViewModel.getWeekGoal()
-        subscribeObservers()
     }
 
     override fun onDestroy() {
