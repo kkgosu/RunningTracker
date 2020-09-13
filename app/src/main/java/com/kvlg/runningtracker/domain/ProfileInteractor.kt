@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.repository.MainRepository
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * @author Konstantin Koval

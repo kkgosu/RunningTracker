@@ -65,6 +65,7 @@
     <string name="save">Save</string>
     <string name="speed_goal">Speed goal</string>
     <string name="burned_calories_goal">Burned calories goal</string>
+    <string name="week_goals">Week Goals</string>
 
     <string-array name="filter_options">
         <item>Date</item>

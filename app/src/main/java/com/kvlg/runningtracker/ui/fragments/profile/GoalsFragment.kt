@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kvlg.runningtracker.databinding.FragmentGoalsBinding
@@ -32,6 +33,13 @@ class GoalsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.run {
+                setDisplayHomeAsUpEnabled(true)
+                title = ""
+            }
+        }
         with(binding) {
             saveButton.setOnClickListener {
                 profileViewModel.saveGoals(

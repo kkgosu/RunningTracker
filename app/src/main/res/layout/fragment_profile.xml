@@ -55,8 +55,8 @@
                     android:layout_height="@dimen/avatar_width"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginBottom="@dimen/margin_large"
-                    android:src="@drawable/ic_person_24"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person_24"
                     app:civ_border_color="@color/colorAccent"
                     app:civ_border_width="@dimen/border_width"
                     app:layout_constraintBottom_toTopOf="@id/profile_title_text_view"
@@ -94,7 +94,7 @@
                         android:layout_width="48dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="end"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="?attr/actionBarItemBackground"
                         android:contentDescription="@string/settings"
                         android:src="@drawable/ic_settings_24"
                         android:tint="@color/white" />
