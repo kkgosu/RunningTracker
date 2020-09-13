@@ -1,7 +1,5 @@
 package com.kvlg.runningtracker.models
 
-import java.math.BigDecimal
-
 /**
  * Week goals for profile (domain layer)
  *
@@ -9,8 +7,8 @@ import java.math.BigDecimal
  * @since 12.09.2020
  */
 data class WeekGoal(
-    val time: BigDecimal,
-    val speed: BigDecimal,
-    val distance: BigDecimal,
-    val calories: BigDecimal
+    val time: String,
+    val speed: String,
+    val distance: String,
+    val calories: String
 )

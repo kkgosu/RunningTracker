@@ -9,9 +9,11 @@ import com.kvlg.runningtracker.models.WeekGoal as DomainWeekGoal
  */
 class GoalConverter {
     fun convertToDomainModel(dbGoal: WeekGoal?): DomainWeekGoal = DomainWeekGoal(
-        time = BigDecimal.valueOf(dbGoal?.time ?: 0.0).stripTrailingZeros(),
-        speed = BigDecimal.valueOf(dbGoal?.speed ?: 0.0).stripTrailingZeros(),
-        distance = BigDecimal.valueOf(dbGoal?.distance ?: 0.0).stripTrailingZeros(),
-        calories = BigDecimal.valueOf(dbGoal?.calories ?: 0.0).stripTrailingZeros(),
+        time = getPlainString(dbGoal?.time ?: 0.0),
+        speed = getPlainString(dbGoal?.speed ?: 0.0),
+        distance = getPlainString(dbGoal?.distance ?: 0.0),
+        calories = getPlainString(dbGoal?.calories ?: 0.0),
     )
+
+    private fun getPlainString(value: Double) = BigDecimal.valueOf(value).stripTrailingZeros().toPlainString()
 }

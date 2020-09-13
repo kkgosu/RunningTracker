@@ -14,7 +14,6 @@ import com.kvlg.runningtracker.databinding.FragmentGoalsBinding
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.ui.fragments.common.ConfirmationDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.math.BigDecimal
 
 /**
  * Fragment for setting and editing goals
@@ -63,10 +62,10 @@ class GoalsFragment : Fragment() {
     private fun subscribeObservers() {
         profileViewModel.weekGoals.observe(viewLifecycleOwner) {
             with(binding) {
-                distanceInput.setText(it.distance.toPlainString())
-                speedInput.setText(it.speed.toPlainString())
-                durationInput.setText(it.time.toPlainString())
-                caloriesInput.setText(it.calories.toPlainString())
+                distanceInput.setText(it.distance)
+                speedInput.setText(it.speed)
+                durationInput.setText(it.time)
+                caloriesInput.setText(it.calories)
             }
         }
         profileViewModel.closeScreen.observe(viewLifecycleOwner) {
@@ -84,7 +83,6 @@ class GoalsFragment : Fragment() {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.run {
                 setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
                 title = ""
             }
         }
@@ -101,14 +99,14 @@ class GoalsFragment : Fragment() {
 
     private fun createWeekGoal(): WeekGoal = with(binding) {
         WeekGoal(
-            time = durationInput.getBigDecimal(),
-            speed = speedInput.getBigDecimal(),
-            distance = distanceInput.getBigDecimal(),
-            calories = caloriesInput.getBigDecimal()
+            time = durationInput.getOrZero(),
+            speed = speedInput.getOrZero(),
+            distance = distanceInput.getOrZero(),
+            calories = caloriesInput.getOrZero()
         )
     }
 
-    private fun TextInputEditText.getBigDecimal(): BigDecimal = (text?.toString() ?: ZERO).toBigDecimal()
+    private fun TextInputEditText.getOrZero(): String = (text?.toString() ?: ZERO)
 
     companion object {
         private const val TAG = "GoalsFragment"
