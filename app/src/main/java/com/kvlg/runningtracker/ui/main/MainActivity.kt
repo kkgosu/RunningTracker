@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.ActivityMainBinding
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
@@ -50,11 +51,6 @@ class MainActivity : AppCompatActivity(), BnvVisibilityListener {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         navigateToTrackingFragmentIfNeeded(intent)
-    }
-
-    override fun onBackPressed() {
-        mainViewModel.onBackPressed()
-        super.onBackPressed()
     }
 
     override fun hide(hide: Boolean) {

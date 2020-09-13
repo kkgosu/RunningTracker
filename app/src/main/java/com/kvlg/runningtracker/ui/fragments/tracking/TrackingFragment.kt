@@ -117,6 +117,10 @@ class TrackingFragment : Fragment() {
             it.setTint(ContextCompat.getColor(requireContext(), R.color.gray_800))
             binding.toolbar.navigationIcon = it
         }
+        binding.toolbar.setNavigationOnClickListener {
+            if (isTracking)
+                showCancelTrackingDialog()
+        }
     }
 
     private fun setupStartStopButton() {
@@ -151,11 +155,6 @@ class TrackingFragment : Fragment() {
     }
 
     private fun subscribeToObservers() {
-        mainViewModel.onBackPressed.observe(viewLifecycleOwner) {
-            if (isTracking)
-                showCancelTrackingDialog()
-        }
-
         TrackingService.isTracking.observe(viewLifecycleOwner) {
             updateTracking(it)
         }

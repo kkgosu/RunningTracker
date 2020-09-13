@@ -13,6 +13,7 @@ import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentGoalsBinding
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.ui.fragments.common.ConfirmationDialog
+import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -27,6 +28,11 @@ class GoalsFragment : Fragment() {
     private val binding: FragmentGoalsBinding get() = _binding!!
 
     private val profileViewModel: ProfileViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (requireActivity() as BnvVisibilityListener).hide(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +59,7 @@ class GoalsFragment : Fragment() {
 
     override fun onDestroy() {
         _binding = null
+        (requireActivity() as BnvVisibilityListener).hide(false)
         super.onDestroy()
     }
 

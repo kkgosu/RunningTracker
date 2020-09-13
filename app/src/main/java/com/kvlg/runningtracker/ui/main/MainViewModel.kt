@@ -46,9 +46,6 @@ class MainViewModel @ViewModelInject constructor(
 
     //endregion
 
-    private val _onBackPressed = SingleLiveEvent<Unit>()
-    val onBackPressed: LiveData<Unit> = _onBackPressed
-
     fun sortRuns(sortType: SortTypes) = when (sortType) {
         SortTypes.DATE -> runsSortedByDate.applyRuns()
         SortTypes.AVG_SPEED -> runsSortedByAvgSpeed.applyRuns()
@@ -60,10 +57,6 @@ class MainViewModel @ViewModelInject constructor(
         sharedPrefs.edit {
             putInt(Constants.KEY_PREF_SORT_TYPE, sortType.ordinal)
         }
-    }
-
-    fun onBackPressed() {
-        _onBackPressed.call()
     }
 
     fun insertRun(run: Run) = viewModelScope.launch {
