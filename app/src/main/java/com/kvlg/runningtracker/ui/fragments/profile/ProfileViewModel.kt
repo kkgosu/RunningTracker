@@ -17,6 +17,7 @@ import com.kvlg.runningtracker.models.WeekResult
 import com.kvlg.runningtracker.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 
 /**
  * ViewModel for [ProfileFragment]
@@ -50,9 +51,8 @@ class ProfileViewModel @ViewModelInject constructor(
     val weekGoals: LiveData<WeekGoal> = _weekGoals
 
     fun getWeekGoal() {
-        profileInteractor.loadGoalsFromDb()?.value?.let {
-            _weekGoals.value = it
-        }
+        val value = profileInteractor.loadGoalsFromDb().value
+        value?.let(_weekGoals::setValue)
     }
 
     fun loadAvatar() {
@@ -80,9 +80,9 @@ class ProfileViewModel @ViewModelInject constructor(
             profileInteractor.saveGoalsIntoDb(
                 WeekGoal(
                     time = duration.getOrZero(),
-                    speed = speed.getOrZero().toDouble(),
-                    distance = distance.getOrZero().toDouble(),
-                    calories = calories.getOrZero().toDouble()
+                    speed = BigDecimal.valueOf(speed.getOrZero().toDouble()),
+                    distance = BigDecimal.valueOf(distance.getOrZero().toDouble()),
+                    calories = BigDecimal.valueOf(calories.getOrZero().toDouble())
                 )
             )
         }

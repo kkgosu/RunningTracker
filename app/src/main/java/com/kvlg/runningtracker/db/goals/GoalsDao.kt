@@ -18,5 +18,5 @@ interface GoalsDao {
     suspend fun insertGoal(goal: WeekGoal)
 
     @Query("SELECT * FROM goals_table")
-    fun getWeekGoal(): LiveData<WeekGoal>?
+    fun getWeekGoal(): LiveData<WeekGoal>
 }
