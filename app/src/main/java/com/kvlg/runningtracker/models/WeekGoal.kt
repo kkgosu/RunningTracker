@@ -1,7 +1,7 @@
 package com.kvlg.runningtracker.models
 
 /**
- * Week goals for profile
+ * Week goals for profile (domain layer)
  *
  * @author Konstantin Koval
  * @since 12.09.2020

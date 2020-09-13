@@ -38,6 +38,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         profileViewModel.loadAvatar()
+        profileViewModel.getWeekGoal()
         profileViewModel.drawable.observe(viewLifecycleOwner) {
             binding.toolbarImage.setImageDrawable(it)
             binding.avatarCiv.setImageDrawable(it)
@@ -69,7 +70,9 @@ class ProfileFragment : Fragment() {
                 .enableLog(true)
                 .start()
         }
-
+        binding.editGoalsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_goalsFragment)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

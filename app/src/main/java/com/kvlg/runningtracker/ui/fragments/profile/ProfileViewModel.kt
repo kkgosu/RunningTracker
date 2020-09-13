@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.kvlg.runningtracker.domain.ProfileInteractor
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.models.WeekResult
-import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel @ViewModelInject constructor(
     private val prefs: SharedPreferences,
     private val requestManager: RequestManager,
-    private val mainRepository: MainRepository
+    private val profileInteractor: ProfileInteractor
 ) : ViewModel() {
 
     private val _drawable = MutableLiveData<Drawable>()
@@ -50,14 +50,8 @@ class ProfileViewModel @ViewModelInject constructor(
     val weekGoals: LiveData<WeekGoal> = _weekGoals
 
     fun getWeekGoal() {
-        val result = mainRepository.getWeekGoals()
-        result.value?.let {
-            _weekGoals.value = WeekGoal(
-                time = it.time,
-                speed = it.speed,
-                distance = it.distance,
-                calories = it.calories
-            )
+        profileInteractor.loadGoalsFromDb()?.value?.let {
+            _weekGoals.value = it
         }
     }
 
@@ -79,6 +73,25 @@ class ProfileViewModel @ViewModelInject constructor(
             putString(Constants.KEY_PREF_AVATAR_URI, uri.toString())
         }
         loadAvatar()
+    }
+
+    fun saveGoals(distance: String?, duration: String?, speed: String?, calories: String?) {
+        viewModelScope.launch {
+            profileInteractor.saveGoalsIntoDb(
+                WeekGoal(
+                    time = duration.getOrZero(),
+                    speed = speed.getOrZero().toDouble(),
+                    distance = distance.getOrZero().toDouble(),
+                    calories = calories.getOrZero().toDouble()
+                )
+            )
+        }
+    }
+
+    private fun <T : String?> T.getOrZero(): String = if (isNullOrEmpty()) ZERO else this
+
+    companion object {
+        private const val ZERO = "0"
     }
 
 }
