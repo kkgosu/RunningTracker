@@ -1,6 +1,7 @@
 package com.kvlg.runningtracker.ui.fragments.profile
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,9 +30,14 @@ class GoalsFragment : Fragment() {
 
     private val profileViewModel: ProfileViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as BnvVisibilityListener).hide(true)
+    }
+
+    override fun onDetach() {
         (requireActivity() as BnvVisibilityListener).hide(false)
+        super.onDetach()
     }
 
     override fun onCreateView(
@@ -59,7 +65,6 @@ class GoalsFragment : Fragment() {
 
     override fun onDestroy() {
         _binding = null
-        (requireActivity() as BnvVisibilityListener).hide(false)
         super.onDestroy()
     }
 
@@ -91,10 +96,8 @@ class GoalsFragment : Fragment() {
                 title = ""
             }
         }
-        with(binding) {
-            toolbar.setNavigationOnClickListener {
-                profileViewModel.onBackClicked(createWeekGoal())
-            }
+        binding.toolbar.setNavigationOnClickListener {
+            profileViewModel.onBackClicked(createWeekGoal())
         }
     }
 

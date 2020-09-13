@@ -4,7 +4,8 @@
     android:id="@+id/profile_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background1">
+    android:background="@color/background1"
+    android:paddingBottom="@dimen/bnv_height">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/background1">
+    android:background="@color/background1"
+    android:paddingBottom="@dimen/bnv_height">
 
     <Spinner
         android:id="@+id/filter_spinner"

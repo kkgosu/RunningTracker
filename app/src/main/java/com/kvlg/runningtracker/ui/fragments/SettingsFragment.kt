@@ -1,5 +1,6 @@
 package com.kvlg.runningtracker.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
+import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -18,6 +20,16 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding: FragmentSettingsBinding
         get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as BnvVisibilityListener).hide(true)
+    }
+
+    override fun onDetach() {
+        (requireActivity() as BnvVisibilityListener).hide(false)
+        super.onDetach()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -1,5 +1,6 @@
 package com.kvlg.runningtracker.ui.fragments.tracking
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
@@ -43,6 +44,16 @@ class TrackingFragment : Fragment() {
 
     private val constraintSet = ConstraintSet()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as BnvVisibilityListener).hide(true)
+    }
+
+    override fun onDetach() {
+        (requireActivity() as BnvVisibilityListener).hide(false)
+        super.onDetach()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,7 +81,6 @@ class TrackingFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        (requireActivity() as BnvVisibilityListener).hide(true)
         binding.mapView.onStart()
     }
 
@@ -86,7 +96,6 @@ class TrackingFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        (requireActivity() as BnvVisibilityListener).hide(false)
         binding.mapView.onStop()
     }
 
@@ -120,6 +129,8 @@ class TrackingFragment : Fragment() {
         binding.toolbar.setNavigationOnClickListener {
             if (isTracking)
                 showCancelTrackingDialog()
+            else
+                requireActivity().onBackPressed()
         }
     }
 
