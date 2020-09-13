@@ -9,11 +9,10 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "goals_table")
 data class WeekGoal(
-    val distance: Double = 0.0,
-    val time: String = "0h",
-    val speed: Double = 0.0,
-    val calories: Double = 0.0
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null
-}
+    @PrimaryKey(autoGenerate = false)
+    val id: Int = 1,
+    val distance: Double,
+    val time: String,
+    val speed: Double,
+    val calories: Double
+)

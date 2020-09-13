@@ -1,5 +1,6 @@
 package com.kvlg.runningtracker.ui.fragments.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +33,9 @@ class GoalsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        profileViewModel.getWeekGoal()
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.run {
@@ -49,6 +52,14 @@ class GoalsFragment : Fragment() {
                     caloriesInput.text?.toString()
                 )
                 requireActivity().onBackPressed()
+            }
+        }
+        profileViewModel.weekGoals.observe(viewLifecycleOwner) {
+            with(binding) {
+                distanceInput.setText(it.distance.toString())
+                speedInput.setText(it.speed.toString())
+                durationInput.setText(it.time)
+                caloriesInput.setText(it.calories.toString())
             }
         }
     }

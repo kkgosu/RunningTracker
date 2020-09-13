@@ -17,6 +17,6 @@ interface GoalsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGoal(goal: WeekGoal)
 
-    @Query("SELECT * FROM goals_table")
+    @Query("SELECT * FROM goals_table WHERE id = 1")
     fun getWeekGoal(): LiveData<WeekGoal>
 }

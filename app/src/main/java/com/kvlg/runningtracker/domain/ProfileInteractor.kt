@@ -1,9 +1,11 @@
 package com.kvlg.runningtracker.domain
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.repository.MainRepository
+import kotlinx.coroutines.Dispatchers
 import java.math.BigDecimal
 import com.kvlg.runningtracker.db.goals.WeekGoal as WeekGoalDb
 
@@ -16,21 +18,17 @@ class ProfileInteractor(
 ) {
 
     fun loadGoalsFromDb(): LiveData<WeekGoal> {
-        val result = mainRepository.getWeekGoals()
-        val r = result.value ?: WeekGoalDb(
-            time = "0h",
-            speed = 0.0,
-            distance = 0.0,
-            calories = 0.0
-        )
-        return MutableLiveData(
-            WeekGoal(
-                time = r.time,
-                speed = BigDecimal.valueOf(r.speed).stripTrailingZeros(),
-                distance = BigDecimal.valueOf(r.distance).stripTrailingZeros(),
-                calories = BigDecimal.valueOf(r.calories).stripTrailingZeros()
-            )
-        )
+        return liveData(Dispatchers.IO) {
+            val source = mainRepository.getWeekGoals().map {
+                WeekGoal(
+                    time = it.time,
+                    speed = BigDecimal.valueOf(it.speed).stripTrailingZeros(),
+                    distance = BigDecimal.valueOf(it.distance).stripTrailingZeros(),
+                    calories = BigDecimal.valueOf(it.calories).stripTrailingZeros()
+                )
+            }
+            emitSource(source)
+        }
     }
 
 

@@ -5,10 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.kvlg.runningtracker.domain.ProfileInteractor
@@ -17,7 +14,6 @@ import com.kvlg.runningtracker.models.WeekResult
 import com.kvlg.runningtracker.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 /**
  * ViewModel for [ProfileFragment]
@@ -33,7 +29,7 @@ class ProfileViewModel @ViewModelInject constructor(
 
     private val _drawable = MutableLiveData<Drawable>()
     private val _currentResults = MutableLiveData<WeekResult>()
-    private val _weekGoals = MutableLiveData<WeekGoal>()
+    private val _weekGoals = MutableLiveData<Boolean>()
 
     /**
      * Avatar image drawable
@@ -48,11 +44,12 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current week goals
      */
-    val weekGoals: LiveData<WeekGoal> = _weekGoals
+    val weekGoals: LiveData<WeekGoal> = Transformations.switchMap(_weekGoals) {
+        profileInteractor.loadGoalsFromDb()
+    }
 
     fun getWeekGoal() {
-        val value = profileInteractor.loadGoalsFromDb().value
-        value?.let(_weekGoals::setValue)
+        _weekGoals.value = true
     }
 
     fun loadAvatar() {
@@ -80,9 +77,9 @@ class ProfileViewModel @ViewModelInject constructor(
             profileInteractor.saveGoalsIntoDb(
                 WeekGoal(
                     time = duration.getOrZero(),
-                    speed = BigDecimal.valueOf(speed.getOrZero().toDouble()),
-                    distance = BigDecimal.valueOf(distance.getOrZero().toDouble()),
-                    calories = BigDecimal.valueOf(calories.getOrZero().toDouble())
+                    speed = speed.getOrZero().toBigDecimal(),
+                    distance = distance.getOrZero().toBigDecimal(),
+                    calories = calories.getOrZero().toBigDecimal()
                 )
             )
         }
