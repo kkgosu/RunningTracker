@@ -9,7 +9,7 @@ import java.math.BigDecimal
  * @since 12.09.2020
  */
 data class WeekGoal(
-    val time: String,
+    val time: BigDecimal,
     val speed: BigDecimal,
     val distance: BigDecimal,
     val calories: BigDecimal

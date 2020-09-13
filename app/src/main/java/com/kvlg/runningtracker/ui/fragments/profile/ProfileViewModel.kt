@@ -12,6 +12,7 @@ import com.kvlg.runningtracker.domain.ProfileInteractor
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.models.WeekResult
 import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,8 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _drawable = MutableLiveData<Drawable>()
     private val _currentResults = MutableLiveData<WeekResult>()
     private val _weekGoals = MutableLiveData<Boolean>()
+    private val _closeScreen = SingleLiveEvent<Unit>()
+    private val _closeScreenAlert = SingleLiveEvent<Unit>()
 
     /**
      * Avatar image drawable
@@ -47,6 +50,16 @@ class ProfileViewModel @ViewModelInject constructor(
     val weekGoals: LiveData<WeekGoal> = Transformations.switchMap(_weekGoals) {
         profileInteractor.loadGoalsFromDb()
     }
+
+    /**
+     * Close goals screen
+     */
+    val closeScreen: LiveData<Unit> = _closeScreen
+
+    /**
+     * Show close screen alert
+     */
+    val closeScreenAlert: LiveData<Unit> = _closeScreenAlert
 
     fun getWeekGoal() {
         _weekGoals.value = true
@@ -72,23 +85,18 @@ class ProfileViewModel @ViewModelInject constructor(
         loadAvatar()
     }
 
-    fun saveGoals(distance: String?, duration: String?, speed: String?, calories: String?) {
+    fun saveGoals(goal: WeekGoal) {
         viewModelScope.launch {
-            profileInteractor.saveGoalsIntoDb(
-                WeekGoal(
-                    time = duration.getOrZero(),
-                    speed = speed.getOrZero().toBigDecimal(),
-                    distance = distance.getOrZero().toBigDecimal(),
-                    calories = calories.getOrZero().toBigDecimal()
-                )
-            )
+            profileInteractor.saveGoalsIntoDb(goal)
         }
     }
 
-    private fun <T : String?> T.getOrZero(): String = if (isNullOrEmpty()) ZERO else this
-
-    companion object {
-        private const val ZERO = "0"
+    fun onBackClicked(goal: WeekGoal) {
+        val oldGoal = weekGoals.value
+        if (goal == oldGoal) {
+            _closeScreen.call()
+        } else {
+            _closeScreenAlert.call()
+        }
     }
-
 }

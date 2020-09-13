@@ -12,7 +12,7 @@ data class WeekGoal(
     @PrimaryKey(autoGenerate = false)
     val id: Int = 1,
     val distance: Double,
-    val time: String,
+    val time: Double,
     val speed: Double,
     val calories: Double
 )

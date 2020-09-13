@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.kvlg.runningtracker.db.goals.GoalConverter
 import com.kvlg.runningtracker.db.goals.GoalsDatabase
 import com.kvlg.runningtracker.db.run.RunDatabase
 import com.kvlg.runningtracker.domain.ProfileInteractor
@@ -86,5 +87,5 @@ object AppModule {
     fun provideGlide(@ApplicationContext context: Context): RequestManager = Glide.with(context)
 
     @Provides
-    fun provideProfileInteractor(mainRepository: MainRepository) = ProfileInteractor(mainRepository)
+    fun provideProfileInteractor(mainRepository: MainRepository) = ProfileInteractor(mainRepository, GoalConverter())
 }

@@ -45,10 +45,10 @@ class ProfileFragment : Fragment() {
         }
         profileViewModel.weekGoals.observe(viewLifecycleOwner) {
             with(binding) {
-                timeGoalTextView.text = it.time
-                distanceGoalTextView.text = getString(R.string.distance_placeholder, it.distance.toString())
-                speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed.toString())
-                caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories.toString())
+                timeGoalTextView.text = getString(R.string.time_goal_placeholder, it.time.toPlainString())
+                distanceGoalTextView.text = getString(R.string.distance_placeholder, it.distance.toPlainString())
+                speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed.toPlainString())
+                caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories.toPlainString())
             }
         }
         (requireActivity() as AppCompatActivity).apply {

@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
  */
 @Database(
     entities = [WeekGoal::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class GoalsDatabase : RoomDatabase() {

@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentTrackingBinding
 import com.kvlg.runningtracker.services.TrackingService
-import com.kvlg.runningtracker.ui.fragments.common.CancelTrackingDialog
+import com.kvlg.runningtracker.ui.fragments.common.ConfirmationDialog
 import com.kvlg.runningtracker.ui.main.MainViewModel
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
@@ -57,7 +57,7 @@ class TrackingFragment : Fragment() {
             trackingViewModel.addAllPolylines()
         }
         if (savedInstanceState != null) {
-            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? CancelTrackingDialog
+            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? ConfirmationDialog
             cancelTrackingDialog?.setListener { stopRun() }
         }
         setupToolbar()
@@ -237,7 +237,7 @@ class TrackingFragment : Fragment() {
     }
 
     private fun showCancelTrackingDialog() {
-        CancelTrackingDialog().apply {
+        ConfirmationDialog(R.string.cancel_run_alert_title, R.string.cancel_run_alert_desc).apply {
             setListener { stopRun() }
         }.show(parentFragmentManager, DIALOG_TAG)
     }
