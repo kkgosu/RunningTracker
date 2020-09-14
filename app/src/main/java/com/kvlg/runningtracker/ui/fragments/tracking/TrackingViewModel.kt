@@ -25,6 +25,7 @@ class TrackingViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private var currentTimeInMillis = 0L
+    private var currentDistanceInMeters = 0F
 
     private val _pathPoints = MutableLiveData(mutableListOf<Polyline>())
     val pathPoints: LiveData<MutableList<Polyline>> = _pathPoints
@@ -47,12 +48,13 @@ class TrackingViewModel @ViewModelInject constructor(
     private val _distance = MutableLiveData<String>()
     val distanceText: LiveData<String> = _distance
 
-    private fun updateDistanceText(pathPoints: Polylines) {
-        var distanceInM = 0F
-        _pathPoints.value?.forEach {
-            distanceInM += TrackingUtils.calculatePolylineLength(it)
+    private fun updateDistanceText() {
+        _pathPoints.value?.let {
+            if (it.isNotEmpty() && it.last().size > 1) {
+                currentDistanceInMeters += TrackingUtils.calculateDistanceBetweenCoordinates(it.last()[0], it.last()[1])
+                _distance.value = String.format("%.2f", currentDistanceInMeters / 1000F)
+            }
         }
-        _distance.value = String.format("%.2f", distanceInM / 1000F)
     }
 
     fun updateTimerText() {
@@ -98,7 +100,7 @@ class TrackingViewModel @ViewModelInject constructor(
 
     fun populatePathPoints(polylines: Polylines) {
         _pathPoints.value = polylines
-        updateDistanceText(polylines)
+        updateDistanceText()
     }
 
     fun setCurrentTimeInMillis(millis: Long) {

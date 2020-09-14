@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.location.Location
 import android.os.Build
+import com.google.android.gms.maps.model.LatLng
 import com.kvlg.runningtracker.services.Polyline
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.concurrent.TimeUnit
@@ -51,6 +52,18 @@ object TrackingUtils {
                 0f
             }
         }.sum()
+    }
+
+    fun calculateDistanceBetweenCoordinates(startLatLng: LatLng, endLatLng: LatLng): Float {
+        val result = FloatArray(1)
+        Location.distanceBetween(
+            startLatLng.latitude,
+            startLatLng.longitude,
+            endLatLng.latitude,
+            endLatLng.longitude,
+            result
+        )
+        return result[0]
     }
 
     fun getFormattedStopWatchTime(ms: Long, includeMillis: Boolean = false): String {
