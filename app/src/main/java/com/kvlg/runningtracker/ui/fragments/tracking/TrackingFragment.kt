@@ -186,6 +186,9 @@ class TrackingFragment : Fragment() {
         trackingViewModel.timerFormattedText.observe(viewLifecycleOwner) {
             binding.timerTextView.text = it
         }
+        trackingViewModel.distanceText.observe(viewLifecycleOwner) {
+            binding.distanceValueTextView.text = it
+        }
         trackingViewModel.cameraUpdateToUserLocation.observe(viewLifecycleOwner) {
             map?.animateCamera(it)
         }

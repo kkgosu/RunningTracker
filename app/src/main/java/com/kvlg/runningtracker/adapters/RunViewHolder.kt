@@ -3,7 +3,6 @@ package com.kvlg.runningtracker.adapters
 import android.view.ContextMenu
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
@@ -38,7 +37,7 @@ class RunViewHolder(
             val sdf = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             dateValueTextView.text = sdf.format(calendar.time)
             avgValueSpeedTextView.text = root.context.getString(R.string.speed_placeholder, run.avgSpeedInKMH.toInt().toString())
-            distanceValueTextView.text = root.context.getString(R.string.distance_placeholder, (run.distanceInMeters / 1000).toString())
+            distanceValueTextView.text = root.context.getString(R.string.distance_placeholder, String.format("%.2f", run.distanceInMeters / 1000F))
             durationValueTextView.text = TrackingUtils.getFormattedStopWatchTime(run.timeInMillis)
             caloriesValueTextView.text = root.context.getString(R.string.calories_placeholder, run.caloriesBurned.toString())
             runsLiveDataRegistry.isLoading.observe(lifecycleOwner) {

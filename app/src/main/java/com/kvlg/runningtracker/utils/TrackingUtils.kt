@@ -31,6 +31,9 @@ object TrackingUtils {
         )
     }
 
+    /**
+     * Calculate distance in meters
+     */
     fun calculatePolylineLength(polyline: Polyline): Float {
         val result = FloatArray(1)
         return polyline.mapIndexed { index, latLng ->
