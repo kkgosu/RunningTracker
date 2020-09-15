@@ -51,7 +51,8 @@ class TrackingViewModel @ViewModelInject constructor(
     private fun updateDistanceText() {
         _pathPoints.value?.let {
             if (it.isNotEmpty() && it.last().size > 1) {
-                currentDistanceInMeters += TrackingUtils.calculateDistanceBetweenCoordinates(it.last()[0], it.last()[1])
+                val lastTwo = it[0].takeLast(2)
+                currentDistanceInMeters += TrackingUtils.calculateDistanceBetweenCoordinates(lastTwo[0], lastTwo[1])
                 _distance.value = String.format("%.2f", currentDistanceInMeters / 1000F)
             }
         }
@@ -109,7 +110,7 @@ class TrackingViewModel @ViewModelInject constructor(
 
     fun endRun() {
         var distanceInMeters = 0
-        pathPoints.value!!.forEach {
+        _pathPoints.value!!.forEach {
             distanceInMeters += TrackingUtils.calculatePolylineLength(it).toInt()
         }
         val avgSpeed = round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
