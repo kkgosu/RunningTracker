@@ -185,6 +185,7 @@ class TrackingFragment : Fragment() {
         }
         trackingViewModel.timerFormattedText.observe(viewLifecycleOwner) {
             binding.timerTextView.text = it
+            binding.includedStatistics.durationValueTextView.text = it
         }
         trackingViewModel.distanceText.observe(viewLifecycleOwner) {
             binding.distanceValueTextView.text = it
@@ -196,6 +197,8 @@ class TrackingFragment : Fragment() {
             map?.addPolyline(it)
         }
         trackingViewModel.run.observe(viewLifecycleOwner) {
+            binding.includedStatistics.caloriesValueTextView.text = it.caloriesBurned.toString()
+            binding.includedStatistics.avgSpeedValueTextView.text = it.avgSpeedInKMH.toString()
             map?.snapshot { bitmap ->
                 mainViewModel.insertRun(it.apply { img = bitmap })
                 Snackbar.make(
