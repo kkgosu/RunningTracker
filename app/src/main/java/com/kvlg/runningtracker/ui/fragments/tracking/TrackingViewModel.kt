@@ -30,6 +30,7 @@ class TrackingViewModel @ViewModelInject constructor(
     //for pace calculation
     private var lastKm = 0
     private var lastCurrentTimeInMillis = 0L
+    private val paceTimes = mutableListOf<Long>()
 
     private val _pathPoints = MutableLiveData(mutableListOf<Polyline>())
     val pathPoints: LiveData<MutableList<Polyline>> = _pathPoints
@@ -63,7 +64,9 @@ class TrackingViewModel @ViewModelInject constructor(
                 _distance.value = String.format("%.2f", currentDistanceInMeters / 1000F)
 
                 if ((currentDistanceInMeters / 1000).toInt() == lastKm + 1) {
-                    _pace.value = TrackingUtils.getFormattedPaceTime(currentTimeInMillis - lastCurrentTimeInMillis)
+                    val ms = currentTimeInMillis - lastCurrentTimeInMillis
+                    _pace.value = TrackingUtils.getFormattedPaceTime(ms)
+                    paceTimes.add(ms)
                     lastKm++
                     lastCurrentTimeInMillis = currentTimeInMillis
                 }
@@ -129,7 +132,8 @@ class TrackingViewModel @ViewModelInject constructor(
         val avgSpeed = round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
         val dateTimeStamp = Calendar.getInstance().timeInMillis
         val caloriesBurned = ((MET * weight * 3.5f) / 200) * (currentTimeInMillis / 1000f / 60)
-        val run = Run(null, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned.toInt())
+        val avgPaceTime = paceTimes.average().toLong()
+        val run = Run(null, dateTimeStamp, avgSpeed, distanceInMeters, currentTimeInMillis, caloriesBurned.toInt(), avgPaceTime)
 
         _run.value = run
     }

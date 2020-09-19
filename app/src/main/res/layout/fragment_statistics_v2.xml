@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/included_statistics_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,13 +24,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:text="05:05:16"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/duration_icon"
         app:layout_constraintStart_toStartOf="@id/duration_icon"
-        app:layout_constraintTop_toBottomOf="@id/duration_icon" />
+        app:layout_constraintTop_toBottomOf="@id/duration_icon"
+        tools:text="05:05:16" />
 
     <TextView
         android:id="@+id/duration_label_text_view"
@@ -57,13 +58,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:text="3km/h"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/speed_icon"
         app:layout_constraintStart_toStartOf="@id/speed_icon"
-        app:layout_constraintTop_toBottomOf="@id/speed_icon" />
+        app:layout_constraintTop_toBottomOf="@id/speed_icon"
+        tools:text="3km/h" />
 
     <TextView
         android:id="@+id/speed_label_text_view"
@@ -91,14 +92,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_medium"
-        android:text="05:16"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-
         android:textColor="@color/black"
+
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/pace_icon"
         app:layout_constraintStart_toStartOf="@id/pace_icon"
-        app:layout_constraintTop_toBottomOf="@id/pace_icon" />
+        app:layout_constraintTop_toBottomOf="@id/pace_icon"
+        tools:text="05:16" />
 
     <TextView
         android:id="@+id/pace_label_text_view"
@@ -139,13 +140,13 @@
         android:id="@+id/calories_value_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3000kcal"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/calories_label_text_view"
         app:layout_constraintStart_toStartOf="@id/calories_label_text_view"
-        app:layout_constraintTop_toBottomOf="@id/calories_label_text_view" />
+        app:layout_constraintTop_toBottomOf="@id/calories_label_text_view"
+        tools:text="3000kcal" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bar_chart"

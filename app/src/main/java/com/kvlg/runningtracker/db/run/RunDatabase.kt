@@ -13,7 +13,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [Run::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(BitmapConverter::class)

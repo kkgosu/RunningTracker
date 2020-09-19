@@ -203,6 +203,7 @@ class TrackingFragment : Fragment() {
             binding.includedStatistics.caloriesValueTextView.text = it.caloriesBurned.toString()
             binding.includedStatistics.speedValueTextView.text = it.avgSpeedInKMH.toString()
             binding.includedStatistics.durationValueTextView.text = TrackingUtils.getFormattedStopWatchTime(it.timeInMillis)
+            binding.includedStatistics.paceValueTextView.text = TrackingUtils.getFormattedPaceTime(it.avgPaceTime)
             map?.snapshot { bitmap ->
                 mainViewModel.insertRun(it.apply { img = bitmap })
                 Snackbar.make(
