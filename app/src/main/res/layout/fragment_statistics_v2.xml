@@ -69,7 +69,7 @@
         android:id="@+id/speed_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/item_speed"
+        android:text="@string/item_avgspeed"
         android:textColor="@color/text_value"
         app:layout_constraintEnd_toEndOf="@id/speed_value_text_view"
         app:layout_constraintStart_toStartOf="@id/speed_value_text_view"
@@ -125,37 +125,14 @@
         app:layout_constraintGuide_percent=".67" />
 
     <TextView
-        android:id="@+id/avg_speed_label_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
-        android:text="@string/item_avgspeed"
-        android:textColor="@color/text_value"
-        app:layout_constraintEnd_toStartOf="@id/guideline1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/duration_label_text_view" />
-
-    <TextView
-        android:id="@+id/avg_speed_value_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3km/h"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/avg_speed_label_text_view"
-        app:layout_constraintStart_toStartOf="@id/avg_speed_label_text_view"
-        app:layout_constraintTop_toBottomOf="@id/avg_speed_label_text_view" />
-
-    <TextView
         android:id="@+id/calories_label_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
         android:text="@string/item_calories"
         android:textColor="@color/text_value"
-        app:layout_constraintEnd_toStartOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/duration_label_text_view" />
 
     <TextView
@@ -176,6 +153,6 @@
         android:layout_height="@dimen/match_constraint"
         android:layout_marginTop="@dimen/margin_large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avg_speed_value_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/calories_value_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

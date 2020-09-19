@@ -22,6 +22,7 @@ import com.kvlg.runningtracker.ui.fragments.common.ConfirmationDialog
 import com.kvlg.runningtracker.ui.main.MainViewModel
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -185,10 +186,12 @@ class TrackingFragment : Fragment() {
         }
         trackingViewModel.timerFormattedText.observe(viewLifecycleOwner) {
             binding.timerTextView.text = it
-            binding.includedStatistics.durationValueTextView.text = it
         }
         trackingViewModel.distanceText.observe(viewLifecycleOwner) {
             binding.distanceValueTextView.text = it
+        }
+        trackingViewModel.paceText.observe(viewLifecycleOwner) {
+            binding.paceValueTextView.text = it
         }
         trackingViewModel.cameraUpdateToUserLocation.observe(viewLifecycleOwner) {
             map?.animateCamera(it)
@@ -198,7 +201,8 @@ class TrackingFragment : Fragment() {
         }
         trackingViewModel.run.observe(viewLifecycleOwner) {
             binding.includedStatistics.caloriesValueTextView.text = it.caloriesBurned.toString()
-            binding.includedStatistics.avgSpeedValueTextView.text = it.avgSpeedInKMH.toString()
+            binding.includedStatistics.speedValueTextView.text = it.avgSpeedInKMH.toString()
+            binding.includedStatistics.durationValueTextView.text = TrackingUtils.getFormattedStopWatchTime(it.timeInMillis)
             map?.snapshot { bitmap ->
                 mainViewModel.insertRun(it.apply { img = bitmap })
                 Snackbar.make(

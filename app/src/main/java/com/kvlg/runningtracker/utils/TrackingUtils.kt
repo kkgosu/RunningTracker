@@ -33,7 +33,7 @@ object TrackingUtils {
     }
 
     /**
-     * Calculate distance in meters
+     * Calculate distance across all polylines in meters
      */
     fun calculatePolylineLength(polyline: Polyline): Float {
         val result = FloatArray(1)
@@ -54,6 +54,9 @@ object TrackingUtils {
         }.sum()
     }
 
+    /**
+     * Calculate distance between two coordinates in meters
+     */
     fun calculateDistanceBetweenCoordinates(startLatLng: LatLng, endLatLng: LatLng): Float {
         val result = FloatArray(1)
         Location.distanceBetween(
@@ -79,6 +82,14 @@ object TrackingUtils {
         millis -= TimeUnit.SECONDS.toMillis(seconds)
         millis /= 10
         return "${getFormattedTime(hours, minutes, seconds)}:${millis.formatTime()}"
+    }
+
+    fun getFormattedPaceTime(ms: Long): String {
+        var paceInMillis = ms
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(paceInMillis)
+        paceInMillis -= TimeUnit.MINUTES.toMillis(minutes)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(paceInMillis)
+        return "${minutes.formatTime()}:${seconds.formatTime()}"
     }
 
     private fun getFormattedTime(hours: Long, minutes: Long, seconds: Long): String {
