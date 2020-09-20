@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.kvlg.runningtracker.repository.MainRepository
 
 /**
+ * Viewmodel for statistics fragment
+ *
  * @author Konstantin Koval
  * @since 19.07.2020
  */
@@ -18,4 +20,5 @@ class StatisticsViewModel @ViewModelInject constructor(
     val totalAvgSpeed = mainRepository.getTotalAvgSpeed()
 
     val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
+
 }

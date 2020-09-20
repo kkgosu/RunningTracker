@@ -36,4 +36,14 @@ class MainRepository @Inject constructor(
     fun getTotalCaloriesBurned() = runDAO.getTotalCaloriesBurned()
 
     fun getTotalTimeInMillis() = runDAO.getTotalTimeInMills()
+
+    fun getPeriodDistance(timeStamp: Long) = runDAO.getPeriodDistance(timeStamp)
+
+    fun getPeriodAvgPace(timeStamp: Long) = runDAO.getPeriodAvgPace(timeStamp)
+
+    fun getPeriodAvgSpeed(timeStamp: Long) = runDAO.getPeriodAvgSpeed(timeStamp)
+
+    fun getPeriodCalories(timeStamp: Long) = runDAO.getPeriodCalories(timeStamp)
+
+    fun getPeriodDuration(timeStamp: Long) = runDAO.getPeriodDuration(timeStamp)
 }

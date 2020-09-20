@@ -10,9 +10,11 @@ import com.kvlg.runningtracker.db.goals.GoalConverter
 import com.kvlg.runningtracker.db.goals.GoalDao
 import com.kvlg.runningtracker.db.goals.GoalDatabase
 import com.kvlg.runningtracker.db.run.RunDatabase
-import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.domain.GoalInteractor
+import com.kvlg.runningtracker.domain.ImageLoader
+import com.kvlg.runningtracker.domain.ResourceManager
 import com.kvlg.runningtracker.repository.GoalRepository
+import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.Constants.GOALS_DATABASE_NAME
@@ -93,8 +95,12 @@ object AppModule {
     fun provideGoalRepository(goalsDao: GoalDao) = GoalRepository(goalsDao)
 
     @Provides
-    fun provideGoalInteractor(goalsRepository: GoalRepository) = GoalInteractor(goalsRepository, GoalConverter())
+    fun provideGoalInteractor(goalsRepository: GoalRepository, mainRepository: MainRepository) =
+        GoalInteractor(goalsRepository, GoalConverter(), mainRepository)
 
     @Provides
     fun provideImageLoader(@ApplicationContext context: Context) = ImageLoader(context)
+
+    @Provides
+    fun provideResourceManager(@ApplicationContext context: Context) = ResourceManager(context)
 }

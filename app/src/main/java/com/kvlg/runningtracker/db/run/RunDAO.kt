@@ -1,11 +1,7 @@
 package com.kvlg.runningtracker.db.run
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 /**
  * Data-Access-Object for [RunDatabase]
@@ -80,4 +76,35 @@ interface RunDAO {
      */
     @Query("SELECT AVG(avgSpeedInKMH) FROM run_table")
     fun getTotalAvgSpeed(): LiveData<Float>
+
+    /**
+     * @return [LiveData] of total distance in period currentTimeInMillis - [timeStamp]
+     */
+    @Query("SELECT distanceInMeters FROM run_table WHERE timestamp >= :timeStamp")
+    fun getPeriodDistance(timeStamp: Long): LiveData<List<Int>?>
+
+    /**
+     * @return [LiveData] of total calories in period currentTimeInMillis - [timeStamp]
+     */
+    @Query("SELECT caloriesBurned FROM run_table WHERE timestamp >= :timeStamp")
+    fun getPeriodCalories(timeStamp: Long): LiveData<List<Int>?>
+
+    /**
+     * @return [LiveData] of total running time in period currentTimeInMillis - [timeStamp]
+     */
+    @Query("SELECT timeInMillis FROM run_table WHERE timestamp >= :timeStamp")
+    fun getPeriodDuration(timeStamp: Long): LiveData<List<Long>?>
+
+    /**
+     * @return [LiveData] of avg pace in period currentTimeInMillis - [timeStamp]
+     */
+    @Query("SELECT avgPaceTime FROM run_table WHERE timestamp >= :timeStamp")
+    fun getPeriodAvgPace(timeStamp: Long): LiveData<List<Long>?>
+
+    /**
+     * @return [LiveData] of avg speed in period currentTimeInMillis - [timeStamp]
+     */
+    @Query("SELECT avgSpeedInKMH FROM run_table WHERE timestamp >= :timeStamp")
+    fun getPeriodAvgSpeed(timeStamp: Long): LiveData<List<Float>?>
+
 }

@@ -41,6 +41,7 @@ class ProfileFragment : Fragment() {
         subscribeObservers()
         profileViewModel.loadAvatar()
         profileViewModel.getWeekGoal()
+        profileViewModel.getPeriodResults(System.currentTimeMillis())
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragmentV2)
         }
@@ -89,10 +90,25 @@ class ProfileFragment : Fragment() {
         profileViewModel.weekGoals.observe(viewLifecycleOwner) {
             with(binding) {
                 timeGoalTextView.text = getString(R.string.time_goal_placeholder, it.time)
-                distanceGoalTextView.text = getString(R.string.distance_placeholder, it.distance)
+                paceCurrentGoalTextView.text = getString(R.string.distance_placeholder, it.distance)
                 speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed)
                 caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories)
             }
+        }
+        profileViewModel.periodDistance.observe(viewLifecycleOwner) {
+            binding.titleDistanceValueTextView.text = getString(R.string.distance_placeholder, it.toString())
+        }
+        profileViewModel.periodDuration.observe(viewLifecycleOwner) {
+            binding.timeCurrentGoalTextView.text = getString(R.string.time_goal_placeholder, it.toString())
+        }
+        profileViewModel.periodSpeed.observe(viewLifecycleOwner) {
+            binding.speedCurrentGoalTextView.text = getString(R.string.speed_placeholder, it.toString())
+        }
+        profileViewModel.periodCalories.observe(viewLifecycleOwner) {
+            binding.caloriesCurrentGoalTextView.text = getString(R.string.calories_placeholder, it.toString())
+        }
+        profileViewModel.periodPace.observe(viewLifecycleOwner) {
+            binding.paceCurrentGoalTextView.text = getString(R.string.pace_placeholder, it.toString())
         }
     }
 }

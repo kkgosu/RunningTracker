@@ -125,7 +125,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/profile_week_result_value_text_view"
+                android:id="@+id/title_distance_value_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="35.00 km"
@@ -141,7 +141,7 @@
                 android:layout_height="@dimen/match_constraint"
                 android:layout_marginTop="@dimen/margin_large"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_week_result_value_text_view" />
+                app:layout_constraintTop_toBottomOf="@+id/title_distance_value_text_view" />
 
             <com.kvlg.runningtracker.ui.fragments.common.CircleProgressBar
                 android:id="@+id/time_goal_progress"
@@ -248,7 +248,7 @@
                 app:layout_constraintVertical_bias="0.70" />
 
             <TextView
-                android:id="@+id/distance_current_goal_text_view"
+                android:id="@+id/pace_current_goal_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
@@ -263,7 +263,7 @@
                 app:layout_constraintVertical_bias="0.30" />
 
             <TextView
-                android:id="@+id/distance_goal_text_view"
+                android:id="@+id/pace_goal_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium"
