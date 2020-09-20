@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "666999700628",
+    "firebase_url": "https://runningtracker-283711.firebaseio.com",
+    "project_id": "runningtracker-283711",
+    "storage_bucket": "runningtracker-283711.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666999700628:android:2141ed2e3cb6b4b768c881",
+        "android_client_info": {
+          "package_name": "com.kvlg.runningtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "666999700628-4lhj8edqovtjcm1370gh4qm8hoekuhnp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpc5AQUCNofS4Dm8lkImWcRoHN7mlBwnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "666999700628-4lhj8edqovtjcm1370gh4qm8hoekuhnp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
