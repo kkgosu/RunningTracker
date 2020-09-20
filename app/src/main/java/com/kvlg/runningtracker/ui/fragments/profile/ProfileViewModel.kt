@@ -8,7 +8,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.kvlg.runningtracker.domain.ProfileInteractor
+import com.kvlg.runningtracker.domain.GoalInteractor
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.models.WeekResult
 import com.kvlg.runningtracker.utils.Constants
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel @ViewModelInject constructor(
     private val prefs: SharedPreferences,
     private val requestManager: RequestManager,
-    private val profileInteractor: ProfileInteractor
+    private val goalInteractor: GoalInteractor
 ) : ViewModel() {
 
     private val _drawable = MutableLiveData<Drawable>()
@@ -48,7 +48,7 @@ class ProfileViewModel @ViewModelInject constructor(
      * Current week goals
      */
     val weekGoals: LiveData<WeekGoal> = Transformations.switchMap(_weekGoals) {
-        profileInteractor.loadGoalsFromDb()
+        goalInteractor.loadGoalsFromDb()
     }
 
     /**
@@ -87,7 +87,7 @@ class ProfileViewModel @ViewModelInject constructor(
 
     fun saveGoals(goal: WeekGoal) {
         viewModelScope.launch {
-            profileInteractor.saveGoalsIntoDb(goal)
+            goalInteractor.saveGoalsIntoDb(goal)
         }
     }
 

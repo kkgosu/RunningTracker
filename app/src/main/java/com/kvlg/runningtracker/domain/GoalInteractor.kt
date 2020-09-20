@@ -10,12 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import com.kvlg.runningtracker.db.goals.WeekGoal as WeekGoalDb
 
 /**
- * Interactor with profile repos
+ * Interactor with goal repos
  *
  * @author Konstantin Koval
  * @since 13.09.2020
  */
-class ProfileInteractor(
+class GoalInteractor(
     private val goalsRepository: GoalRepository,
     private val goalConverter: GoalConverter
 ) {
