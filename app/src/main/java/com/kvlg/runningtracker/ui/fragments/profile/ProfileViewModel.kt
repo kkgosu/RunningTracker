@@ -60,23 +60,24 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current week results
      */
-    val periodDistance: LiveData<Float> = Transformations.switchMap(_periodTrigger) {
+    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) {
         goalInteractor.loadPeriodDistance(it)
+
     }
 
-    val periodDuration: LiveData<Long> = Transformations.switchMap(_periodTrigger) {
+    val periodDuration: LiveData<String> = Transformations.switchMap(_periodTrigger) {
         goalInteractor.loadPeriodDuration(it)
     }
 
-    val periodSpeed: LiveData<Float> = Transformations.switchMap(_periodTrigger) {
+    val periodSpeed: LiveData<String> = Transformations.switchMap(_periodTrigger) {
         goalInteractor.loadPeriodSpeed(it)
     }
 
-    val periodCalories: LiveData<Int> = Transformations.switchMap(_periodTrigger) {
+    val periodCalories: LiveData<String> = Transformations.switchMap(_periodTrigger) {
         goalInteractor.loadPeriodCalories(it)
     }
 
-    val periodPace: LiveData<Long> = Transformations.switchMap(_periodTrigger) {
+    val periodPace: LiveData<String> = Transformations.switchMap(_periodTrigger) {
         goalInteractor.loadPeriodPace(it)
     }
 

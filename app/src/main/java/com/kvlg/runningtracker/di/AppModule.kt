@@ -95,12 +95,13 @@ object AppModule {
     fun provideGoalRepository(goalsDao: GoalDao) = GoalRepository(goalsDao)
 
     @Provides
-    fun provideGoalInteractor(goalsRepository: GoalRepository, mainRepository: MainRepository) =
-        GoalInteractor(goalsRepository, GoalConverter(), mainRepository)
+    fun provideGoalInteractor(goalsRepository: GoalRepository, mainRepository: MainRepository, resourceManager: ResourceManager) =
+        GoalInteractor(goalsRepository, GoalConverter(), mainRepository, resourceManager)
 
     @Provides
     fun provideImageLoader(@ApplicationContext context: Context) = ImageLoader(context)
 
     @Provides
+    @Singleton
     fun provideResourceManager(@ApplicationContext context: Context) = ResourceManager(context)
 }

@@ -17,5 +17,5 @@ class ResourceManager(
 
     @JvmName("getStringWithArgs")
     fun getString(@StringRes id: Int, vararg args: Any): String =
-        context.resources.getString(id, args)
+        context.resources.getString(id, *args)
 }

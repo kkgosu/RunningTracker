@@ -96,19 +96,19 @@ class ProfileFragment : Fragment() {
             }
         }
         profileViewModel.periodDistance.observe(viewLifecycleOwner) {
-            binding.titleDistanceValueTextView.text = getString(R.string.distance_placeholder, it.toString())
+            binding.titleDistanceValueTextView.text = it
         }
         profileViewModel.periodDuration.observe(viewLifecycleOwner) {
-            binding.timeCurrentGoalTextView.text = getString(R.string.time_goal_placeholder, it.toString())
+            binding.timeCurrentGoalTextView.text = it
         }
         profileViewModel.periodSpeed.observe(viewLifecycleOwner) {
-            binding.speedCurrentGoalTextView.text = getString(R.string.speed_placeholder, it.toString())
+            binding.speedCurrentGoalTextView.text = it
         }
         profileViewModel.periodCalories.observe(viewLifecycleOwner) {
-            binding.caloriesCurrentGoalTextView.text = getString(R.string.calories_placeholder, it.toString())
+            binding.caloriesCurrentGoalTextView.text = it
         }
         profileViewModel.periodPace.observe(viewLifecycleOwner) {
-            binding.paceCurrentGoalTextView.text = getString(R.string.pace_placeholder, it.toString())
+            binding.paceCurrentGoalTextView.text = it
         }
     }
 }
