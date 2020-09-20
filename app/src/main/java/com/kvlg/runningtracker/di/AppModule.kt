@@ -9,6 +9,7 @@ import com.bumptech.glide.RequestManager
 import com.kvlg.runningtracker.db.goals.GoalConverter
 import com.kvlg.runningtracker.db.goals.GoalsDatabase
 import com.kvlg.runningtracker.db.run.RunDatabase
+import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.domain.ProfileInteractor
 import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
@@ -88,4 +89,7 @@ object AppModule {
 
     @Provides
     fun provideProfileInteractor(mainRepository: MainRepository) = ProfileInteractor(mainRepository, GoalConverter())
+
+    @Provides
+    fun provideImageLoader(@ApplicationContext context: Context) = ImageLoader(context)
 }

@@ -1,17 +1,15 @@
 package com.kvlg.runningtracker.ui.main
 
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kvlg.runningtracker.db.run.Run
+import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
-import com.kvlg.runningtracker.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 /**
@@ -21,8 +19,12 @@ import kotlinx.coroutines.launch
 class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository,
     private val sharedPrefs: SharedPreferences,
-    private val runsLiveData: RunsLiveDataRegistry
+    private val runsLiveData: RunsLiveDataRegistry,
+    private val imageLoader: ImageLoader
 ) : ViewModel() {
+
+    private val _savedRun = MutableLiveData<Run>()
+    val savedRun: LiveData<Run> = _savedRun
 
     //region runs
     private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
@@ -33,6 +35,7 @@ class MainViewModel @ViewModelInject constructor(
 
     val runs = MediatorLiveData<List<Run>>()
     var sortType = SortTypes.DATE
+
 
     init {
         runs.addSourceWithSortType(runsSortedByDate, SortTypes.DATE)
@@ -59,8 +62,13 @@ class MainViewModel @ViewModelInject constructor(
         }
     }
 
-    fun insertRun(run: Run) = viewModelScope.launch {
-        mainRepository.insertRun(run)
+    fun saveImageOnDisk(bmp: Bitmap, run: Run) {
+        viewModelScope.launch {
+            val path = imageLoader.saveImageIntoDisk(bmp)
+            val newRun = run.copy(imgPath = path)
+            mainRepository.insertRun(newRun)
+            _savedRun.postValue(newRun)
+        }
     }
 
     fun deleteRun(id: Int) = viewModelScope.launch {

@@ -11,6 +11,7 @@ import com.kvlg.runningtracker.databinding.RunItemBinding
 import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.TrackingUtils
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +30,7 @@ class RunViewHolder(
 
     fun bind(run: Run) {
         with(runItemBinding) {
-            Glide.with(root.context).load(run.img).override(Target.SIZE_ORIGINAL).into(runImage)
+            Glide.with(root.context).load(File(run.imgPath ?: "")).override(Target.SIZE_ORIGINAL).into(runImage)
 
             val calendar = Calendar.getInstance().apply {
                 timeInMillis = run.timestamp

@@ -1,13 +1,12 @@
 package com.kvlg.runningtracker.db.run
 
-import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
  * Data class of Run entity
  *
- * @property [img] Image with run path
+ * @property [imgPath] Image with run path
  * @property [timestamp] Start time of run
  * @property [avgSpeedInKMH] Average Speed in Km/H
  * @property [distanceInMeters] Distance of one run in meters
@@ -20,7 +19,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "run_table")
 data class Run(
-    var img: Bitmap? = null,
+    var imgPath: String? = null,
     var timestamp: Long = 0L,
     var avgSpeedInKMH: Float = 0f,
     var distanceInMeters: Int = 0,

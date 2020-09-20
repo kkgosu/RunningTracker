@@ -205,12 +205,7 @@ class TrackingFragment : Fragment() {
             binding.includedStatistics.durationValueTextView.text = TrackingUtils.getFormattedStopWatchTime(it.timeInMillis)
             binding.includedStatistics.paceValueTextView.text = TrackingUtils.getFormattedPaceTime(it.avgPaceTime)
             map?.snapshot { bitmap ->
-                mainViewModel.insertRun(it.apply { img = bitmap })
-                Snackbar.make(
-                    requireActivity().findViewById(R.id.root_view),
-                    getString(R.string.saved_run_snackbar),
-                    Snackbar.LENGTH_LONG
-                ).show()
+                mainViewModel.saveImageOnDisk(bitmap, it)
                 stopRun()
             }
         }
@@ -223,6 +218,13 @@ class TrackingFragment : Fragment() {
                     (binding.mapView.height * 0.05f).toInt()
                 )
             )
+        }
+        mainViewModel.savedRun.observe(viewLifecycleOwner) {
+            Snackbar.make(
+                requireActivity().findViewById(R.id.root_view),
+                getString(R.string.saved_run_snackbar),
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
 
