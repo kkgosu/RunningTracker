@@ -4,12 +4,16 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.repository.MainRepository
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 /**
@@ -23,8 +27,8 @@ class MainViewModel @ViewModelInject constructor(
     private val imageLoader: ImageLoader
 ) : ViewModel() {
 
-    private val _savedRun = MutableLiveData<Run>()
-    val savedRun: LiveData<Run> = _savedRun
+    private val _savedRun = SingleLiveEvent<Unit>()
+    val savedRun: LiveData<Unit> = _savedRun
 
     //region runs
     private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
@@ -67,7 +71,7 @@ class MainViewModel @ViewModelInject constructor(
             val path = imageLoader.saveImageIntoDisk(bmp)
             val newRun = run.copy(imgPath = path)
             mainRepository.insertRun(newRun)
-            _savedRun.postValue(newRun)
+            _savedRun.call()
         }
     }
 

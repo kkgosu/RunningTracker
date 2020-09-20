@@ -7,13 +7,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 /**
- * Data-access-object for [GoalsDatabase]
+ * Data-access-object for [GoalDatabase]
  *
  * @author Konstantin Koval
  * @since 12.09.2020
  */
 @Dao
-interface GoalsDao {
+interface GoalDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGoal(goal: WeekGoal)
 

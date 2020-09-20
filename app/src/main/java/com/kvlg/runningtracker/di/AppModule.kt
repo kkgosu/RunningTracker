@@ -7,11 +7,12 @@ import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.kvlg.runningtracker.db.goals.GoalConverter
-import com.kvlg.runningtracker.db.goals.GoalsDatabase
+import com.kvlg.runningtracker.db.goals.GoalDao
+import com.kvlg.runningtracker.db.goals.GoalDatabase
 import com.kvlg.runningtracker.db.run.RunDatabase
 import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.domain.ProfileInteractor
-import com.kvlg.runningtracker.repository.MainRepository
+import com.kvlg.runningtracker.repository.GoalRepository
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.Constants.GOALS_DATABASE_NAME
@@ -51,7 +52,7 @@ object AppModule {
         @ApplicationContext appContext: Context
     ) = Room.databaseBuilder(
         appContext,
-        GoalsDatabase::class.java,
+        GoalDatabase::class.java,
         GOALS_DATABASE_NAME
     ).fallbackToDestructiveMigration().build()
 
@@ -61,7 +62,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGoalDAO(db: GoalsDatabase) = db.getGoalsDao()
+    fun provideGoalDAO(db: GoalDatabase) = db.getGoalsDao()
 
     @Provides
     @Singleton
@@ -88,7 +89,11 @@ object AppModule {
     fun provideGlide(@ApplicationContext context: Context): RequestManager = Glide.with(context)
 
     @Provides
-    fun provideProfileInteractor(mainRepository: MainRepository) = ProfileInteractor(mainRepository, GoalConverter())
+    @Singleton
+    fun provideGoalRepository(goalsDao: GoalDao) = GoalRepository(goalsDao)
+
+    @Provides
+    fun provideProfileInteractor(goalsRepository: GoalRepository) = ProfileInteractor(goalsRepository, GoalConverter())
 
     @Provides
     fun provideImageLoader(@ApplicationContext context: Context) = ImageLoader(context)

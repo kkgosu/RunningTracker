@@ -14,10 +14,10 @@ import androidx.room.RoomDatabase
     version = 2,
     exportSchema = false
 )
-abstract class GoalsDatabase : RoomDatabase() {
+abstract class GoalDatabase : RoomDatabase() {
 
     /**
      * Get goals DAO
      */
-    abstract fun getGoalsDao(): GoalsDao
+    abstract fun getGoalsDao(): GoalDao
 }
