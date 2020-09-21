@@ -38,7 +38,7 @@ class TrackingFragment : Fragment() {
         get() = _binding!!
 
     private val mainViewModel: MainViewModel by viewModels()
-    private val trackingViewModel: TrackingViewModel by viewModels()
+    //private val trackingViewModel: TrackingViewModel by viewModels()
 
     private var map: GoogleMap? = null
     private var isTracking = false
@@ -68,7 +68,7 @@ class TrackingFragment : Fragment() {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
-            trackingViewModel.addAllPolylines()
+            //trackingViewModel.addAllPolylines()
         }
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? ConfirmationDialog
@@ -146,8 +146,8 @@ class TrackingFragment : Fragment() {
                     startStopLabelTextView.visibility = View.GONE
                     moreDataButton.visibility = View.VISIBLE
                     moreDataLabelTextView.visibility = View.VISIBLE
-                    trackingViewModel.zoomWholeMap()
-                    trackingViewModel.endRun()
+                    TrackingService.zoomWholeMap()
+                    TrackingService.endRun()
                 }
                 true
             }
@@ -170,36 +170,36 @@ class TrackingFragment : Fragment() {
         TrackingService.isTracking.observe(viewLifecycleOwner) {
             updateTracking(it)
         }
-
+/*
         TrackingService.pathPoints.observe(viewLifecycleOwner) {
             trackingViewModel.populatePathPoints(it)
-        }
+        }*/
 
-        TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
+/*        TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
             trackingViewModel.setCurrentTimeInMillis(it)
             trackingViewModel.updateTimerText()
-        }
+        }*/
 
-        trackingViewModel.pathPoints.observe(viewLifecycleOwner) {
+/*        trackingViewModel.pathPoints.observe(viewLifecycleOwner) {
             trackingViewModel.addLatestPolyline()
             trackingViewModel.moveCameraToUserLocation()
-        }
-        trackingViewModel.timerFormattedText.observe(viewLifecycleOwner) {
+        }*/
+        TrackingService.timerFormattedText.observe(viewLifecycleOwner) {
             binding.timerTextView.text = it
         }
-        trackingViewModel.distanceText.observe(viewLifecycleOwner) {
+        TrackingService.distanceText.observe(viewLifecycleOwner) {
             binding.distanceValueTextView.text = it
         }
-        trackingViewModel.paceText.observe(viewLifecycleOwner) {
+        TrackingService.paceText.observe(viewLifecycleOwner) {
             binding.paceValueTextView.text = it
         }
-        trackingViewModel.cameraUpdateToUserLocation.observe(viewLifecycleOwner) {
+        TrackingService.cameraUpdateToUserLocation.observe(viewLifecycleOwner) {
             map?.animateCamera(it)
         }
-        trackingViewModel.polylineOptions.observe(viewLifecycleOwner) {
+        TrackingService.polylineOptions.observe(viewLifecycleOwner) {
             map?.addPolyline(it)
         }
-        trackingViewModel.run.observe(viewLifecycleOwner) {
+        TrackingService.run.observe(viewLifecycleOwner) {
             binding.includedStatistics.caloriesValueTextView.text = it.caloriesBurned.toString()
             binding.includedStatistics.speedValueTextView.text = it.avgSpeedInKMH.toString()
             binding.includedStatistics.durationValueTextView.text = TrackingUtils.getFormattedStopWatchTime(it.timeInMillis)
@@ -209,7 +209,7 @@ class TrackingFragment : Fragment() {
                 stopRun()
             }
         }
-        trackingViewModel.latLngBounds.observe(viewLifecycleOwner) {
+        TrackingService.latLngBounds.observe(viewLifecycleOwner) {
             map?.moveCamera(
                 CameraUpdateFactory.newLatLngBounds(
                     it,

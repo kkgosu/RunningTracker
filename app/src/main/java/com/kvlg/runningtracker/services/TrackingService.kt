@@ -14,14 +14,21 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.PolylineOptions
 import com.kvlg.runningtracker.R
+import com.kvlg.runningtracker.db.run.Run
+import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.Constants.ACTION_PAUSE_SERVICE
 import com.kvlg.runningtracker.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.kvlg.runningtracker.utils.Constants.ACTION_STOP_SERVICE
@@ -41,7 +48,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
+import kotlin.math.round
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
@@ -61,6 +70,9 @@ class TrackingService : LifecycleService() {
     @Inject
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
+    @set:Inject
+    var weight = 80f
+
     private lateinit var currentNotificationBuilder: NotificationCompat.Builder
 
     private var isServiceStopped = false
@@ -71,7 +83,7 @@ class TrackingService : LifecycleService() {
     private var timeStarted = 0L
     private var lastSecondTimestamp = 0L
 
-    private val timeRunInSeconds = MutableLiveData<Long>()
+    private val timeRunInSeconds = MutableLiveData<Long>(0L)
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult?) {
@@ -90,6 +102,7 @@ class TrackingService : LifecycleService() {
         super.onCreate()
         currentNotificationBuilder = baseNotificationBuilder
         postInitialValues()
+        addAllPolylines()
         fusedLocationProviderClient = FusedLocationProviderClient(this)
         isTracking.observe(this) {
             updateLocationTracking(it)
@@ -132,10 +145,11 @@ class TrackingService : LifecycleService() {
     }
 
     private fun postInitialValues() {
-        isTracking.postValue(false)
-        pathPoints.postValue(mutableListOf())
-        timeRunInSeconds.postValue(0L)
-        timeRunInMillis.postValue(0L)
+        _isTracking.postValue(false)
+        populatePathPoints(mutableListOf())
+        //_pathPoints.postValue(mutableListOf())
+        _timeRunInSeconds.postValue(0L)
+        setCurrentTimeInMillis(0L)// _timeRunInMillis.postValue(0L)
     }
 
     @SuppressLint("MissingPermission")
@@ -187,7 +201,8 @@ class TrackingService : LifecycleService() {
             val pos = LatLng(location.latitude, location.longitude)
             pathPoints.value?.apply {
                 last().add(pos)
-                pathPoints.postValue(this)
+                populatePathPoints(this)
+                //_pathPoints.postValue(this)
             }
         }
     }
@@ -195,13 +210,14 @@ class TrackingService : LifecycleService() {
     private fun addEmptyPolyline() {
         pathPoints.value?.apply {
             add(mutableListOf())
-            pathPoints.postValue(this)
-        } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
+            populatePathPoints(this)
+            //_pathPoints.postValue(this)
+        } ?: populatePathPoints(mutableListOf(mutableListOf()))//_pathPoints.postValue(mutableListOf(mutableListOf()))
     }
 
     private fun startForegroundService() {
         startTimer()
-        isTracking.postValue(true)
+        _isTracking.postValue(true)
         val notificationManager = getSystemService<NotificationManager>()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -221,20 +237,20 @@ class TrackingService : LifecycleService() {
     }
 
     private fun pauseService() {
-        isTracking.postValue(false)
+        _isTracking.postValue(false)
         isTimerEnabled = false
     }
 
     private fun startTimer() {
         addEmptyPolyline()
-        isTracking.postValue(true)
+        _isTracking.postValue(true)
         timeStarted = System.currentTimeMillis()
         isTimerEnabled = true
         CoroutineScope(Dispatchers.Main).launch {
             while (isTracking.value!!) {
                 lapTime = System.currentTimeMillis() - timeStarted
-                timeRunInMillis.postValue(timeRun + lapTime)
-                if (timeRunInMillis.value!! >= lastSecondTimestamp + SECOND) {
+                setCurrentTimeInMillis(timeRun + lapTime)// _timeRunInMillis.postValue(timeRun + lapTime)
+                if (timeRunInMillis >= lastSecondTimestamp + SECOND) {
                     timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
                     lastSecondTimestamp += SECOND
                 }
@@ -252,10 +268,133 @@ class TrackingService : LifecycleService() {
     }
 
     companion object {
-        val isTracking = MutableLiveData<Boolean>()
-        val pathPoints = MutableLiveData<Polylines>()
-        val timeRunInMillis = MutableLiveData<Long>()
-
         private const val SECOND = 1000L
+        private const val MET = 9
+        private val _isTracking = MutableLiveData<Boolean>()
+        private val _pathPoints = MutableLiveData<Polylines>()
+        private val _cameraUpdate = MutableLiveData<CameraUpdate>()
+        private val _run = MutableLiveData<Run>()
+        private val _polylineOptions = MutableLiveData<PolylineOptions>()
+        private val _latLngBounds = MutableLiveData<LatLngBounds>()
+        private val _timerFormattedText = MutableLiveData<String>()
+        private val _distance = MutableLiveData<String>()
+        private val _pace = MutableLiveData<String>()
+
+        private val _timeRunInSeconds = MutableLiveData<Long>()
+        var timeRunInMillis = 0L
+
+        private var currentDistanceInMeters = 0F
+
+        //for pace calculation
+        private var lastKm = 0
+        private var lastCurrentTimeInMillis = 0L
+
+        private val paceTimes = mutableListOf<Long>()
+        val isTracking: LiveData<Boolean> = _isTracking
+        val pathPoints: LiveData<MutableList<Polyline>> = _pathPoints
+        val cameraUpdateToUserLocation: LiveData<CameraUpdate> = _cameraUpdate
+        val run: LiveData<Run> = _run
+        val polylineOptions: LiveData<PolylineOptions> = _polylineOptions
+        val latLngBounds: LiveData<LatLngBounds> = _latLngBounds
+        val timerFormattedText: LiveData<String> = _timerFormattedText
+        val distanceText: LiveData<String> = _distance
+        val paceText: LiveData<String> = _pace
+
+        private fun updateDistanceText() {
+            _pathPoints.value?.let {
+                if (it.isNotEmpty() && it.last().size > 1) {
+                    val lastTwo = it[0].takeLast(2)
+                    currentDistanceInMeters += TrackingUtils.calculateDistanceBetweenCoordinates(lastTwo[0], lastTwo[1])
+                    _distance.value = String.format("%.2f", currentDistanceInMeters / 1000F)
+
+                    if ((currentDistanceInMeters / 1000).toInt() == lastKm + 1) {
+                        val ms = this.timeRunInMillis - lastCurrentTimeInMillis
+                        _pace.value = TrackingUtils.getFormattedPaceTime(ms)
+                        paceTimes.add(ms)
+                        lastKm++
+                        lastCurrentTimeInMillis = this.timeRunInMillis
+                    }
+                }
+            }
+        }
+
+        private fun updateTimerText() {
+            _timerFormattedText.value = TrackingUtils.getFormattedStopWatchTime(this.timeRunInMillis, true)
+        }
+
+        fun zoomWholeMap() {
+            val bounds = LatLngBounds.Builder()
+            _pathPoints.value?.let {
+                it.forEach { polyline ->
+                    polyline.forEach { latLng ->
+                        bounds.include(latLng)
+                    }
+                }
+            }
+            _latLngBounds.value = bounds.build()
+        }
+
+        fun addLatestPolyline() {
+            _pathPoints.value?.let {
+                if (it.isNotEmpty() && it.last().size > 1) {
+                    val preLastLatLng = it.last()[it.last().size - 2]
+                    val lastLatLng = it.last().last()
+                    val polylineOptions = getPolylineOptions()
+                        .add(preLastLatLng)
+                        .add(lastLatLng)
+                    _polylineOptions.value = polylineOptions
+                }
+            }
+        }
+
+        fun addAllPolylines() {
+            _pathPoints.value?.let { points ->
+                points.forEach {
+                    _polylineOptions.value = getPolylineOptions().addAll(it)
+                }
+            }
+        }
+
+        private fun getPolylineOptions(): PolylineOptions = PolylineOptions()
+            .color(Constants.POLYLINE_COLOR)
+            .width(Constants.POLYLINE_WIDTH)
+
+        fun populatePathPoints(polylines: Polylines) {
+            _pathPoints.value = polylines
+            updateDistanceText()
+            addLatestPolyline()
+            moveCameraToUserLocation()
+        }
+
+        fun setCurrentTimeInMillis(millis: Long) {
+            this.timeRunInMillis = millis
+            updateTimerText()
+        }
+
+        fun endRun() {
+            var distanceInMeters = 0
+            _pathPoints.value!!.forEach {
+                distanceInMeters += TrackingUtils.calculatePolylineLength(it).toInt()
+            }
+            val avgSpeed = round((distanceInMeters / 1000f) / (this.timeRunInMillis / 1000f / 60 / 60) * 10) / 10f
+            val dateTimeStamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((MET * 70 * 3.5f) / 200) * (this.timeRunInMillis / 1000f / 60)
+            val avgPaceTime = paceTimes.average().toLong()
+            val run = Run(null, dateTimeStamp, avgSpeed, distanceInMeters, this.timeRunInMillis, caloriesBurned.toInt(), avgPaceTime)
+
+            _run.value = run
+        }
+
+        fun moveCameraToUserLocation() {
+            _pathPoints.value?.let {
+                if (it.isNotEmpty() && it.last().isNotEmpty()) {
+                    if (it.last().size == 1 && it.size == 1) {
+                        _cameraUpdate.value = CameraUpdateFactory.newLatLngZoom(it.last().last(), Constants.MAP_ZOOM)
+                    } else {
+                        _cameraUpdate.value = CameraUpdateFactory.newLatLng(it.last().last())
+                    }
+                }
+            }
+        }
     }
 }
