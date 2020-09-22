@@ -147,7 +147,15 @@ class TrackingService : LifecycleService() {
     private fun postInitialValues() {
         _isTracking.postValue(false)
         populatePathPoints(mutableListOf())
+        _distance.value = String.format("%.2f", 0F)
+        _pace.value = TrackingUtils.getFormattedPaceTime(0)
         _timeRunInSeconds.postValue(0L)
+        setCurrentTimeInMillis(0)
+        currentDistanceInMeters = 0F
+        lastKm = 0
+        lastCurrentTimeInMillis = 0L
+        updateDistanceText()
+        updateTimerText()
     }
 
     @SuppressLint("MissingPermission")
@@ -213,7 +221,6 @@ class TrackingService : LifecycleService() {
 
     private fun startForegroundService() {
         startTimer()
-        _isTracking.postValue(true)
         val notificationManager = getSystemService<NotificationManager>()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

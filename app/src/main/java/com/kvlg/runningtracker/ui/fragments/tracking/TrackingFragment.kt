@@ -68,7 +68,6 @@ class TrackingFragment : Fragment() {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
-            //trackingViewModel.addAllPolylines()
         }
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? ConfirmationDialog
@@ -170,20 +169,6 @@ class TrackingFragment : Fragment() {
         TrackingService.isTracking.observe(viewLifecycleOwner) {
             updateTracking(it)
         }
-/*
-        TrackingService.pathPoints.observe(viewLifecycleOwner) {
-            trackingViewModel.populatePathPoints(it)
-        }*/
-
-/*        TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
-            trackingViewModel.setCurrentTimeInMillis(it)
-            trackingViewModel.updateTimerText()
-        }*/
-
-/*        trackingViewModel.pathPoints.observe(viewLifecycleOwner) {
-            trackingViewModel.addLatestPolyline()
-            trackingViewModel.moveCameraToUserLocation()
-        }*/
         TrackingService.timerFormattedText.observe(viewLifecycleOwner) {
             binding.timerTextView.text = it
         }
