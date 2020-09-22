@@ -83,7 +83,7 @@ class TrackingService : LifecycleService() {
     private var timeStarted = 0L
     private var lastSecondTimestamp = 0L
 
-    private val timeRunInSeconds = MutableLiveData<Long>(0L)
+    private val timeRunInSeconds = MutableLiveData(0L)
 
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult?) {
@@ -147,9 +147,7 @@ class TrackingService : LifecycleService() {
     private fun postInitialValues() {
         _isTracking.postValue(false)
         populatePathPoints(mutableListOf())
-        //_pathPoints.postValue(mutableListOf())
         _timeRunInSeconds.postValue(0L)
-        setCurrentTimeInMillis(0L)// _timeRunInMillis.postValue(0L)
     }
 
     @SuppressLint("MissingPermission")
@@ -202,7 +200,6 @@ class TrackingService : LifecycleService() {
             pathPoints.value?.apply {
                 last().add(pos)
                 populatePathPoints(this)
-                //_pathPoints.postValue(this)
             }
         }
     }
@@ -211,8 +208,7 @@ class TrackingService : LifecycleService() {
         pathPoints.value?.apply {
             add(mutableListOf())
             populatePathPoints(this)
-            //_pathPoints.postValue(this)
-        } ?: populatePathPoints(mutableListOf(mutableListOf()))//_pathPoints.postValue(mutableListOf(mutableListOf()))
+        } ?: populatePathPoints(mutableListOf(mutableListOf()))
     }
 
     private fun startForegroundService() {
@@ -249,7 +245,7 @@ class TrackingService : LifecycleService() {
         CoroutineScope(Dispatchers.Main).launch {
             while (isTracking.value!!) {
                 lapTime = System.currentTimeMillis() - timeStarted
-                setCurrentTimeInMillis(timeRun + lapTime)// _timeRunInMillis.postValue(timeRun + lapTime)
+                setCurrentTimeInMillis(timeRun + lapTime)
                 if (timeRunInMillis >= lastSecondTimestamp + SECOND) {
                     timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
                     lastSecondTimestamp += SECOND
@@ -281,7 +277,7 @@ class TrackingService : LifecycleService() {
         private val _pace = MutableLiveData<String>()
 
         private val _timeRunInSeconds = MutableLiveData<Long>()
-        var timeRunInMillis = 0L
+        private var timeRunInMillis = 0L
 
         private var currentDistanceInMeters = 0F
 
@@ -334,7 +330,7 @@ class TrackingService : LifecycleService() {
             _latLngBounds.value = bounds.build()
         }
 
-        fun addLatestPolyline() {
+        private fun addLatestPolyline() {
             _pathPoints.value?.let {
                 if (it.isNotEmpty() && it.last().size > 1) {
                     val preLastLatLng = it.last()[it.last().size - 2]
@@ -385,7 +381,7 @@ class TrackingService : LifecycleService() {
             _run.value = run
         }
 
-        fun moveCameraToUserLocation() {
+        private fun moveCameraToUserLocation() {
             _pathPoints.value?.let {
                 if (it.isNotEmpty() && it.last().isNotEmpty()) {
                     if (it.last().size == 1 && it.size == 1) {
