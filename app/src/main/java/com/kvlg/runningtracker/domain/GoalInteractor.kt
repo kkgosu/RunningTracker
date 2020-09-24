@@ -3,12 +3,10 @@ package com.kvlg.runningtracker.domain
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.db.goals.GoalConverter
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.repository.GoalRepository
 import com.kvlg.runningtracker.repository.MainRepository
-import com.kvlg.runningtracker.utils.TrackingUtils
 import kotlinx.coroutines.Dispatchers
 import com.kvlg.runningtracker.db.goals.WeekGoal as WeekGoalDb
 
@@ -22,50 +20,39 @@ class GoalInteractor(
     private val goalsRepository: GoalRepository,
     private val goalConverter: GoalConverter,
     private val mainRepository: MainRepository,
-    private val resourceManager: ResourceManager
 ) {
 
-    fun loadPeriodDistance(timeStamp: Long): LiveData<String> {
+    fun loadPeriodDistance(timeStamp: Long): LiveData<Float> {
         return liveData(Dispatchers.IO) {
-            val source = mainRepository.getPeriodDistance(timeStamp).map {
-                resourceManager.getString(R.string.distance_placeholder, String.format("%.2f", (it?.sum() ?: 0) / 1000F))
-            }
+            val source = mainRepository.getPeriodDistance(timeStamp).map { (it?.sum() ?: 0) / 1000F }
             emitSource(source)
         }
     }
 
-    fun loadPeriodDuration(timeStamp: Long): LiveData<String> {
+    fun loadPeriodDuration(timeStamp: Long): LiveData<Long> {
         return liveData(Dispatchers.IO) {
-            val source = mainRepository.getPeriodDuration(timeStamp).map {
-                resourceManager.getString(R.string.time_goal_placeholder, TrackingUtils.getFormattedStopWatchTime(it?.sum() ?: 0L))
-            }
+            val source = mainRepository.getPeriodDuration(timeStamp).map { it?.sum() ?: 0L }
             emitSource(source)
         }
     }
 
-    fun loadPeriodSpeed(timeStamp: Long): LiveData<String> {
+    fun loadPeriodSpeed(timeStamp: Long): LiveData<Float> {
         return liveData(Dispatchers.IO) {
-            val source = mainRepository.getPeriodAvgSpeed(timeStamp).map {
-                resourceManager.getString(R.string.speed_placeholder, String.format("%.2f", it?.average()?.toFloat() ?: 0F))
-            }
+            val source = mainRepository.getPeriodAvgSpeed(timeStamp).map { it?.average()?.toFloat() ?: 0F }
             emitSource(source)
         }
     }
 
-    fun loadPeriodCalories(timeStamp: Long): LiveData<String> {
+    fun loadPeriodCalories(timeStamp: Long): LiveData<Int> {
         return liveData(Dispatchers.IO) {
-            val source = mainRepository.getPeriodCalories(timeStamp).map {
-                resourceManager.getString(R.string.calories_placeholder, (it?.sum() ?: 0).toString())
-            }
+            val source = mainRepository.getPeriodCalories(timeStamp).map { it?.sum() ?: 0 }
             emitSource(source)
         }
     }
 
-    fun loadPeriodPace(timeStamp: Long): LiveData<String> {
+    fun loadPeriodPace(timeStamp: Long): LiveData<Long> {
         return liveData(Dispatchers.IO) {
-            val source = mainRepository.getPeriodAvgPace(timeStamp).map {
-                resourceManager.getString(R.string.pace_placeholder, TrackingUtils.getFormattedPaceTime(it?.average()?.toLong() ?: 0L))
-            }
+            val source = mainRepository.getPeriodAvgPace(timeStamp).map { it?.average()?.toLong() ?: 0L }
             emitSource(source)
         }
     }

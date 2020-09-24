@@ -8,10 +8,13 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.domain.GoalInteractor
+import com.kvlg.runningtracker.domain.ResourceManager
 import com.kvlg.runningtracker.models.WeekGoal
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.SingleLiveEvent
+import com.kvlg.runningtracker.utils.TrackingUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -26,14 +29,17 @@ class ProfileViewModel @ViewModelInject constructor(
     private val prefs: SharedPreferences,
     private val requestManager: RequestManager,
     private val goalInteractor: GoalInteractor,
+    private val resourceManager: ResourceManager
 ) : ViewModel() {
 
     private val _drawable = MutableLiveData<Drawable>()
     private val _weekGoals = MutableLiveData<Boolean>()
     private val _closeScreen = SingleLiveEvent<Unit>()
     private val _closeScreenAlert = SingleLiveEvent<Unit>()
-    private val _periodTrigger = MutableLiveData<Long>()
-    private val _durationTrigger = MutableLiveData<Pair<Long, WeekGoal>>()
+    private val _periodTrigger = MutableLiveData<Pair<Long, WeekGoal>>()
+    private val _durationProgress = MutableLiveData<Float>()
+
+    val durationProgress: LiveData<Float> = _durationProgress
 
     /**
      * Avatar image drawable
@@ -60,48 +66,52 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current period distance
      */
-    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) {
-        goalInteractor.loadPeriodDistance(it)
+    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+        goalInteractor.loadPeriodDistance(time).map { distance ->
+            resourceManager.getString(R.string.distance_placeholder, String.format("%.2f", distance))
+        }
     }
 
     /**
      * Current period duration
      */
-    val periodDuration: LiveData<String> = Transformations.switchMap(_periodTrigger) {
-        goalInteractor.loadPeriodDuration(it)
+    val periodDuration: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
+        goalInteractor.loadPeriodDuration(time).map { duration ->
+            val goal = weekGoal.time.toBigDecimal()
+            _durationProgress.value = if (goal.compareTo(BigDecimal.ZERO) == 0) 0F else (duration / goal.toFloat())
+            resourceManager.getString(R.string.time_goal_placeholder, TrackingUtils.getFormattedStopWatchTime(duration))
+        }
     }
 
     /**
      * Current period speed
      */
-    val periodSpeed: LiveData<String> = Transformations.switchMap(_periodTrigger) {
-        goalInteractor.loadPeriodSpeed(it)
+    val periodSpeed: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+        goalInteractor.loadPeriodSpeed(time).map { speed ->
+            resourceManager.getString(R.string.speed_placeholder, String.format("%.2f", speed))
+        }
     }
 
     /**
      * Current period calories
      */
-    val periodCalories: LiveData<String> = Transformations.switchMap(_periodTrigger) {
-        goalInteractor.loadPeriodCalories(it)
+    val periodCalories: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+        goalInteractor.loadPeriodCalories(time).map { calories ->
+            resourceManager.getString(R.string.calories_placeholder, calories.toString())
+        }
     }
 
     /**
      * Current period pace
      */
-    val periodPace: LiveData<String> = Transformations.switchMap(_periodTrigger) {
-        goalInteractor.loadPeriodPace(it)
-    }
-
-    val durationProgress: LiveData<Float> = Transformations.switchMap(_durationTrigger) { (timestamp, weekGoal) ->
-        goalInteractor.loadPeriodDuration(timestamp).map {
-            val current = it.replace(ALL_NON_NUMBERS.toRegex(), "")
-            val goal = weekGoal.time.toBigDecimal()
-            if (goal.compareTo(BigDecimal.ZERO) == 0) 0F else (current.toFloat() / goal.toFloat())
+    val periodPace: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+        goalInteractor.loadPeriodPace(time).map { pace ->
+            resourceManager.getString(R.string.pace_placeholder, TrackingUtils.getFormattedPaceTime(pace))
         }
     }
 
-    fun getPeriodResults(currentTime: Long) {
-        _periodTrigger.value = currentTime - MS_IN_WEEK
+    fun getPeriodResults(currentTime: Long, weekGoal: WeekGoal) {
+        _periodTrigger.value = Pair(currentTime - MS_IN_WEEK, weekGoal)
     }
 
     fun getWeekGoal() {
@@ -143,12 +153,7 @@ class ProfileViewModel @ViewModelInject constructor(
         }
     }
 
-    fun getDurationProgress(timestamp: Long, goals: WeekGoal) {
-        _durationTrigger.value = Pair(timestamp, goals)
-    }
-
     companion object {
         private const val MS_IN_WEEK = 604800000L
-        private const val ALL_NON_NUMBERS = "[^0-9.]"
     }
 }

@@ -41,7 +41,6 @@ class ProfileFragment : Fragment() {
         subscribeObservers()
         profileViewModel.loadAvatar()
         profileViewModel.getWeekGoal()
-        profileViewModel.getPeriodResults(System.currentTimeMillis())
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragmentV2)
         }
@@ -94,7 +93,7 @@ class ProfileFragment : Fragment() {
                 speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed)
                 caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories)
             }
-            profileViewModel.getDurationProgress(System.currentTimeMillis(), it)
+            profileViewModel.getPeriodResults(System.currentTimeMillis(), it)
         }
         profileViewModel.periodDistance.observe(viewLifecycleOwner) {
             binding.titleDistanceValueTextView.text = it
