@@ -94,6 +94,7 @@ class ProfileFragment : Fragment() {
                 speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed)
                 caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories)
             }
+            profileViewModel.getDurationProgress(System.currentTimeMillis(), it)
         }
         profileViewModel.periodDistance.observe(viewLifecycleOwner) {
             binding.titleDistanceValueTextView.text = it
@@ -109,6 +110,9 @@ class ProfileFragment : Fragment() {
         }
         profileViewModel.periodPace.observe(viewLifecycleOwner) {
             binding.paceCurrentGoalTextView.text = it
+        }
+        profileViewModel.durationProgress.observe(viewLifecycleOwner) {
+            binding.timeGoalProgress.setProgress(it)
         }
     }
 }

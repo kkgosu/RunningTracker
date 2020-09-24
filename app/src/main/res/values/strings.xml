@@ -69,6 +69,7 @@
     <string name="week_goals">Week Goals</string>
     <string name="are_you_sure_title">Are you sure?</string>
     <string name="changes_wont_be_saved">Changes won\'t be saved</string>
+    <string name="edit_goals">Edit Goals</string>
 
     <string-array name="filter_options">
         <item>Date</item>
