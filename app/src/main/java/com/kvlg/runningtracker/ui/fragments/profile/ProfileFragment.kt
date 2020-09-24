@@ -113,5 +113,14 @@ class ProfileFragment : Fragment() {
         profileViewModel.durationProgress.observe(viewLifecycleOwner) {
             binding.timeGoalProgress.setProgress(it)
         }
+        profileViewModel.speedProgress.observe(viewLifecycleOwner) {
+            binding.speedGoalProgress.setProgress(it)
+        }
+        profileViewModel.caloriesProgress.observe(viewLifecycleOwner) {
+            binding.caloriesGoalProgress.setProgress(it)
+        }
+        profileViewModel.paceProgress.observe(viewLifecycleOwner) {
+            binding.paceGoalProgress.setProgress(it)
+        }
     }
 }

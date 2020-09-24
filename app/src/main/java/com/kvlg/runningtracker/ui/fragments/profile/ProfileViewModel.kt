@@ -38,8 +38,14 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _closeScreenAlert = SingleLiveEvent<Unit>()
     private val _periodTrigger = MutableLiveData<Pair<Long, WeekGoal>>()
     private val _durationProgress = MutableLiveData<Float>()
+    private val _paceProgress = MutableLiveData<Float>()
+    private val _caloriesProgress = MutableLiveData<Float>()
+    private val _speedProgress = MutableLiveData<Float>()
 
     val durationProgress: LiveData<Float> = _durationProgress
+    val paceProgress: LiveData<Float> = _paceProgress
+    val caloriesProgress: LiveData<Float> = _caloriesProgress
+    val speedProgress: LiveData<Float> = _speedProgress
 
     /**
      * Avatar image drawable
@@ -66,7 +72,7 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current period distance
      */
-    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
         goalInteractor.loadPeriodDistance(time).map { distance ->
             resourceManager.getString(R.string.distance_placeholder, String.format("%.2f", distance))
         }
@@ -78,7 +84,7 @@ class ProfileViewModel @ViewModelInject constructor(
     val periodDuration: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
         goalInteractor.loadPeriodDuration(time).map { duration ->
             val goal = weekGoal.time.toBigDecimal()
-            _durationProgress.value = if (goal.compareTo(BigDecimal.ZERO) == 0) 0F else (duration / goal.toFloat())
+            _durationProgress.value = duration progressOf goal
             resourceManager.getString(R.string.time_goal_placeholder, TrackingUtils.getFormattedStopWatchTime(duration))
         }
     }
@@ -86,8 +92,10 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current period speed
      */
-    val periodSpeed: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+    val periodSpeed: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
         goalInteractor.loadPeriodSpeed(time).map { speed ->
+            val goal = weekGoal.speed.toBigDecimal()
+            _speedProgress.value = speed progressOf goal
             resourceManager.getString(R.string.speed_placeholder, String.format("%.2f", speed))
         }
     }
@@ -95,8 +103,10 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current period calories
      */
-    val periodCalories: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+    val periodCalories: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
         goalInteractor.loadPeriodCalories(time).map { calories ->
+            val goal = weekGoal.calories.toBigDecimal()
+            _caloriesProgress.value = calories progressOf goal
             resourceManager.getString(R.string.calories_placeholder, calories.toString())
         }
     }
@@ -104,8 +114,10 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current period pace
      */
-    val periodPace: LiveData<String> = Transformations.switchMap(_periodTrigger) {(time, weekGoal) ->
+    val periodPace: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
         goalInteractor.loadPeriodPace(time).map { pace ->
+/*            val goal = weekGoal.pace.toBigDecimal()
+            _paceProgress.value = pace progressOf goal*/
             resourceManager.getString(R.string.pace_placeholder, TrackingUtils.getFormattedPaceTime(pace))
         }
     }
@@ -152,6 +164,9 @@ class ProfileViewModel @ViewModelInject constructor(
             _closeScreenAlert.call()
         }
     }
+
+    private infix fun Number.progressOf(num: BigDecimal): Float =
+        (if (num.compareTo(BigDecimal.ZERO) == 0) 0F else this.toFloat() / num.toFloat()) * 100
 
     companion object {
         private const val MS_IN_WEEK = 604800000L
