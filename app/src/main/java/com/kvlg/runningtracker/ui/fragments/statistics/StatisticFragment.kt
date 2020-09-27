@@ -87,24 +87,18 @@ class StatisticFragment : Fragment() {
         viewModel.runsSortedByDate.observe(viewLifecycleOwner) {
             it?.let {
                 val reversedRuns = it.asReversed()
-                val allAvgSpeeds = reversedRuns.indices.map { i -> BarEntry(i.toFloat(), reversedRuns[i].avgSpeedInKMH) }
+                val allAvgSpeeds = reversedRuns.indices.map { i -> BarEntry(i.toFloat(), reversedRuns[i].distanceInMeters / 1000F) }
                 val barDataSet = BarDataSet(allAvgSpeeds, "Avg Speed Over Time").apply {
                     valueTextColor = Color.YELLOW
                     valueTextSize = CHART_TEXT_SIZE
                     color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
                 }
-                setupBarChart(reversedRuns)
-                binding.barChart.apply {
-                    data = BarData(barDataSet)
-                    marker = CustomMarkerView(requireContext(), reversedRuns, R.layout.marker_view)
-                    animateY(500)
-                    invalidate()
-                }
+                setupBarChart(barDataSet, reversedRuns)
             }
         }
     }
 
-    private fun setupBarChart(list: List<Run>) {
+    private fun setupBarChart(dataSet: BarDataSet, list: List<Run>) {
         binding.barChart.xAxis.apply {
             position = XAxis.XAxisPosition.BOTTOM_INSIDE
             axisLineColor = CHART_AXIS_LINE_COLOR
@@ -127,10 +121,15 @@ class StatisticFragment : Fragment() {
             setDrawGridLines(false)
         }
         binding.barChart.apply {
+            data = BarData(dataSet).apply { barWidth = 1f }
+            marker = CustomMarkerView(requireContext(), list, R.layout.marker_view)
+            animateY(500)
             description.isEnabled = false
             legend.isEnabled = false
             setDrawValueAboveBar(true)
-            setMaxVisibleValueCount(30)
+            setVisibleXRangeMaximum(10F)
+            moveViewToX(30F)
+            invalidate()
         }
     }
 
