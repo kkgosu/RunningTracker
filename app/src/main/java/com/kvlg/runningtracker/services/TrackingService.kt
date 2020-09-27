@@ -138,8 +138,9 @@ class TrackingService : LifecycleService() {
     private fun stopService() {
         isServiceStopped = true
         isFirstRun = true
+        _isTracking.postValue(false)
+        addLatestPolyline()
         pauseService()
-        updateDistanceText()
         updateTimerText()
         stopForeground(true)
         stopSelf()

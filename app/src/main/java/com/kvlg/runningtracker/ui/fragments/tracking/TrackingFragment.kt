@@ -38,7 +38,6 @@ class TrackingFragment : Fragment() {
         get() = _binding!!
 
     private val mainViewModel: MainViewModel by viewModels()
-    //private val trackingViewModel: TrackingViewModel by viewModels()
 
     private var map: GoogleMap? = null
     private var isTracking = false

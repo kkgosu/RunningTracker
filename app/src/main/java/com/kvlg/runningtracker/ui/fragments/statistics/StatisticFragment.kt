@@ -112,12 +112,14 @@ class StatisticFragment : Fragment() {
             axisLineColor = CHART_AXIS_LINE_COLOR
             textColor = CHART_TEXT_COLOR
             textSize = CHART_TEXT_SIZE
+            axisMinimum = 0F
             setDrawGridLines(false)
         }
         binding.barChart.axisRight.apply {
             axisLineColor = CHART_AXIS_LINE_COLOR
             textColor = CHART_TEXT_COLOR
             textSize = CHART_TEXT_SIZE
+            axisMinimum = 0F
             setDrawGridLines(false)
         }
         binding.barChart.apply {
