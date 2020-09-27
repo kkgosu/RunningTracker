@@ -77,6 +77,7 @@ class TrackingFragment : Fragment() {
         setupStartStopButton()
         setupMoreDataButton()
         subscribeToObservers()
+        sendCommandToService(Constants.ACTION_CLEAR_VALUE_SERVICE)
     }
 
     override fun onStart() {

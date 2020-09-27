@@ -139,7 +139,8 @@ class TrackingService : LifecycleService() {
         isServiceStopped = true
         isFirstRun = true
         pauseService()
-        postInitialValues()
+        updateDistanceText()
+        updateTimerText()
         stopForeground(true)
         stopSelf()
     }
