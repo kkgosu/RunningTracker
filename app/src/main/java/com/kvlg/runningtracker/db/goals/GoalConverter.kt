@@ -15,6 +15,7 @@ class GoalConverter {
         speed = getPlainString(dbGoal?.speed ?: 0.0),
         distance = getPlainString(dbGoal?.distance ?: 0.0),
         calories = getPlainString(dbGoal?.calories ?: 0.0),
+        pace = getPlainString(dbGoal?.pace ?: 0.0)
     )
 
     private fun getPlainString(value: Double) = BigDecimal.valueOf(value).stripTrailingZeros().toPlainString()

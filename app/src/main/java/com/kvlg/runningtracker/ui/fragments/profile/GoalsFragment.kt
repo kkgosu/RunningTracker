@@ -76,6 +76,7 @@ class GoalsFragment : Fragment() {
                 speedInput.setText(it.speed)
                 durationInput.setText(it.time)
                 caloriesInput.setText(it.calories)
+                paceInput.setText(it.pace)
             }
         }
         profileViewModel.closeScreen.observe(viewLifecycleOwner) {
@@ -110,7 +111,8 @@ class GoalsFragment : Fragment() {
             time = durationInput.getOrZero(),
             speed = speedInput.getOrZero(),
             distance = distanceInput.getOrZero(),
-            calories = caloriesInput.getOrZero()
+            calories = caloriesInput.getOrZero(),
+            pace = paceInput.getOrZero()
         )
     }
 

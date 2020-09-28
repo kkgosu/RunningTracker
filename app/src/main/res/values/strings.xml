@@ -70,6 +70,7 @@
     <string name="are_you_sure_title">Are you sure?</string>
     <string name="changes_wont_be_saved">Changes won\'t be saved</string>
     <string name="edit_goals">Edit Goals</string>
+    <string name="pace_goal">Pace goal</string>
 
     <string-array name="filter_options">
         <item>Date</item>

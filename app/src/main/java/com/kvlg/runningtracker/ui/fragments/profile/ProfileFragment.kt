@@ -89,7 +89,7 @@ class ProfileFragment : Fragment() {
         profileViewModel.weekGoals.observe(viewLifecycleOwner) {
             with(binding) {
                 timeGoalTextView.text = getString(R.string.time_goal_placeholder, it.time)
-                paceCurrentGoalTextView.text = getString(R.string.distance_placeholder, it.distance)
+                paceGoalTextView.text = getString(R.string.pace_placeholder, it.pace)
                 speedGoalTextView.text = getString(R.string.speed_placeholder, it.speed)
                 caloriesGoalTextView.text = getString(R.string.calories_placeholder, it.calories)
             }

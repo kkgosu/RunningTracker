@@ -10,5 +10,6 @@ data class WeekGoal(
     val time: String,
     val speed: String,
     val distance: String,
-    val calories: String
+    val calories: String,
+    val pace: String
 )

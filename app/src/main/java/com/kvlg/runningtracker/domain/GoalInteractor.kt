@@ -73,7 +73,8 @@ class GoalInteractor(
                 distance = goal.distance.toDouble(),
                 time = goal.time.toDouble(),
                 speed = goal.speed.toDouble(),
-                calories = goal.calories.toDouble()
+                calories = goal.calories.toDouble(),
+                pace = goal.pace.toDouble()
             )
         )
     }

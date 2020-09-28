@@ -14,5 +14,6 @@ data class WeekGoal(
     val distance: Double,
     val time: Double,
     val speed: Double,
-    val calories: Double
+    val calories: Double,
+    val pace: Double
 )
