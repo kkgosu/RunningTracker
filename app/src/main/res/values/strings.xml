@@ -71,6 +71,10 @@
     <string name="changes_wont_be_saved">Changes won\'t be saved</string>
     <string name="edit_goals">Edit Goals</string>
     <string name="pace_goal">Pace goal</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="name_email_title">Enter your name and email</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="filter_options">
         <item>Date</item>

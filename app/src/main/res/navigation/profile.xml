@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragmentV2"
-        android:name="com.kvlg.runningtracker.ui.fragments.SettingsFragment"
+        android:name="com.kvlg.runningtracker.ui.fragments.settings.SettingsFragment"
         android:label="SettingsFragmentV2" />
     <fragment
         android:id="@+id/goalsFragment"
