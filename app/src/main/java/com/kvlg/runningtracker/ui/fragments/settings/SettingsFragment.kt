@@ -1,18 +1,16 @@
 package com.kvlg.runningtracker.ui.fragments.settings
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
-import com.kvlg.runningtracker.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * @author Konstantin Koval
@@ -24,8 +22,7 @@ class SettingsFragment : Fragment() {
     private val binding: FragmentSettingsBinding
         get() = _binding!!
 
-    @Inject
-    lateinit var sharedPref: SharedPreferences
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,6 +44,18 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        subscribeToObservers()
+        setupToolbar()
+        settingsViewModel.loadNameAndEmail()
+        binding.accountSettingsButton.setOnClickListener { settingsViewModel.showNameEmailDialog() }
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
+    }
+
+    private fun setupToolbar() {
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbar)
             supportActionBar?.run {
@@ -54,27 +63,20 @@ class SettingsFragment : Fragment() {
             }
             title = ""
         }
-        val name = sharedPref.getString(Constants.KEY_PREF_NAME, "Name")!!
-        val email = sharedPref.getString(Constants.KEY_PREF_EMAIL, "Email")!!
-        binding.nameTextView.text = name
-        binding.emailTextView.text = email
-        binding.accountSettingsButton.setOnClickListener {
+    }
+
+    private fun subscribeToObservers() {
+        settingsViewModel.nameAndEmail.observe(viewLifecycleOwner) { (name, email) ->
+            binding.nameTextView.text = name
+            binding.emailTextView.text = email
+        }
+        settingsViewModel.showNameEmailDialog.observe(viewLifecycleOwner) { (name, email) ->
             NameEmailDialog(name, email).apply {
                 isCancelable = false
-                setListener { name, email ->
-                    sharedPref.edit().apply {
-                        putString(Constants.KEY_PREF_NAME, name)
-                        putString(Constants.KEY_PREF_EMAIL, email)
-                    }.apply()
-                    binding.nameTextView.text = name
-                    binding.emailTextView.text = email
+                setListener { newName, newEmail ->
+                    settingsViewModel.saveNameAndEmail(newName, newEmail)
                 }
             }.show(parentFragmentManager, NameEmailDialog.TAG)
         }
-    }
-
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
     }
 }

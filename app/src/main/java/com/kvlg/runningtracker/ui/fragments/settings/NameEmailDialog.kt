@@ -19,7 +19,7 @@ class NameEmailDialog(
     private val name: String,
     private val email: String
 ) : DialogFragment() {
-    private var listener: ((String?, String?) -> Unit)? = null
+    private var listener: ((String, String) -> Unit)? = null
 
     private var _binding: SettingsNameDialogLayoutBinding? = null
     private val binding: SettingsNameDialogLayoutBinding get() = _binding!!
@@ -43,7 +43,7 @@ class NameEmailDialog(
             .create()
     }
 
-    fun setListener(listener: (String?, String?) -> Unit) {
+    fun setListener(listener: (String, String) -> Unit) {
         this.listener = listener
     }
 
