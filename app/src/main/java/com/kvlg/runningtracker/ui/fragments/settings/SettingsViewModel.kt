@@ -17,13 +17,18 @@ class SettingsViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val _nameAndEmail = MutableLiveData<Pair<String, String>>()
+    private val _weight = MutableLiveData<String>()
     private val _showNameEmailDialog = SingleLiveEvent<Pair<String, String>>()
+    private val _showWeightDialog = SingleLiveEvent<String>()
 
     val nameAndEmail: LiveData<Pair<String, String>> = _nameAndEmail
+    val weight: LiveData<String> = _weight
     val showNameEmailDialog: LiveData<Pair<String, String>> = _showNameEmailDialog
+    val showWeightDialog: LiveData<String> = _showWeightDialog
 
-    fun loadNameAndEmail() {
+    fun loadValues() {
         _nameAndEmail.value = getNameEmail()
+        _weight.value = getWeight()
     }
 
     fun saveNameAndEmail(name: String, email: String) {
@@ -34,8 +39,23 @@ class SettingsViewModel @ViewModelInject constructor(
         }.apply()
     }
 
+    fun saveWeight(weight: String) {
+        _weight.value = weight
+        sharedPreferences.edit().apply {
+            putString(Constants.KEY_PREF_WEIGHT, weight)
+        }.apply()
+    }
+
     fun showNameEmailDialog() {
         _showNameEmailDialog.value = getNameEmail()
+    }
+
+    fun showWeightDialog() {
+        _showWeightDialog.value = getWeight()
+    }
+
+    private fun getWeight(): String {
+        return sharedPreferences.getString(Constants.KEY_PREF_WEIGHT, "70")!!
     }
 
     private fun getNameEmail(): Pair<String, String> {

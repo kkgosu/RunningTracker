@@ -70,9 +70,6 @@ class TrackingService : LifecycleService() {
     @Inject
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
-    @set:Inject
-    var weight = 80f
-
     private lateinit var currentNotificationBuilder: NotificationCompat.Builder
 
     private var isServiceStopped = false

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,8 +47,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         subscribeToObservers()
         setupToolbar()
-        settingsViewModel.loadNameAndEmail()
+        settingsViewModel.loadValues()
         binding.accountSettingsButton.setOnClickListener { settingsViewModel.showNameEmailDialog() }
+        binding.weightSettingsButton.setOnClickListener { settingsViewModel.showWeightDialog() }
     }
 
     override fun onDestroy() {
@@ -70,13 +72,18 @@ class SettingsFragment : Fragment() {
             binding.nameTextView.text = name
             binding.emailTextView.text = email
         }
+        settingsViewModel.weight.observe(viewLifecycleOwner, { binding.weightTextView.text = getString(R.string.weight_placeholder, it) })
         settingsViewModel.showNameEmailDialog.observe(viewLifecycleOwner) { (name, email) ->
             NameEmailDialog(name, email).apply {
                 isCancelable = false
-                setListener { newName, newEmail ->
-                    settingsViewModel.saveNameAndEmail(newName, newEmail)
-                }
+                setListener { newName, newEmail -> settingsViewModel.saveNameAndEmail(newName, newEmail) }
             }.show(parentFragmentManager, NameEmailDialog.TAG)
+        }
+        settingsViewModel.showWeightDialog.observe(viewLifecycleOwner) {
+            WeightDialog(it).apply {
+                isCancelable = false
+                setListener { weight -> settingsViewModel.saveWeight(weight) }
+            }.show(parentFragmentManager, WeightDialog.TAG)
         }
     }
 }

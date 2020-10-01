@@ -75,9 +75,6 @@ object AppModule {
     @Singleton
     fun provideName(sharedPreferences: SharedPreferences) = sharedPreferences.getString(Constants.KEY_PREF_NAME, "") ?: ""
 
-    @Provides
-    @Singleton
-    fun provideWeight(sharedPreferences: SharedPreferences) = sharedPreferences.getFloat(Constants.KEY_PREF_WEIGHT, 70f)
 
     @Provides
     @Singleton
