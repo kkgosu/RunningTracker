@@ -74,13 +74,13 @@ class SettingsFragment : Fragment() {
         }
         settingsViewModel.weight.observe(viewLifecycleOwner, { binding.weightTextView.text = getString(R.string.weight_placeholder, it) })
         settingsViewModel.showNameEmailDialog.observe(viewLifecycleOwner) { (name, email) ->
-            NameEmailDialog(name, email).apply {
+            NameEmailDialog.newInstance(name, email).apply {
                 isCancelable = false
                 setListener { newName, newEmail -> settingsViewModel.saveNameAndEmail(newName, newEmail) }
             }.show(parentFragmentManager, NameEmailDialog.TAG)
         }
         settingsViewModel.showWeightDialog.observe(viewLifecycleOwner) {
-            WeightDialog(it).apply {
+            WeightDialog.newInstance(it).apply {
                 isCancelable = false
                 setListener { weight -> settingsViewModel.saveWeight(weight) }
             }.show(parentFragmentManager, WeightDialog.TAG)

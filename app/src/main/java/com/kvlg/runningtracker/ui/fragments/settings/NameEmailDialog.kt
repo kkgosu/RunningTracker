@@ -15,14 +15,22 @@ import com.kvlg.runningtracker.databinding.SettingsNameDialogLayoutBinding
  * @author Konstantin Koval
  * @since 29.09.2020
  */
-class NameEmailDialog(
-    private val name: String,
-    private val email: String
-) : DialogFragment() {
+class NameEmailDialog : DialogFragment() {
     private var listener: ((String, String) -> Unit)? = null
 
     private var _binding: SettingsNameDialogLayoutBinding? = null
     private val binding: SettingsNameDialogLayoutBinding get() = _binding!!
+
+    private var name: String? = null
+    private var email: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            name = it.getString(NAME_ARG)
+            email = it.getString(EMAIL_ARG)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = SettingsNameDialogLayoutBinding.inflate(LayoutInflater.from(requireContext()))
@@ -49,5 +57,18 @@ class NameEmailDialog(
 
     companion object {
         const val TAG = "NameEmailDialog"
+
+        private const val NAME_ARG = "NAME_ARG"
+        private const val EMAIL_ARG = "EMAIL_ARG"
+
+        fun newInstance(name: String, email: String): NameEmailDialog {
+            val args = Bundle().apply {
+                putString(NAME_ARG, name)
+                putString(EMAIL_ARG, email)
+            }
+            val fragment = NameEmailDialog()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

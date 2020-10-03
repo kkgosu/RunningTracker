@@ -69,7 +69,7 @@ class TrackingFragment : Fragment() {
             map = it
         }
         if (savedInstanceState != null) {
-            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(DIALOG_TAG) as? ConfirmationDialog
+            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(ConfirmationDialog.TAG) as? ConfirmationDialog
             cancelTrackingDialog?.setListener { stopRun() }
         }
         setupToolbar()
@@ -247,12 +247,8 @@ class TrackingFragment : Fragment() {
     }
 
     private fun showCancelTrackingDialog() {
-        ConfirmationDialog(R.string.cancel_run_alert_title, R.string.cancel_run_alert_desc).apply {
+        ConfirmationDialog.newInstance(R.string.cancel_run_alert_title, R.string.cancel_run_alert_desc).apply {
             setListener { stopRun() }
-        }.show(parentFragmentManager, DIALOG_TAG)
-    }
-
-    companion object {
-        private const val DIALOG_TAG = "CancelDialogTag"
+        }.show(parentFragmentManager, ConfirmationDialog.TAG)
     }
 }

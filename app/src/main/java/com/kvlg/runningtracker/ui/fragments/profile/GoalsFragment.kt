@@ -53,7 +53,7 @@ class GoalsFragment : Fragment() {
         setupToolbar()
         subscribeObservers()
         if (savedInstanceState != null) {
-            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(TAG) as? ConfirmationDialog
+            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(ConfirmationDialog.TAG) as? ConfirmationDialog
             cancelTrackingDialog?.setListener { closeScreen() }
         }
         binding.saveButton.setOnClickListener {
@@ -83,9 +83,9 @@ class GoalsFragment : Fragment() {
             closeScreen()
         }
         profileViewModel.closeScreenAlert.observe(viewLifecycleOwner) {
-            ConfirmationDialog(R.string.are_you_sure_title, R.string.changes_wont_be_saved).apply {
+            ConfirmationDialog.newInstance(R.string.are_you_sure_title, R.string.changes_wont_be_saved).apply {
                 setListener { closeScreen() }
-            }.show(parentFragmentManager, TAG)
+            }.show(parentFragmentManager, ConfirmationDialog.TAG)
         }
     }
 
@@ -119,7 +119,6 @@ class GoalsFragment : Fragment() {
     private fun TextInputEditText.getOrZero(): String = (text?.toString() ?: ZERO)
 
     companion object {
-        private const val TAG = "GoalsFragment"
         private const val ZERO = "0"
     }
 }

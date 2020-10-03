@@ -13,13 +13,20 @@ import com.kvlg.runningtracker.databinding.SettingsWeightLayoutBinding
  * @author Konstantin Koval
  * @since 01.10.2020
  */
-class WeightDialog(
-    private val weight: String
-) : DialogFragment() {
+class WeightDialog : DialogFragment() {
     private var listener: ((String) -> Unit)? = null
 
     private var _binding: SettingsWeightLayoutBinding? = null
     private val binding: SettingsWeightLayoutBinding get() = _binding!!
+
+    private var weight: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            weight = it.getString(WEIGHT_KEY)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = SettingsWeightLayoutBinding.inflate(LayoutInflater.from(requireContext()))
@@ -43,5 +50,16 @@ class WeightDialog(
 
     companion object {
         const val TAG = "WeightDialog"
+
+        private const val WEIGHT_KEY = "WEIGHT_ARG"
+
+        fun newInstance(weight: String): WeightDialog {
+            val args = Bundle().apply {
+                putString(WEIGHT_KEY, weight)
+            }
+            val fragment = WeightDialog()
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
