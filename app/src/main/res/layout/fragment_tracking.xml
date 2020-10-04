@@ -18,13 +18,11 @@
 
     <TextView
         android:id="@+id/textView"
+        style="@style/TitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/run"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline2"
         android:textColor="@color/text_value"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,9 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:text="@string/_00_00_00"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/text_value"
-        android:textStyle="bold"
+        android:textAppearance="@style/TimerTextAppearance"
         app:layout_constraintEnd_toEndOf="@id/timer_icon"
         app:layout_constraintStart_toStartOf="@id/timer_icon"
         app:layout_constraintTop_toBottomOf="@id/timer_icon" />
@@ -94,9 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="km"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/text_value"
-        android:textStyle="bold"
+        android:textAppearance="@style/TimerTextAppearance"
         app:layout_constraintStart_toEndOf="@+id/distance_value_text_view"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -117,9 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium"
         android:text="00:00"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/text_value"
-        android:textStyle="bold"
+        android:textAppearance="@style/TimerTextAppearance"
         app:layout_constraintEnd_toEndOf="@id/pace_icon"
         app:layout_constraintStart_toStartOf="@id/pace_icon"
         app:layout_constraintTop_toBottomOf="@id/pace_icon" />

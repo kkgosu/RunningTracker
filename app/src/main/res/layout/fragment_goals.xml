@@ -123,11 +123,10 @@
         style="@style/DefaultButton"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginEnd="@dimen/margin_large"
+        android:layout_marginStart="@dimen/margin_giant"
+        android:layout_marginEnd="@dimen/margin_giant"
         android:layout_marginBottom="@dimen/margin_giant"
         android:text="@string/save"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -13,11 +13,10 @@
         android:layout_marginTop="@dimen/margin_giant"
         android:text="@string/welcome_nplease_enter_your_name_and_weight"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/HeadlineTextAppearance" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_input_layout"
@@ -69,7 +68,6 @@
         style="@style/DefaultButton"
         android:layout_marginTop="@dimen/margin_large"
         android:text="@string/continue_"
-        android:textColor="@color/black"
         android:textSize="@dimen/text_size_small"
         app:layout_constraintEnd_toEndOf="@id/weight_input_layout"
         app:layout_constraintStart_toStartOf="@id/weight_input_layout"
