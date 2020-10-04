@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background1">
 
     <TextView
         android:id="@+id/welcome_text_view"
@@ -13,29 +14,20 @@
         android:text="@string/welcome_nplease_enter_your_name_and_weight"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/weight_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:text="@string/kg"
-        android:textSize="@dimen/text_size_medium_large"
-        app:layout_constraintBottom_toBottomOf="@+id/weight_input_layout"
-        app:layout_constraintLeft_toRightOf="@id/weight_input_layout"
-        app:layout_constraintTop_toTopOf="@+id/weight_input_layout" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/name_input_layout"
         style="@style/InputLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_giant"
         android:layout_marginTop="@dimen/margin_giant"
+        android:layout_marginEnd="@dimen/margin_giant"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcome_text_view">
 
@@ -46,25 +38,26 @@
             android:ems="10"
             android:hint="@string/your_name"
             android:inputType="textPersonName" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/weight_input_layout"
         style="@style/InputLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/match_constraint"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_large"
         app:endIconContentDescription="Info"
         app:endIconDrawable="@drawable/ic_round_info_24"
         app:endIconMode="custom"
+        app:endIconTint="@color/icon_tint"
+        app:layout_constraintEnd_toEndOf="@id/name_input_layout"
         app:layout_constraintStart_toStartOf="@+id/name_input_layout"
         app:layout_constraintTop_toBottomOf="@+id/name_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/weight_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:ems="10"
             android:hint="@string/your_weight"
             android:inputType="numberDecimal" />
@@ -76,6 +69,7 @@
         style="@style/DefaultButton"
         android:layout_marginTop="@dimen/margin_large"
         android:text="@string/continue_"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_size_small"
         app:layout_constraintEnd_toEndOf="@id/weight_input_layout"
         app:layout_constraintStart_toStartOf="@id/weight_input_layout"
