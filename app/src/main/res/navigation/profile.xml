@@ -26,9 +26,21 @@
     <fragment
         android:id="@+id/settingsFragmentV2"
         android:name="com.kvlg.runningtracker.ui.fragments.settings.SettingsFragment"
-        android:label="SettingsFragmentV2" />
+        android:label="SettingsFragmentV2" >
+        <action
+            android:id="@+id/action_settingsFragmentV2_to_setupFragment2"
+            app:destination="@id/setupFragment2"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+    </fragment>
     <fragment
         android:id="@+id/goalsFragment"
         android:name="com.kvlg.runningtracker.ui.fragments.profile.GoalsFragment"
         android:label="GoalsFragment" />
+    <fragment
+        android:id="@+id/setupFragment2"
+        android:name="com.kvlg.runningtracker.ui.fragments.SetupFragment"
+        android:label="SetupFragment" />
 </navigation>

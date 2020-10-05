@@ -1,5 +1,6 @@
 package com.kvlg.runningtracker.ui.fragments.settings
 
+import android.app.ActivityManager
 import android.content.SharedPreferences
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -13,18 +14,21 @@ import com.kvlg.runningtracker.utils.SingleLiveEvent
  * @since 30.09.2020
  */
 class SettingsViewModel @ViewModelInject constructor(
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val activityManager: ActivityManager
 ) : ViewModel() {
 
     private val _nameAndEmail = MutableLiveData<Pair<String, String>>()
     private val _weight = MutableLiveData<String>()
     private val _showNameEmailDialog = SingleLiveEvent<Pair<String, String>>()
     private val _showWeightDialog = SingleLiveEvent<String>()
+    private val _showSetupScreen = SingleLiveEvent<Unit>()
 
     val nameAndEmail: LiveData<Pair<String, String>> = _nameAndEmail
     val weight: LiveData<String> = _weight
     val showNameEmailDialog: LiveData<Pair<String, String>> = _showNameEmailDialog
     val showWeightDialog: LiveData<String> = _showWeightDialog
+    val showSetupScreen: LiveData<Unit> = _showSetupScreen
 
     fun loadValues() {
         _nameAndEmail.value = getNameEmail()
@@ -52,6 +56,11 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun showWeightDialog() {
         _showWeightDialog.value = getWeight()
+    }
+
+    fun onLogoutClick() {
+        sharedPreferences.edit().clear().apply()
+        activityManager.clearApplicationUserData()
     }
 
     private fun getWeight(): String {

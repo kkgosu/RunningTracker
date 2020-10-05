@@ -1,8 +1,10 @@
 package com.kvlg.runningtracker.di
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import androidx.core.content.getSystemService
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -101,4 +103,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideResourceManager(@ApplicationContext context: Context) = ResourceManager(context)
+
+    @Provides
+    @Singleton
+    fun provideActivityManager(@ApplicationContext context: Context) = context.getSystemService<ActivityManager>()
 }

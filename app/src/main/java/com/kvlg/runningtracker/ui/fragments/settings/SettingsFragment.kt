@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
@@ -50,6 +51,7 @@ class SettingsFragment : Fragment() {
         settingsViewModel.loadValues()
         binding.accountSettingsButton.setOnClickListener { settingsViewModel.showNameEmailDialog() }
         binding.weightSettingsButton.setOnClickListener { settingsViewModel.showWeightDialog() }
+        binding.logoutTextView.setOnClickListener { settingsViewModel.onLogoutClick() }
     }
 
     override fun onDestroy() {
@@ -84,6 +86,12 @@ class SettingsFragment : Fragment() {
                 isCancelable = false
                 setListener { weight -> settingsViewModel.saveWeight(weight) }
             }.show(parentFragmentManager, WeightDialog.TAG)
+        }
+        settingsViewModel.showSetupScreen.observe(viewLifecycleOwner) {
+            repeat(parentFragmentManager.backStackEntryCount) {
+                parentFragmentManager.popBackStackImmediate()
+            }
+            findNavController().navigate(R.id.action_settingsFragmentV2_to_setupFragment2)
         }
     }
 }
