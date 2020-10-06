@@ -1,10 +1,8 @@
 package com.kvlg.runningtracker.di
 
-import android.app.ActivityManager
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.core.content.getSystemService
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -12,6 +10,7 @@ import com.kvlg.runningtracker.db.goals.GoalConverter
 import com.kvlg.runningtracker.db.goals.GoalDao
 import com.kvlg.runningtracker.db.goals.GoalDatabase
 import com.kvlg.runningtracker.db.run.RunDatabase
+import com.kvlg.runningtracker.domain.CacheManager
 import com.kvlg.runningtracker.domain.GoalInteractor
 import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.domain.ResourceManager
@@ -106,5 +105,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideActivityManager(@ApplicationContext context: Context) = context.getSystemService<ActivityManager>()
+    fun provideCacheManager(@ApplicationContext context: Context, runDatabase: RunDatabase, goalDatabase: GoalDatabase) =
+        CacheManager(context, runDatabase, goalDatabase)
 }

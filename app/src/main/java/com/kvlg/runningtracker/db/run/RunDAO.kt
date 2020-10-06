@@ -106,5 +106,4 @@ interface RunDAO {
      */
     @Query("SELECT avgSpeedInKMH FROM run_table WHERE timestamp >= :timeStamp")
     fun getPeriodAvgSpeed(timeStamp: Long): LiveData<List<Float>?>
-
 }

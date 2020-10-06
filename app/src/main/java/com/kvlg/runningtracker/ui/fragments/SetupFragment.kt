@@ -45,7 +45,7 @@ class SetupFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (isFirstAppOpen) {
+        if (!isFirstAppOpen) {
             val navOptions = NavOptions.Builder()
                 .setPopUpTo(R.id.setupFragment, true)
                 .build()
@@ -75,7 +75,7 @@ class SetupFragment : Fragment() {
         }
         sharedPref.edit().apply {
             putString(Constants.KEY_PREF_NAME, name)
-            putFloat(Constants.KEY_PREF_WEIGHT, weight.toFloat())
+            putString(Constants.KEY_PREF_WEIGHT, weight)
             putBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, false)
         }.apply()
         return true

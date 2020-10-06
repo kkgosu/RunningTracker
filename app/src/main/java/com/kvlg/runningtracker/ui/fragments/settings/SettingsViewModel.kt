@@ -1,13 +1,16 @@
 package com.kvlg.runningtracker.ui.fragments.settings
 
-import android.app.ActivityManager
 import android.content.SharedPreferences
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kvlg.runningtracker.domain.CacheManager
 import com.kvlg.runningtracker.utils.Constants
 import com.kvlg.runningtracker.utils.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * @author Konstantin Koval
@@ -15,7 +18,7 @@ import com.kvlg.runningtracker.utils.SingleLiveEvent
  */
 class SettingsViewModel @ViewModelInject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val activityManager: ActivityManager
+    private val cacheManager: CacheManager
 ) : ViewModel() {
 
     private val _nameAndEmail = MutableLiveData<Pair<String, String>>()
@@ -59,8 +62,11 @@ class SettingsViewModel @ViewModelInject constructor(
     }
 
     fun onLogoutClick() {
-        sharedPreferences.edit().clear().apply()
-        activityManager.clearApplicationUserData()
+        viewModelScope.launch(Dispatchers.IO) {
+            sharedPreferences.edit().clear().apply()
+            cacheManager.clearApplicationData()
+            _showSetupScreen.call()
+        }
     }
 
     private fun getWeight(): String {
