@@ -8,6 +8,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kvlg.runningtracker.R
 
 /**
+ * Simple dialog with confirmation yes/no
+ *
  * @author Konstantin Koval
  * @since 13.08.2020
  */

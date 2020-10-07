@@ -16,6 +16,8 @@ import com.kvlg.runningtracker.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
+ * Fragment with user's profile
+ *
  * @author Konstantin Koval
  * @since 26.08.2020
  */
@@ -95,32 +97,16 @@ class ProfileFragment : Fragment() {
             }
             profileViewModel.getPeriodResults(System.currentTimeMillis(), it)
         }
-        profileViewModel.periodDistance.observe(viewLifecycleOwner) {
-            binding.titleDistanceValueTextView.text = it
-        }
-        profileViewModel.periodDuration.observe(viewLifecycleOwner) {
-            binding.timeCurrentGoalTextView.text = it
-        }
-        profileViewModel.periodSpeed.observe(viewLifecycleOwner) {
-            binding.speedCurrentGoalTextView.text = it
-        }
-        profileViewModel.periodCalories.observe(viewLifecycleOwner) {
-            binding.caloriesCurrentGoalTextView.text = it
-        }
-        profileViewModel.periodPace.observe(viewLifecycleOwner) {
-            binding.paceCurrentGoalTextView.text = it
-        }
-        profileViewModel.durationProgress.observe(viewLifecycleOwner) {
-            binding.timeGoalProgress.setProgress(it)
-        }
-        profileViewModel.speedProgress.observe(viewLifecycleOwner) {
-            binding.speedGoalProgress.setProgress(it)
-        }
-        profileViewModel.caloriesProgress.observe(viewLifecycleOwner) {
-            binding.caloriesGoalProgress.setProgress(it)
-        }
-        profileViewModel.paceProgress.observe(viewLifecycleOwner) {
-            binding.paceGoalProgress.setProgress(it)
+        with(profileViewModel) {
+            periodDistance.observe(viewLifecycleOwner, binding.titleDistanceValueTextView::setText)
+            periodDuration.observe(viewLifecycleOwner, binding.timeCurrentGoalTextView::setText)
+            periodSpeed.observe(viewLifecycleOwner, binding.speedCurrentGoalTextView::setText)
+            periodCalories.observe(viewLifecycleOwner, binding.caloriesCurrentGoalTextView::setText)
+            periodPace.observe(viewLifecycleOwner, binding.paceCurrentGoalTextView::setText)
+            durationProgress.observe(viewLifecycleOwner, binding.timeGoalProgress::setProgress)
+            speedProgress.observe(viewLifecycleOwner, binding.speedGoalProgress::setProgress)
+            caloriesProgress.observe(viewLifecycleOwner, binding.caloriesGoalProgress::setProgress)
+            paceProgress.observe(viewLifecycleOwner, binding.paceGoalProgress::setProgress)
         }
     }
 }

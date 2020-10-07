@@ -27,8 +27,6 @@ class SetupFragment : Fragment() {
     private var _binding: FragmentSetupBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
-
     @Inject
     lateinit var sharedPref: SharedPreferences
 

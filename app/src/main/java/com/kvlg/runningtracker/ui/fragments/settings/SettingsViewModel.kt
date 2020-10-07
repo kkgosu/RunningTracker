@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
+ * ViewModel for [SettingsFragment]
+ *
  * @author Konstantin Koval
  * @since 30.09.2020
  */
@@ -27,17 +29,42 @@ class SettingsViewModel @ViewModelInject constructor(
     private val _showWeightDialog = SingleLiveEvent<String>()
     private val _showSetupScreen = SingleLiveEvent<Unit>()
 
+    /**
+     * Name and Email values
+     */
     val nameAndEmail: LiveData<Pair<String, String>> = _nameAndEmail
+
+    /**
+     * Weight value
+     */
     val weight: LiveData<String> = _weight
+
+    /**
+     * Event to show alert dialog with name and email input
+     */
     val showNameEmailDialog: LiveData<Pair<String, String>> = _showNameEmailDialog
+
+    /**
+     * Event to show alert dialog with weight input
+     */
     val showWeightDialog: LiveData<String> = _showWeightDialog
+
+    /**
+     * Event to show setup screen
+     */
     val showSetupScreen: LiveData<Unit> = _showSetupScreen
 
+    /**
+     * Load name, email, weight
+     */
     fun loadValues() {
         _nameAndEmail.value = getNameEmail()
         _weight.value = getWeight()
     }
 
+    /**
+     * Save name and email into [SharedPreferences]
+     */
     fun saveNameAndEmail(name: String, email: String) {
         _nameAndEmail.value = Pair(name, email)
         sharedPreferences.edit().apply {
@@ -46,6 +73,9 @@ class SettingsViewModel @ViewModelInject constructor(
         }.apply()
     }
 
+    /**
+     * Save weight into [SharedPreferences]
+     */
     fun saveWeight(weight: String) {
         _weight.value = weight
         sharedPreferences.edit().apply {
@@ -53,14 +83,23 @@ class SettingsViewModel @ViewModelInject constructor(
         }.apply()
     }
 
+    /**
+     * Get name and email and show dialog
+     */
     fun showNameEmailDialog() {
         _showNameEmailDialog.value = getNameEmail()
     }
 
+    /**
+     * Get weight and show dialog
+     */
     fun showWeightDialog() {
         _showWeightDialog.value = getWeight()
     }
 
+    /**
+     * Clears all the data
+     */
     fun onLogoutClick() {
         viewModelScope.launch(Dispatchers.IO) {
             sharedPreferences.edit().clear().apply()

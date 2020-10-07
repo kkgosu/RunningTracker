@@ -42,9 +42,24 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _caloriesProgress = MutableLiveData<Float>()
     private val _speedProgress = MutableLiveData<Float>()
 
+    /**
+     * Duration progress (0-100)
+     */
     val durationProgress: LiveData<Float> = _durationProgress
+
+    /**
+     * Pace progress (0-100)
+     */
     val paceProgress: LiveData<Float> = _paceProgress
+
+    /**
+     * Calories progress (0-100)
+     */
     val caloriesProgress: LiveData<Float> = _caloriesProgress
+
+    /**
+     * Speed progress (0-100)
+     */
     val speedProgress: LiveData<Float> = _speedProgress
 
     /**

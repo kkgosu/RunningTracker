@@ -6,6 +6,8 @@ import com.kvlg.runningtracker.db.run.RunDatabase
 import java.io.File
 
 /**
+ * Cache manager for managing app's data
+ *
  * @author Konstantin Koval
  * @since 06.10.2020
  */

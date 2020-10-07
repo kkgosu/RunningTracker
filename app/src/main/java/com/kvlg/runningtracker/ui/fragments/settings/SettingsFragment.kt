@@ -15,6 +15,8 @@ import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
+ * Fragment with setting in profile
+ *
  * @author Konstantin Koval
  * @since 26.08.2020
  */

@@ -10,6 +10,8 @@ import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.SettingsWeightLayoutBinding
 
 /**
+ * Dialog for weight input
+ *
  * @author Konstantin Koval
  * @since 01.10.2020
  */
