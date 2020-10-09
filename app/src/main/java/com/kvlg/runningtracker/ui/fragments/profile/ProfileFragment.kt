@@ -42,6 +42,7 @@ class ProfileFragment : Fragment() {
         setupToolbar()
         subscribeObservers()
         profileViewModel.loadAvatar()
+        profileViewModel.loadName()
         profileViewModel.getWeekGoal()
         binding.settingsButton.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_settingsFragmentV2)
@@ -107,6 +108,7 @@ class ProfileFragment : Fragment() {
             speedProgress.observe(viewLifecycleOwner, binding.speedGoalProgress::setProgress)
             caloriesProgress.observe(viewLifecycleOwner, binding.caloriesGoalProgress::setProgress)
             paceProgress.observe(viewLifecycleOwner, binding.paceGoalProgress::setProgress)
+            name.observe(viewLifecycleOwner, binding.profileTitleTextView::setText)
         }
     }
 }

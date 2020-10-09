@@ -41,6 +41,12 @@ class ProfileViewModel @ViewModelInject constructor(
     private val _paceProgress = MutableLiveData<Float>()
     private val _caloriesProgress = MutableLiveData<Float>()
     private val _speedProgress = MutableLiveData<Float>()
+    private val _name = MutableLiveData<String>()
+
+    /**
+     * Title of the screen with user name
+     */
+    val name: LiveData<String> = _name
 
     /**
      * Duration progress (0-100)
@@ -87,7 +93,7 @@ class ProfileViewModel @ViewModelInject constructor(
     /**
      * Current period distance
      */
-    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, weekGoal) ->
+    val periodDistance: LiveData<String> = Transformations.switchMap(_periodTrigger) { (time, _) ->
         goalInteractor.loadPeriodDistance(time).map { distance ->
             resourceManager.getString(R.string.distance_placeholder, String.format("%.2f", distance))
         }
@@ -169,6 +175,10 @@ class ProfileViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             goalInteractor.saveGoalsIntoDb(goal)
         }
+    }
+
+    fun loadName() {
+        _name.value = resourceManager.getString(R.string.profile_name_placeholder, prefs.getString(Constants.KEY_PREF_NAME, "User")!!)
     }
 
     fun onBackClicked(goal: WeekGoal) {
