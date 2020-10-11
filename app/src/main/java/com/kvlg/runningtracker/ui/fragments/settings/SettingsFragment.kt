@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
 import com.kvlg.runningtracker.ui.fragments.common.ConfirmationDialog
@@ -91,7 +90,9 @@ class SettingsFragment : Fragment() {
             }.show(parentFragmentManager, WeightDialog.TAG)
         }
         settingsViewModel.showSetupScreen.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_setupFragment2_to_runs)
+            val intent = requireActivity().intent
+            requireActivity().finish()
+            startActivity(intent)
         }
         settingsViewModel.confirmLogoutDialog.observe(viewLifecycleOwner) {
             ConfirmationDialog.newInstance(R.string.are_you_sure_title, R.string.logout_description).apply {

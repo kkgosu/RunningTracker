@@ -34,10 +34,5 @@
     <fragment
         android:id="@+id/setupFragment2"
         android:name="com.kvlg.runningtracker.ui.fragments.SetupFragment"
-        android:label="SetupFragment">
-        <action
-            android:id="@+id/action_setupFragment2_to_runs"
-            app:destination="@id/runs" />
-    </fragment>
-    <include app:graph="@navigation/runs" />
+        android:label="SetupFragment"/>
 </navigation>
