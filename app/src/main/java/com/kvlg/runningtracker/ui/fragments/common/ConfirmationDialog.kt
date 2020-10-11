@@ -16,12 +16,10 @@ import com.kvlg.runningtracker.R
 class ConfirmationDialog : DialogFragment() {
 
     private var listener: (() -> Unit)? = null
-    private var titleResId: Int = 0
-    private var messageResId: Int = 0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
-        .setTitle(getString(titleResId))
-        .setMessage(getString(messageResId))
+        .setTitle(getString(arguments?.getInt(TITLE_ARG) ?: 0))
+        .setMessage(getString(arguments?.getInt(MESSAGE_ARG) ?: 0))
         .setPositiveButton(getString(R.string.yes)) { _, _ ->
             listener?.let { it() }
         }

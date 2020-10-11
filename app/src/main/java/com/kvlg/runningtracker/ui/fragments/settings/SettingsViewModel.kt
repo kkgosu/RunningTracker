@@ -28,6 +28,7 @@ class SettingsViewModel @ViewModelInject constructor(
     private val _showNameEmailDialog = SingleLiveEvent<Pair<String, String>>()
     private val _showWeightDialog = SingleLiveEvent<String>()
     private val _showSetupScreen = SingleLiveEvent<Unit>()
+    private val _showConfirmLogoutDialog = SingleLiveEvent<Unit>()
 
     /**
      * Name and Email values
@@ -53,6 +54,12 @@ class SettingsViewModel @ViewModelInject constructor(
      * Event to show setup screen
      */
     val showSetupScreen: LiveData<Unit> = _showSetupScreen
+
+    /**
+     * Show confirm logout dialog
+     */
+    val confirmLogoutDialog: LiveData<Unit> = _showConfirmLogoutDialog
+
 
     /**
      * Load name, email, weight
@@ -100,12 +107,16 @@ class SettingsViewModel @ViewModelInject constructor(
     /**
      * Clears all the data
      */
-    fun onLogoutClick() {
+    fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
             sharedPreferences.edit().clear().apply()
             cacheManager.clearApplicationData()
             _showSetupScreen.call()
         }
+    }
+
+    fun showConfirmLogoutDialog() {
+        _showConfirmLogoutDialog.call()
     }
 
     private fun getWeight(): String {

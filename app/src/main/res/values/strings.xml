@@ -78,6 +78,7 @@
     <string name="name_email_title">Enter your name and email</string>
     <string name="cancel">Cancel</string>
     <string name="weight_dialog_title">Enter your weight (kg)</string>
+    <string name="logout_description">All the data will be cleared without possibility of restore</string>
 
     <string-array name="filter_options">
         <item>Date</item>

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSettingsBinding
+import com.kvlg.runningtracker.ui.fragments.common.ConfirmationDialog
 import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,7 +54,7 @@ class SettingsFragment : Fragment() {
         settingsViewModel.loadValues()
         binding.accountSettingsButton.setOnClickListener { settingsViewModel.showNameEmailDialog() }
         binding.weightSettingsButton.setOnClickListener { settingsViewModel.showWeightDialog() }
-        binding.logoutTextView.setOnClickListener { settingsViewModel.onLogoutClick() }
+        binding.logoutTextView.setOnClickListener { settingsViewModel.showConfirmLogoutDialog() }
     }
 
     override fun onDestroy() {
@@ -94,6 +95,12 @@ class SettingsFragment : Fragment() {
                 parentFragmentManager.popBackStackImmediate()
             }
             findNavController().navigate(R.id.action_settingsFragmentV2_to_setupFragment2)
+        }
+        settingsViewModel.confirmLogoutDialog.observe(viewLifecycleOwner) {
+            ConfirmationDialog.newInstance(R.string.are_you_sure_title, R.string.logout_description).apply {
+                isCancelable = false
+                setListener { settingsViewModel.logout() }
+            }.show(parentFragmentManager, ConfirmationDialog.TAG)
         }
     }
 }
