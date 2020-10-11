@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/runs"
-    app:startDestination="@id/setupFragment">
+    app:startDestination="@id/runFragment">
 
     <action
         android:id="@+id/action_global_trackingFragment"
@@ -20,11 +20,7 @@
     <fragment
         android:id="@+id/setupFragment"
         android:name="com.kvlg.runningtracker.ui.fragments.SetupFragment"
-        android:label="SetupFragment">
-        <action
-            android:id="@+id/action_setupFragment_to_runFragment"
-            app:destination="@id/runFragment" />
-    </fragment>
+        android:label="SetupFragment"/>
     <fragment
         android:id="@+id/runFragment"
         android:name="com.kvlg.runningtracker.ui.fragments.RunFragment"

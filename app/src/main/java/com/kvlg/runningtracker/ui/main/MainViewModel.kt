@@ -4,10 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import androidx.core.content.edit
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.domain.ImageLoader
 import com.kvlg.runningtracker.repository.MainRepository
@@ -63,6 +60,25 @@ class MainViewModel @ViewModelInject constructor(
         this.sortType = sortType
         sharedPrefs.edit {
             putInt(Constants.KEY_PREF_SORT_TYPE, sortType.ordinal)
+        }
+    }
+
+    fun isFirstLogin(): LiveData<Boolean> {
+        return MutableLiveData(
+            sharedPrefs.getBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, true)
+        )
+    }
+
+    fun writePersonalDataToSharedPref(name: String, weight: String): LiveData<Boolean> {
+        return if (name.isEmpty() || weight.isEmpty()) {
+            MutableLiveData(false)
+        } else {
+            sharedPrefs.edit().apply {
+                putString(Constants.KEY_PREF_NAME, name)
+                putString(Constants.KEY_PREF_WEIGHT, weight)
+                putBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, false)
+            }.apply()
+            MutableLiveData(true)
         }
     }
 

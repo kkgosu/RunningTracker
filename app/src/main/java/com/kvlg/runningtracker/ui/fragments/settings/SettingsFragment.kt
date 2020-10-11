@@ -91,10 +91,7 @@ class SettingsFragment : Fragment() {
             }.show(parentFragmentManager, WeightDialog.TAG)
         }
         settingsViewModel.showSetupScreen.observe(viewLifecycleOwner) {
-            repeat(parentFragmentManager.backStackEntryCount) {
-                parentFragmentManager.popBackStackImmediate()
-            }
-            findNavController().navigate(R.id.action_settingsFragmentV2_to_setupFragment2)
+            findNavController().navigate(R.id.action_setupFragment2_to_runs)
         }
         settingsViewModel.confirmLogoutDialog.observe(viewLifecycleOwner) {
             ConfirmationDialog.newInstance(R.string.are_you_sure_title, R.string.logout_description).apply {

@@ -11,16 +11,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.adapters.RunAdapter
 import com.kvlg.runningtracker.adapters.RunDiffCallback
 import com.kvlg.runningtracker.databinding.FragmentRunBinding
-import com.kvlg.runningtracker.ui.main.MainViewModel
 import com.kvlg.runningtracker.ui.fragments.common.RunsLiveDataRegistry
-import com.kvlg.runningtracker.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
+import com.kvlg.runningtracker.ui.main.MainViewModel
 import com.kvlg.runningtracker.ui.main.SortTypes
+import com.kvlg.runningtracker.utils.BnvVisibilityListener
+import com.kvlg.runningtracker.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import com.kvlg.runningtracker.utils.TrackingUtils
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -45,6 +47,22 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @Inject
     lateinit var runsLiveDataRegistry: RunsLiveDataRegistry
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val navController = findNavController()
+        val currentBackStack = navController.currentBackStackEntry!!
+        val savedStateHandle = currentBackStack.savedStateHandle
+        savedStateHandle.getLiveData<Boolean>(SetupFragment.LOGIN_SUCCESSFUL).observe(currentBackStack) {
+            if (!it) {
+                val startDestination = navController.graph.startDestination
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(startDestination, true)
+                    .build()
+                navController.navigate(startDestination, null, navOptions)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,6 +74,17 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (requireActivity() as BnvVisibilityListener).hide(false)
+        viewModel.isFirstLogin().observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(R.id.setupFragment)
+            } else {
+                initData()
+            }
+        }
+    }
+
+    private fun initData() {
         requestPermissions()
         binding.runsRecyclerView.adapter = runsAdapter
         binding.runsRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

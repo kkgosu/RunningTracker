@@ -76,11 +76,6 @@ object AppModule {
     @Singleton
     fun provideName(sharedPreferences: SharedPreferences) = sharedPreferences.getString(Constants.KEY_PREF_NAME, "") ?: ""
 
-
-    @Provides
-    @Singleton
-    fun providesFirstTimeToggle(sharedPreferences: SharedPreferences) = sharedPreferences.getBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, true)
-
     @Provides
     @Singleton
     fun provideRunsLiveDataRegistry() = RunsLiveDataRegistry()

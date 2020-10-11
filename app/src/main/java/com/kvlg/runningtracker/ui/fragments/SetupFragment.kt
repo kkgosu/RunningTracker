@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.databinding.FragmentSetupBinding
 import com.kvlg.runningtracker.ui.main.MainViewModel
-import com.kvlg.runningtracker.utils.Constants
+import com.kvlg.runningtracker.utils.BnvVisibilityListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -23,15 +23,14 @@ import javax.inject.Inject
  */
 @AndroidEntryPoint
 class SetupFragment : Fragment() {
-
     private var _binding: FragmentSetupBinding? = null
     private val binding get() = _binding!!
 
+    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var savedStateHandle: SavedStateHandle
+
     @Inject
     lateinit var sharedPref: SharedPreferences
-
-    @set:Inject
-    var isFirstAppOpen = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,17 +42,22 @@ class SetupFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (!isFirstAppOpen) {
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.setupFragment, true)
-                .build()
-            findNavController().navigate(R.id.action_setupFragment_to_runFragment, savedInstanceState, navOptions)
-        }
-
+        (requireActivity() as BnvVisibilityListener).hide(true)
+        savedStateHandle = findNavController().previousBackStackEntry!!.savedStateHandle
+        savedStateHandle.set(LOGIN_SUCCESSFUL, false)
         binding.continueButton.setOnClickListener {
-            val isSuccess = writePersonalDataToSharedPref()
-            if (isSuccess) {
-                findNavController().navigate(R.id.action_setupFragment_to_runFragment)
+            login()
+        }
+    }
+
+    private fun login() {
+        mainViewModel.writePersonalDataToSharedPref(
+            binding.nameEditText.text.toString(),
+            binding.weightEditText.text.toString()
+        ).observe(viewLifecycleOwner) {
+            if (it) {
+                savedStateHandle.set(LOGIN_SUCCESSFUL, true)
+                findNavController().popBackStack()
             } else {
                 Snackbar.make(requireView(), getString(R.string.error_save_settings_snackbar_text), Snackbar.LENGTH_LONG).show()
             }
@@ -61,21 +65,11 @@ class SetupFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         _binding = null
+        super.onDestroy()
     }
 
-    private fun writePersonalDataToSharedPref(): Boolean {
-        val name = binding.nameEditText.text.toString()
-        val weight = binding.weightEditText.text.toString()
-        if (name.isEmpty() || weight.isEmpty()) {
-            return false
-        }
-        sharedPref.edit().apply {
-            putString(Constants.KEY_PREF_NAME, name)
-            putString(Constants.KEY_PREF_WEIGHT, weight)
-            putBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, false)
-        }.apply()
-        return true
+    companion object {
+        const val LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL"
     }
 }
