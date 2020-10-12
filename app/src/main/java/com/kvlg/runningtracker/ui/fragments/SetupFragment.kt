@@ -53,7 +53,8 @@ class SetupFragment : Fragment() {
     private fun login() {
         mainViewModel.writePersonalDataToSharedPref(
             binding.nameEditText.text.toString(),
-            binding.weightEditText.text.toString()
+            binding.weightEditText.text.toString(),
+            binding.emailInput.text.toString()
         ).observe(viewLifecycleOwner) {
             if (it) {
                 savedStateHandle.set(LOGIN_SUCCESSFUL, true)

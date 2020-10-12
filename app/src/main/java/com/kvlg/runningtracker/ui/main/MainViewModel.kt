@@ -69,13 +69,14 @@ class MainViewModel @ViewModelInject constructor(
         )
     }
 
-    fun writePersonalDataToSharedPref(name: String, weight: String): LiveData<Boolean> {
-        return if (name.isEmpty() || weight.isEmpty()) {
+    fun writePersonalDataToSharedPref(name: String, weight: String, email: String): LiveData<Boolean> {
+        return if (name.isEmpty() || weight.isEmpty() || email.isEmpty()) {
             MutableLiveData(false)
         } else {
             sharedPrefs.edit().apply {
                 putString(Constants.KEY_PREF_NAME, name)
                 putString(Constants.KEY_PREF_WEIGHT, weight)
+                putString(Constants.KEY_PREF_EMAIL, email)
                 putBoolean(Constants.KEY_PREF_FIRST_TIME_TOGGLE, false)
             }.apply()
             MutableLiveData(true)
