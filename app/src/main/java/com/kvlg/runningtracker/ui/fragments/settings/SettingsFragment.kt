@@ -1,6 +1,8 @@
 package com.kvlg.runningtracker.ui.fragments.settings
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +56,14 @@ class SettingsFragment : Fragment() {
         binding.accountSettingsButton.setOnClickListener { settingsViewModel.showNameEmailDialog() }
         binding.weightSettingsButton.setOnClickListener { settingsViewModel.showWeightDialog() }
         binding.logoutTextView.setOnClickListener { settingsViewModel.showConfirmLogoutDialog() }
+        binding.contactUsTextView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                val mailTo = "mailto:" + "kostyanroni@gmail.com"
+                putExtra(Intent.EXTRA_SUBJECT, "Running Tracker application")
+                data = Uri.parse(mailTo)
+            }
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {
