@@ -23,9 +23,7 @@ import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import com.kvlg.runningtracker.R
 import com.kvlg.runningtracker.db.run.Run
 import com.kvlg.runningtracker.utils.Constants
@@ -281,10 +279,9 @@ class TrackingService : LifecycleService() {
         private val _timerFormattedText = MutableLiveData<String>()
         private val _distance = MutableLiveData<String>()
         private val _pace = MutableLiveData<String>()
-
         private val _timeRunInSeconds = MutableLiveData<Long>()
-        private var timeRunInMillis = 0L
 
+        private var timeRunInMillis = 0L
         private var currentDistanceInMeters = 0F
 
         //for pace calculation
@@ -352,14 +349,21 @@ class TrackingService : LifecycleService() {
         fun addAllPolylines() {
             _pathPoints.value?.let { points ->
                 points.forEach {
-                    _polylineOptions.value = getPolylineOptions().addAll(it)
+                    val allPolylines = getPolylineOptions().addAll(it)
+                    _polylineOptions.value = allPolylines
                 }
             }
+        }
+
+        fun getAllPolylines(): List<PolylineOptions> {
+            return _pathPoints.value?.map { getPolylineOptions().addAll(it) } ?: emptyList()
         }
 
         private fun getPolylineOptions(): PolylineOptions = PolylineOptions()
             .color(Constants.POLYLINE_COLOR)
             .width(Constants.POLYLINE_WIDTH)
+            .endCap(RoundCap())
+            .jointType(JointType.ROUND)
 
         fun populatePathPoints(polylines: Polylines) {
             _pathPoints.value = polylines

@@ -41,6 +41,7 @@ class TrackingFragment : Fragment() {
 
     private var map: GoogleMap? = null
     private var isTracking = false
+    private var isFromResume = false
 
     private val constraintSet = ConstraintSet()
 
@@ -87,6 +88,7 @@ class TrackingFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
+        isFromResume = true
     }
 
     override fun onPause() {
@@ -183,6 +185,12 @@ class TrackingFragment : Fragment() {
         }
         TrackingService.polylineOptions.observe(viewLifecycleOwner) {
             map?.addPolyline(it)
+            if (isFromResume) {
+                isFromResume = false
+                TrackingService.getAllPolylines().forEach { allPolys ->
+                    map?.addPolyline(allPolys)
+                }
+            }
         }
         TrackingService.run.observe(viewLifecycleOwner) {
             binding.includedStatistics.caloriesValueTextView.text = it.caloriesBurned.toString()
