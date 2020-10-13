@@ -390,11 +390,7 @@ class TrackingService : LifecycleService() {
         private fun moveCameraToUserLocation() {
             _pathPoints.value?.let {
                 if (it.isNotEmpty() && it.last().isNotEmpty()) {
-                    if (it.last().size == 1 && it.size == 1) {
-                        _cameraUpdate.value = CameraUpdateFactory.newLatLngZoom(it.last().last(), Constants.MAP_ZOOM)
-                    } else {
-                        _cameraUpdate.value = CameraUpdateFactory.newLatLng(it.last().last())
-                    }
+                    _cameraUpdate.value = CameraUpdateFactory.newLatLngZoom(it.last().last(), Constants.MAP_ZOOM)
                 }
             }
         }
